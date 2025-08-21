@@ -8,22 +8,28 @@
   </head>
   <body>
     <nav
-      class="mt-6 lg:mt-10 bg-[var(--main-blue)] border-b-3 border-t-3 border-[var(--main-gold)] "
+      class="mt-6 lg:mt-10 bg-[var(--main-blue)] border-b-3 border-t-3 border-[var(--main-gold)]"
     >
-      <div class="navbar grid grid-cols-[2fr_1fr_1fr]">
+      <div class="navbar grid grid-cols-[3fr_1fr_1fr]">
         <img
           src="/src/images/GoldenBid-icon.png"
           alt="Logo"
-          class="max-h-30 w-full object-cover object-center"
+          class="max-h-30 w-full md:max-w-100 object-cover object-center justify-center items-center"
         />
-        <a href="/index.html" class="flex text-[var(--navbar-text)] flex-col items-center justify-center ">Home</a>
+        <a
+          href="/index.html"
+          class="flex text-lg md:text-xl text-[var(--navbar-text)] flex-col items-center justify-center font-[var(--main-font)]"
+          >Home</a
+        >
         <div class="login-or-reg flex flex-col items-center justify-center">
           <a
             href="/auth/login/index.html"
-            class="text-lg text-[var(--navbar-text)] pt-1 pb-1 px-3 border-2 border-[var(--main-gold)] rounded-md w-fit"
+            class="text-lg md:text-xl text-[var(--navbar-text)] pt-1 pb-1 px-3 border-2 border-[var(--main-gold)] rounded-md w-fit"
             >Login</a
           >
-          <span class="text-[var(--navbar-text)]">or</span>
+          <span class="font-[var(--main-font)] text-[var(--navbar-text)]"
+            >or</span
+          >
           <a
             href="/auth/register/index.html"
             class="text-l text-[var(--navbar-text)]"
@@ -34,7 +40,7 @@
     </nav>
     <h1 class="text-3xl font-bold text-[var(--main-blue)]">Login Page</h1>
     <div id="app"></div>
-    <script type="module" src="../src/js/main.js"></script>
+    <script type="module" src="/src/js/main.js"></script>
 
     <a
       href="auth/login/index.html"
