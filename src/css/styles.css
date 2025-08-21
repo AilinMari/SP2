@@ -11,6 +11,6 @@
     #d4af37 88%
   );
   --main-gold: #d4af37;
-  --main-font: "Playfair Display", serif;
-  --second-font: "Inter", sans-serif;
+  --main-font: ('Playfair Display', serif);
+  --second-font: 'Inter', sans-serif;
 }
