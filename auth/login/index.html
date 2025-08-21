@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login</title>
+    <link rel="stylesheet" href="/src/css/styles.css" />
+  </head>
+  <body>
+    <nav
+      class="mt-6 lg:mt-10 bg-[var(--main-blue)] border-b-3 border-t-3 border-[var(--main-gold)] "
+    >
+      <div class="navbar grid grid-cols-[2fr_1fr_1fr]">
+        <img
+          src="/src/images/GoldenBid-icon.png"
+          alt="Logo"
+          class="max-h-30 w-full object-cover object-center"
+        />
+        <a href="/index.html" class="flex text-[var(--navbar-text)] flex-col items-center justify-center ">Home</a>
+        <div class="login-or-reg flex flex-col items-center justify-center">
+          <a
+            href="/auth/login/index.html"
+            class="text-lg text-[var(--navbar-text)] pt-1 pb-1 px-3 border-2 border-[var(--main-gold)] rounded-md w-fit"
+            >Login</a
+          >
+          <span class="text-[var(--navbar-text)]">or</span>
+          <a
+            href="/auth/register/index.html"
+            class="text-l text-[var(--navbar-text)]"
+            >Sign up</a
+          >
+        </div>
+      </div>
+    </nav>
+    <h1 class="text-3xl font-bold text-[var(--main-blue)]">Login Page</h1>
+    <div id="app"></div>
+    <script type="module" src="../src/js/main.js"></script>
+
+    <a
+      href="auth/login/index.html"
+      class="text-[var(--navbar-text)] hover:underline"
+    >
+      Go to Login Page
+    </a>
+  </body>
+</html>

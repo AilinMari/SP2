@@ -1,1 +1,12 @@
 @import "tailwindcss";
+:root {
+  --navbar-text: #f7fafc;
+  --main-blue: #1c3d5a;
+  --radiant-gradient: linear-gradient(
+    90deg,
+    #d4af37 9% #ffe798 48%,
+    #d4af37 88%
+  );
+  --main-gold: #d4af37;
+
+}
