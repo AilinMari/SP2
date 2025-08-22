@@ -2,18 +2,78 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite App</title>
-    <link rel="stylesheet" href="/auction-house/src/css/style.css" />
+    <title>Sign up</title>
+    <link rel="stylesheet" href="/src/css/styles.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap"
+      rel="stylesheet"
+    />
   </head>
-  <body>
-    <h1 class="text-3xl font-bold text-blue-600">Tailwind v4 via Vite</h1>
-    <div id="app"></div>
-    <script type="module" src="/src/js/main.js"></script>
-
-    <a href="auth/login/index.html" class="text-blue-500 hover:underline">
-      Go to Login Page
-    </a>
+  <body class="min-h-screen flex flex-col bg-[var(--body-background)]">
+    <nav
+      class="mt-6 lg:mt-10 bg-[var(--main-blue)] border-b-3 border-t-3 border-[var(--main-gold)]"
+    >
+      <div class="navbar grid grid-cols-[3fr_1fr_1fr]">
+        <a href="/index.html">
+          <img
+            src="/src/images/GoldenBid-icon.png"
+            alt="Logo"
+            class="max-h-30 w-full md:max-w-100 object-cover object-center justify-center items-center"
+          />
+        </a>
+        <div class="nav-links flex flex-row items-center justify-center gap-10">
+          <a
+            href="/index.html"
+            class="flex text-lg md:text-xl text-[var(--navbar-text)] flex-col items-center justify-center font-['Playfair_Display',serif]"
+            >Home</a
+          >
+          <a
+            href="/profile/index.html"
+            class="flex text-lg md:text-xl text-[var(--navbar-text)] flex-col items-center justify-center font-['Playfair_Display',serif]"
+            >Profile</a
+          >
+          <a
+            href="/auth/my-bids/index.html"
+            class="flex text-lg md:text-xl text-[var(--navbar-text)] flex-col items-center justify-center font-['Playfair_Display',serif]"
+            >My Bids</a
+          >
+        </div>
+        <div class="login-or-reg flex flex-col items-center justify-center">
+          <a
+            href="/auth/login/index.html"
+            class="text-lg md:text-xl text-[var(--navbar-text)] pt-1 pb-1 px-3 border-2 border-[var(--main-gold)] rounded-md w-fit font-['Playfair_Display',serif] active:bg-[image:var(--gold-gradient)] active:text-[var(--main-blue)] active:shadow-inner"
+            >Login</a
+          >
+          <span
+            class="font-['Playfair_Display',serif] text-[var(--navbar-text)]"
+            >or</span
+          >
+          <a
+            href="/auth/register/index.html"
+            class="text-l text-[var(--navbar-text)] font-['Playfair_Display',serif]"
+            >Sign up</a
+          >
+        </div>
+      </div>
+    </nav>
+    <main class="flex justify-center items-center h-full mt-auto">
+ 
+      <div id="app"></div>
+      <script type="module" src="/src/js/main.js"></script>
+    </main>
+    <footer
+      class="bg-[var(--main-blue)] h-30 mt-auto border-b-3 border-t-3 border-[var(--main-gold)]"
+    >
+      <p
+        class="text-center text-md text-[var(--navbar-text)] font-['Playfair_Display',serif] h-full justify-center items-center flex"
+      >
+        &copy; 2025
+        <span
+          class="font-['Playfair_Display',serif] bg-[image:var(--gold-gradient)] bg-clip-text text-transparent text-lg"
+          >GoldenBid</span
+        >. All rights reserved.
+      </p>
+    </footer>
   </body>
 </html>

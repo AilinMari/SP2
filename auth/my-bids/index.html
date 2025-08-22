@@ -10,7 +10,7 @@
       rel="stylesheet"
     />
   </head>
-  <body>
+  <body class="min-h-screen flex flex-col bg-[var(--body-background)]">
     <nav
       class="mt-6 lg:mt-10 bg-[var(--main-blue)] border-b-3 border-t-3 border-[var(--main-gold)]"
     >
@@ -29,7 +29,7 @@
             >Home</a
           >
           <a
-            href="/profile/index.html"
+            href="/auth/profile/index.html"
             class="flex text-lg md:text-xl text-[var(--navbar-text)] flex-col items-center justify-center font-['Playfair_Display',serif]"
             >Profile</a
           >
@@ -42,7 +42,7 @@
         <div class="login-or-reg flex flex-col items-center justify-center">
           <a
             href="/auth/login/index.html"
-            class="text-lg md:text-xl text-[var(--navbar-text)] pt-1 pb-1 px-3 border-2 border-[var(--main-gold)] rounded-md w-fit font-['Playfair_Display',serif]"
+            class="text-lg md:text-xl text-[var(--navbar-text)] pt-1 pb-1 px-3 border-2 border-[var(--main-gold)] rounded-md w-fit font-['Playfair_Display',serif] active:bg-[image:var(--gold-gradient)] active:text-[var(--main-blue)] active:shadow-inner"
             >Login</a
           >
           <span
@@ -57,10 +57,23 @@
         </div>
       </div>
     </nav>
-    
-    <h1 class="text-3xl font-bold text-[var(--main-blue)]">My Bids</h1>
-    <div id="app"></div>
-    <script type="module" src="/src/js/main.js"></script>
-
+    <main class="flex justify-center items-center h-full mt-auto">
+      <h1 class="text-3xl font-bold text-[var(--main-blue)]">My Bids</h1>
+      <div id="app"></div>
+      <script type="module" src="/src/js/main.js"></script>
+    </main>
+    <footer
+      class="bg-[var(--main-blue)] h-30 mt-auto border-b-3 border-t-3 border-[var(--main-gold)]"
+    >
+      <p
+        class="text-center text-md text-[var(--navbar-text)] font-['Playfair_Display',serif] h-full justify-center items-center flex"
+      >
+        &copy; 2025
+        <span
+          class="font-['Playfair_Display',serif] bg-[image:var(--gold-gradient)] bg-clip-text text-transparent text-lg"
+          >GoldenBid</span
+        >. All rights reserved.
+      </p>
+    </footer>
   </body>
 </html>
