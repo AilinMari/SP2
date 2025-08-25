@@ -58,21 +58,26 @@
       </div>
     </nav>
     <main class="flex justify-center items-center h-full mt-auto">
-      <h1 class="text-3xl font-bold text-[var(--main-blue)]">My Bids</h1>
-      <div id="app"></div>
-      <script type="module" src="/src/js/main.js"></script>
-    </main>
+        <div
+          class="content bg-[var(--card-background)] border-2 border-[var(--main-gold)] rounded-md pt-10 pb-10 px-15 m-20"
+        >
+          <h1 class="text-3xl font-bold text-[var(--main-blue)]">My Bids</h1>
+          <div id="app"></div>
+          <script type="module" src="/src/js/main.js"></script>
+        </div>
+      </main>
     <footer
       class="bg-[var(--main-blue)] h-30 mt-auto border-b-3 border-t-3 border-[var(--main-gold)]"
     >
       <p
-        class="text-center text-md text-[var(--navbar-text)] font-['Playfair_Display',serif] h-full justify-center items-center flex"
+        class="text-center text-md text-[var(--navbar-text)] font-['Playfair_Display',serif] h-full justify-center items-center flex gap-1"
       >
         &copy; 2025
         <span
           class="font-['Playfair_Display',serif] bg-[image:var(--gold-gradient)] bg-clip-text text-transparent text-lg"
-          >GoldenBid</span
-        >. All rights reserved.
+          >GoldenBid.</span
+        >
+        All rights reserved.
       </p>
     </footer>
   </body>
