@@ -1,3 +1,4 @@
+import { Container } from "postcss";
 import { AuctionApi } from "../apiClient";
 import { filterListings } from "./filtering.js";
 
@@ -27,7 +28,13 @@ function renderAllListings(listings) {
       listing.media[0].url
     ) {
       const listingContainer = document.createElement("div");
-      listingContainer.className = "container";
+      listingContainer.className =
+        "container bg-[var(--card-background)] p-4 border-2 border-[var(--main-gold)] rounded-md m-4";
+
+      const title = document.createElement("h2");
+      title.className =
+        "listing-title text-xl font-semibold text-[var(--main-blue)] font-['Playfair_Display',serif]";
+      title.textContent = listing.title;
 
       const link = document.createElement("a");
       link.href = `/single-listing/index.html?id=${listing.id}`;
@@ -39,14 +46,19 @@ function renderAllListings(listings) {
 
       const endsAt = document.createElement("span");
       endsAt.className = "listing-ends-at block mt-2 text-sm text-red-600";
-      endsAt.textContent = `Ends at: ${new Date(
-        listing.endsAt
-      ).toLocaleString()}`;
+      const now = new Date();
+      const endsDate = new Date(listing.endsAt);
+      if (endsDate <= now) {
+        endsAt.textContent = "Auction ended";
+      } else {
+        endsAt.textContent = `Ends at: ${endsDate.toLocaleString()}`;
+      }
 
       const bids = document.createElement("span");
       bids.className = "listing-bids";
       bids.textContent = `${listing._count.bids} bids`;
 
+      link.appendChild(title);
       link.appendChild(img);
       listingContainer.appendChild(link);
       listingsGrid.appendChild(listingContainer);
