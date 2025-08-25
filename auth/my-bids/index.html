@@ -38,6 +38,13 @@
             class="flex text-lg md:text-xl text-[var(--navbar-text)] flex-col items-center justify-center font-['Playfair_Display',serif]"
             >My Bids</a
           >
+          <div id="logout">
+            <button
+              class="text-lg md:text-xl text-[var(--navbar-text)] flex-col items-center justify-center font-['Playfair_Display',serif] active:text-[var(--main-gold)] cursor-pointer"
+            >
+              Logout
+            </button>
+          </div>
         </div>
         <div class="login-or-reg flex flex-col items-center justify-center">
           <a
@@ -58,14 +65,14 @@
       </div>
     </nav>
     <main class="flex justify-center items-center h-full mt-auto">
-        <div
-          class="content bg-[var(--card-background)] border-2 border-[var(--main-gold)] rounded-md pt-10 pb-10 px-15 m-20"
-        >
-          <h1 class="text-3xl font-bold text-[var(--main-blue)]">My Bids</h1>
-          <div id="app"></div>
-          <script type="module" src="/src/js/main.js"></script>
-        </div>
-      </main>
+      <div
+        class="content bg-[var(--card-background)] border-2 border-[var(--main-gold)] rounded-md pt-10 pb-10 px-15 m-20"
+      >
+        <h1 class="text-3xl font-bold text-[var(--main-blue)]">My Bids</h1>
+        <div id="app"></div>
+        <script type="module" src="/src/js/main.js"></script>
+      </div>
+    </main>
     <footer
       class="bg-[var(--main-blue)] h-30 mt-auto border-b-3 border-t-3 border-[var(--main-gold)]"
     >
