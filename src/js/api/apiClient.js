@@ -6,6 +6,17 @@ import {
 } from "./constants.js"; // Import API_BASE_URL
 import { API_PROFILES, API_LISTINGS } from "./constants.js";
 
+/**
+ * Custom error class for handling authentication errors.
+ */
+export class AuthError extends Error {
+  constructor(message) {
+    super(message);
+    this.name = "AuthError";
+    this.url = API_BASE_URL;
+  }
+}
+
 export class AuctionApi {
   /**
    * Helper method for performing fetch requests.
@@ -30,7 +41,21 @@ export class AuctionApi {
     }
   }
 
-    /**
+  /**
+   * Retrieves the access token from local storage.
+   * @returns {string} The access token.
+   * @throws {AuthError} If the user is not logged in.
+   */
+  _getRequiredAccessToken() {
+    const accessToken = localStorage.getItem("token");
+    if (!accessToken) {
+      throw new AuthError("User is not logged in");
+    }
+
+    return accessToken;
+  }
+
+  /**
    * Logs in a user.
    * @param {string} email - The user's email.
    * @param {string} password - The user's password.
@@ -60,8 +85,6 @@ export class AuctionApi {
 
     return data;
   }
-
-  
 
   /**
    * Retrieves the access token from local storage.
@@ -134,7 +157,7 @@ export class AuctionApi {
     }
   }
 
-    async getAllPostsByAuthor(author) {
+  async getAllPostsByAuthor(author) {
     try {
       if (!author) {
         throw new Error("Author parameter is missing.");
@@ -189,21 +212,27 @@ export class AuctionApi {
     );
   }
 
-  async getAllPosts() {
-    const accessToken = this._getRequiredAccessToken();
-    const options = {
+  /**
+   * Fetches all blog posts.
+   * @returns {Promise<any>} An array of listings.
+   */
+  async getAllListings() {
+    let options = {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${accessToken}`,
-        "X-Noroff-API-Key": `${API_KEY}`, // Include the API key
+        "X-Noroff-API-Key": `${API_KEY}`,
       },
     };
-
+    // If logged in, add Authorization header
+    const accessToken = localStorage.getItem("token");
+    if (accessToken) {
+      options.headers["Authorization"] = `Bearer ${accessToken}`;
+    }
     const { data } = await this._request(
-      API_LISTINGS + `?_author=true`,
+      API_LISTINGS + "?_author=true",
       options,
-      "Error fetching blogposts"
+      "Error fetching listings"
     );
     return data;
   }
@@ -232,5 +261,5 @@ export class AuctionApi {
       console.error(error);
       throw error;
     }
-
-  }}
+  }
+}
