@@ -11,6 +11,14 @@
     />
   </head>
   <body class="min-h-screen flex flex-col bg-[var(--body-background)]">
+    <div
+      id="loading-overlay"
+      class="fixed inset-0 flex items-center justify-center bg-white z-50"
+    >
+      <div
+        class="spinner w-32 h-32 rounded-full border-4 border-t-6 border-[var(--navbar-text)] border-t-[var(--main-gold)] border-l-[var(--main-gold)] animate-spin"
+      ></div>
+    </div>
     <nav
       class="mt-6 lg:mt-10 bg-[var(--main-blue)] border-b-3 border-t-3 border-[var(--main-gold)]"
     >
@@ -25,18 +33,34 @@
         <div class="nav-links flex flex-row items-center justify-center gap-10">
           <a
             href="/index.html"
-            class="flex text-lg md:text-xl text-[var(--navbar-text)] flex-col items-center justify-center font-['Playfair_Display',serif]"
+            class="home flex text-lg md:text-xl text-[var(--navbar-text)] flex-col items-center justify-center font-['Playfair_Display',serif]"
             >Home</a
           >
           <a
             href="/auth/profile/index.html"
-            class="flex text-lg md:text-xl text-[var(--navbar-text)] flex-col items-center justify-center font-['Playfair_Display',serif]"
+            class="profile flex text-lg md:text-xl text-[var(--navbar-text)] flex-col items-center justify-center font-['Playfair_Display',serif]"
             >Profile</a
           >
           <a
             href="/auth/my-bids/index.html"
-            class="flex text-lg md:text-xl text-[var(--navbar-text)] flex-col items-center justify-center font-['Playfair_Display',serif]"
+            class="my-bids flex text-lg md:text-xl text-[var(--navbar-text)] flex-col items-center justify-center font-['Playfair_Display',serif]"
             >My Bids</a
+          >
+        </div>
+        <div class="login-or-reg flex flex-col items-center justify-center">
+          <a
+            href="/auth/login/index.html"
+            class="login-link text-lg md:text-xl text-[var(--navbar-text)] pt-1 pb-1 px-3 border-2 border-[var(--main-gold)] rounded-md w-fit font-['Playfair_Display',serif] active:bg-[image:var(--gold-gradient)] active:text-[var(--main-blue)] active:shadow-inner"
+            >Login</a
+          >
+          <span
+            class="or font-['Playfair_Display',serif] text-[var(--navbar-text)]"
+            >or</span
+          >
+          <a
+            href="/auth/register/index.html"
+            class="sign-up text-l text-[var(--navbar-text)] font-['Playfair_Display',serif]"
+            >Sign up</a
           >
           <div id="logout">
             <button
@@ -45,22 +69,6 @@
               Logout
             </button>
           </div>
-        </div>
-        <div class="login-or-reg flex flex-col items-center justify-center">
-          <a
-            href="/auth/login/index.html"
-            class="text-lg md:text-xl text-[var(--navbar-text)] pt-1 pb-1 px-3 border-2 border-[var(--main-gold)] rounded-md w-fit font-['Playfair_Display',serif] active:bg-[image:var(--gold-gradient)] active:text-[var(--main-blue)] active:shadow-inner"
-            >Login</a
-          >
-          <span
-            class="font-['Playfair_Display',serif] text-[var(--navbar-text)]"
-            >or</span
-          >
-          <a
-            href="/auth/register/index.html"
-            class="text-l text-[var(--navbar-text)] font-['Playfair_Display',serif]"
-            >Sign up</a
-          >
         </div>
       </div>
     </nav>
@@ -138,6 +146,8 @@
       <div id="app"></div>
       <script type="module" src="/src/js/main.js"></script>
       <script type="module" src="/src/js/api/auth/login.js"></script>
+      <script type="module" src="/src/js/api/logout.js"></script>
+      <script type="module" src="/src/ui/js/navbar.js"></script>
     </main>
     <footer
       class="bg-[var(--main-blue)] h-30 mt-auto border-b-3 border-t-3 border-[var(--main-gold)]"
