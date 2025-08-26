@@ -3,6 +3,7 @@ import {
   API_AUTH,
   API_AUTH_LOGIN,
   API_KEY,
+  API_SINGLE_LISTING,
 } from "./constants.js"; // Import API_BASE_URL
 import { API_PROFILES, API_LISTINGS } from "./constants.js";
 
@@ -237,25 +238,32 @@ export class AuctionApi {
     return data;
   }
 
-  async getPostById(postId) {
+  async getListingById(listingId) {
     try {
-      const accessToken = this._getRequiredAccessToken();
-      const url = new URL(`${API_LISTINGS}/${postId}`);
-      url.searchParams.append("_author", "true"); // Include the _author parameter
+      const url = new URL(`${API_LISTINGS}/${listingId}`);
+      url.searchParams.append("_id", listingId); // Include the _id parameter
 
       const options = {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${accessToken}`,
           "X-Noroff-API-Key": `${API_KEY}`, // Include the API key
         },
       };
-
+ // If logged in, add Authorization header
+    const accessToken = localStorage.getItem("token");
+    if (accessToken) {
+      options.headers["Authorization"] = `Bearer ${accessToken}`;
+    }
+    const { data } = await this._request(
+      API_LISTINGS + "?_author=true",
+      options,
+      "Error fetching listings"
+    );
       return await this._request(
         url.toString(),
         options,
-        "Error creating blog post"
+        "Error fetching listing by ID"
       );
     } catch (error) {
       console.error(error);

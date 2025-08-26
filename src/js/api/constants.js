@@ -8,6 +8,8 @@ export const API_AUTH_REGISTER = `${API_BASE_URL}/auth/register`;
 
 export const API_LISTINGS = `${API_BASE_URL}/auction/listings`;
 
+export const API_SINGLE_LISTING = `${API_LISTINGS}/<id>`;
+
 export const API_PROFILES = `${API_BASE_URL}/auction/profiles`;
 
 export const API_AUTH_KEY = `${API_AUTH}/create-api-key`;
