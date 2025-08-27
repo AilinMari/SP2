@@ -20,7 +20,7 @@
       ></div>
     </div>
     <nav
-      class="mt-6 lg:mt-10 bg-[var(--main-blue)] border-b-3 border-t-3 border-[var(--main-gold)]"
+      class="mt-6 mb-10 lg:mt-10 bg-[var(--main-blue)] border-b-3 border-t-3 border-[var(--main-gold)]"
     >
       <div class="navbar grid grid-cols-[3fr_2fr_1fr]">
         <a href="/index.html">
@@ -72,18 +72,15 @@
         </div>
       </div>
     </nav>
-    <main class="flex justify-center items-center h-full mt-auto">
-      <div
-        class="content"
-      >
-        <div class="profile-container "></div>
+    <main class="flex justify-center items-center flex-col h-full mt-auto">
+      <div class="profile-container max-h-60"></div>
 
-        <div id="app"></div>
-        <script type="module" src="/src/js/main.js"></script>
-        <script type="module" src="/src/js/api/logout.js"></script>
-        <script type="module" src="/src/ui/js/navbar.js"></script>
-        <script type="module" src="/src/js/api/profiles/profile.js"></script>
-      </div>
+      <div id="app"></div>
+      <script type="module" src="/src/js/main.js"></script>
+      <script type="module" src="/src/js/api/logout.js"></script>
+      <script type="module" src="/src/ui/js/navbar.js"></script>
+      <script type="module" src="/src/js/api/profiles/profile.js"></script>
+      <div class="content"></div>
     </main>
     <footer
       class="bg-[var(--main-blue)] h-30 mt-auto border-b-3 border-t-3 border-[var(--main-gold)]"

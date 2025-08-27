@@ -12,12 +12,20 @@ function renderProfile(profile) {
 
   const bannerContainer = document.createElement("div");
   bannerContainer.className =
-    "banner-container w-full h-50 overflow-hidden";
+    "banner-container w-full h-60 overflow-hidden m-auto w-[100%]";
 
   const banner = document.createElement("img");
   banner.src = profile.data.banner.url;
   banner.alt = `${profile.data.name}'s banner`;
-  banner.className = "banner-image object-cover";
+  banner.className = "banner-image object-cover w-screen ";
+
+  const overlay = document.createElement("div");
+  overlay.className = "banner-overlay absolute inset-0 opacity-100";
+
+  const name = document.createElement("h2");
+  name.className =
+    "profile-name uppercase absolute left-1/2 bottom-29 translate-x-[-50%] translate-y-1/2 border-3 border-[var(--main-gold)] shadow-lg z-10 px-4 py-3 rounded-md font-['Playfair_Display',serif] text-lg bg-[var(--main-blue)] text-[var(--main-gold)]";
+  name.textContent = profile.data.name;
 
   const avatar = document.createElement("img");
   avatar.src = profile.data.avatar.url;
@@ -26,9 +34,21 @@ function renderProfile(profile) {
   avatar.className =
     "avatar-image absolute left-1/2 bottom-0 translate-x-[-50%] translate-y-1/2 h-50 w-50 object-cover rounded-full border-3 border-[var(--main-gold)] shadow-lg z-10";
 
+  const bio = document.createElement("p");
+  bio.textContent = profile.data.bio;
+  bio.className =
+    "profile-bio flex flex-col justify-center items-center rounded-md font-['Playfair_Display',serif] text-lg bg-[var(--card-background)] border-3 border-[var(--main-gold)] shadow-lg min-h-50 min-w-150";
+
+  const contentContainer = document.querySelector(".content");
+  contentContainer.className =
+    "content-container flex flex-col items-center justify-center mt-30 mb-20";
+
+  profileContainer.appendChild(overlay);
+  overlay.appendChild(name);
+  overlay.appendChild(avatar);
   profileContainer.appendChild(bannerContainer);
   bannerContainer.appendChild(banner);
-  bannerContainer.appendChild(avatar);
+  contentContainer.appendChild(bio);
 }
 
 renderProfile(profile);
