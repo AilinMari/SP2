@@ -25,14 +25,20 @@ function renderSingleListing(listingId) {
   img.alt = listingId.data.media[0].alt;
   img.className = "listing-img";
 
-  const title = document.createElement("h2");
+  const title = document.createElement("h1");
   title.textContent = listingId.data.title;
   title.className =
-    "listing-title text-4xl font-semibold mb-4 font-['Playfair_Display',serif] text-[var(--Main-blue)]";
+    "listing-title text-4xl font-semibold mb-4 font-['Playfair_Display',serif] text-[var(--main-blue)]";
 
-    const description = document.createElement("p");
-    description.textContent = listingId.data.description;
-    description.className = "listing-description text-sm text-[var(--text-color)] font-['Inter',sans-serif] mt-4 border-b-[1px] border-b-[var(--main-gold)]";
+  const description = document.createElement("p");
+  description.textContent = listingId.data.description;
+  description.className =
+    "listing-description text-sm text-[var(--text-color)] font-['Inter',sans-serif] mt-4 border-b-[1px] border-b-[var(--main-gold)]";
+
+  const seller = document.createElement("p");
+  seller.textContent = `Seller: ${listingId.data.seller.name}`;
+  seller.className =
+    "listing-seller text-lg text-[var(--text-color)] font-['Playfair_Display',serif] mt-4";
 
   const bidContainer = document.createElement("div");
   bidContainer.className = "listing-bid-container mt-4";
@@ -48,10 +54,11 @@ function renderSingleListing(listingId) {
   }
 
   const bids = document.createElement("span");
-  bids.className = "listing-bids";
+  bids.className = "listing-bids font-['Inter',sans-serif] text-sm text-[var(--text-color)]";
   bids.textContent = `${listingId.data._count.bids} bids`;
 
   listingContainer.appendChild(title);
+  listingContainer.appendChild(seller);
   listingContainer.appendChild(img);
   listingContainer.appendChild(description);
   bidContainer.appendChild(bids);
