@@ -233,7 +233,7 @@ export class AuctionApi {
       options.headers["Authorization"] = `Bearer ${accessToken}`;
     }
     const { data } = await this._request(
-      API_LISTINGS + "?_seller=true",
+      API_LISTINGS + "?_bids=true" + "&_seller=true",
       options,
       "Error fetching listings"
     );
@@ -252,16 +252,16 @@ export class AuctionApi {
           "X-Noroff-API-Key": `${API_KEY}`, // Include the API key
         },
       };
- // If logged in, add Authorization header
-    const accessToken = localStorage.getItem("token");
-    if (accessToken) {
-      options.headers["Authorization"] = `Bearer ${accessToken}`;
-    }
-    const { data } = await this._request(
-      API_LISTINGS + "?_seller=true",
-      options,
-      "Error fetching listings"
-    );
+      // If logged in, add Authorization header
+      const accessToken = localStorage.getItem("token");
+      if (accessToken) {
+        options.headers["Authorization"] = `Bearer ${accessToken}`;
+      }
+      const { data } = await this._request(
+        API_LISTINGS + "?_seller=true",
+        options,
+        "Error fetching listings"
+      );
       return await this._request(
         url.toString(),
         options,
