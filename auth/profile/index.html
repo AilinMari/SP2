@@ -74,13 +74,15 @@
     </nav>
     <main class="flex justify-center items-center h-full mt-auto">
       <div
-        class="content bg-[var(--card-background)] border-2 border-[var(--main-gold)] rounded-md pt-10 pb-10 px-15 m-20"
+        class="content"
       >
-        <h1 class="text-3xl font-bold text-[var(--main-blue)]">Profile</h1>
+        <div class="profile-container "></div>
+
         <div id="app"></div>
         <script type="module" src="/src/js/main.js"></script>
         <script type="module" src="/src/js/api/logout.js"></script>
         <script type="module" src="/src/ui/js/navbar.js"></script>
+        <script type="module" src="/src/js/api/profiles/profile.js"></script>
       </div>
     </main>
     <footer

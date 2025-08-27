@@ -101,14 +101,16 @@ export class AuctionApi {
     return accessToken;
   }
 
-  async getUserProfile(username) {
+  async getUserProfile() {
     try {
       const accessToken = this._getRequiredAccessToken();
-      const url = new URL(`${API_PROFILES}/${username}`);
+      const name = localStorage.getItem("name");
+      const url = new URL(`${API_PROFILES}/${name}`);
       url.searchParams.append("_posts", "true"); // Include the _posts parameter
       url.searchParams.append("_author", "true"); // Include the _author parameter
       url.searchParams.append("_avatar", "true"); // Include the _avatar parameter
       url.searchParams.append("_banner", "true"); // Include the _banner parameter
+      // url.searchParams.append("_media", "true"); // Include the _media parameter
 
       const options = {
         method: "GET",
@@ -231,7 +233,7 @@ export class AuctionApi {
       options.headers["Authorization"] = `Bearer ${accessToken}`;
     }
     const { data } = await this._request(
-      API_LISTINGS + "?_author=true",
+      API_LISTINGS + "?_seller=true",
       options,
       "Error fetching listings"
     );
@@ -256,7 +258,7 @@ export class AuctionApi {
       options.headers["Authorization"] = `Bearer ${accessToken}`;
     }
     const { data } = await this._request(
-      API_LISTINGS + "?_author=true",
+      API_LISTINGS + "?_seller=true",
       options,
       "Error fetching listings"
     );
