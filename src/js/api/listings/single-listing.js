@@ -5,6 +5,9 @@ const auctionApi = new AuctionApi();
 const urlParams = new URLSearchParams(window.location.search);
 
 const listingId = urlParams.get("id");
+const bids = urlParams.get("bids");
+const seller = urlParams.get("seller");
+console.log("seller:", seller);
 
 async function getListingById() {
   try {

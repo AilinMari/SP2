@@ -220,7 +220,7 @@ export class AuctionApi {
    * @returns {Promise<any>} An array of listings.
    */
   async getAllListings() {
-    let options = {
+    const options = {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -243,13 +243,15 @@ export class AuctionApi {
   async getListingById(listingId) {
     try {
       const url = new URL(`${API_LISTINGS}/${listingId}`);
+      url.searchParams.append("_bids", "true"); // Include the _bids parameter
+      url.searchParams.append("?_seller", "true"); // Include the _seller parameter
       url.searchParams.append("_id", listingId); // Include the _id parameter
 
       const options = {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          "X-Noroff-API-Key": `${API_KEY}`, // Include the API key
+          "X-Noroff-API-Key": `${API_KEY}`,
         },
       };
       // If logged in, add Authorization header
@@ -257,11 +259,6 @@ export class AuctionApi {
       if (accessToken) {
         options.headers["Authorization"] = `Bearer ${accessToken}`;
       }
-      const { data } = await this._request(
-        API_LISTINGS + "?_seller=true",
-        options,
-        "Error fetching listings"
-      );
       return await this._request(
         url.toString(),
         options,
