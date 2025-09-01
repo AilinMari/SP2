@@ -23,7 +23,7 @@ function renderAllListings(listings) {
   listings.forEach((listing) => {
     const listingContainer = document.createElement("div");
     listingContainer.className =
-      "container bg-[var(--card-background)] p-4 border-2 border-[var(--main-gold)] rounded-md m-4";
+      "container bg-[var(--card-background)] p-4 border-2 border-[var(--main-gold)] rounded-md mb-8";
 
     const title = document.createElement("h1");
     title.className =
