@@ -14,11 +14,15 @@ export function filterExpiredListings(listings) {
 export function filterBySearch(listings, searchTerm) {
   if (!searchTerm) return listings;
   const term = searchTerm.toLowerCase();
-  return listings.filter(
-    (listing) =>
-      (listing.title && listing.title.toLowerCase().includes(term)) ||
-      (listing.description && listing.description.toLowerCase().includes(term))
-  );
+  return listings.filter((listing) => {
+    const inTitle = listing.title && listing.title.toLowerCase().includes(term);
+    const inDesc =
+      listing.description && listing.description.toLowerCase().includes(term);
+    const inTags =
+      Array.isArray(listing.tags) &&
+      listing.tags.some((tag) => tag.toLowerCase().includes(term));
+    return inTitle || inDesc || inTags;
+  });
 }
 
 // Main filter function: accepts options object
