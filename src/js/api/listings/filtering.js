@@ -1,3 +1,13 @@
+// Filter profiles by search term (name or bio)
+export function filterProfilesBySearch(profiles, searchTerm) {
+  if (!searchTerm) return profiles;
+  const term = searchTerm.toLowerCase();
+  return profiles.filter((profile) => {
+    const inName = profile.name && profile.name.toLowerCase().includes(term);
+    const inBio = profile.bio && profile.bio.toLowerCase().includes(term);
+    return inName || inBio;
+  });
+}
 // Filter listings that are still active
 export function filterActiveListings(listings) {
   const now = new Date();

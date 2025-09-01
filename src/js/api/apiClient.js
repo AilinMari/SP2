@@ -88,6 +88,40 @@ export class AuctionApi {
   }
 
   /**
+   * Updates the logged-in user's profile (avatar and banner).
+   * @param {string} avatar - The new avatar URL.
+   * @param {string} banner - The new banner URL.
+   * @returns {Promise<any>} The updated profile data.
+   */
+
+  async updateUserProfile(data) {
+    const username = localStorage.getItem("name"); // Get the username from local storage
+    const url = `${API_PROFILES}/${username}`; // Construct the API URL
+    const accessToken = this._getRequiredAccessToken();
+
+    // Ensuring the avatar and banner are formatted correctly as objects
+    if (data.avatar && typeof data.avatar === "string") {
+      data.avatar = { url: data.avatar };
+    }
+    if (data.banner && typeof data.banner === "string") {
+      data.banner = { url: data.banner };
+    }
+    // Do NOT convert bio to object; send as string
+
+    const options = {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
+        "X-Noroff-API-Key": `${API_KEY}`, // Include the API key
+      },
+      body: JSON.stringify(data),
+    };
+
+    return await this._request(url, options, "Error updating user profile");
+  }
+
+  /**
    * Retrieves the access token from local storage.
    * @returns {string} The access token.
    * @throws {AuthError} If the user is not logged in.
@@ -276,6 +310,94 @@ export class AuctionApi {
       );
     } catch (error) {
       console.error(error);
+      throw error;
+    }
+  }
+
+  /**
+   * Creates a new listing.
+   * @param {string} title - The title of the listing.
+   * @param {string} description - The description of the listing.
+   * @param {number} endsAt - The starting bid amount.
+   * @param {string} media - The URL of the listing image.
+   * @returns {Promise<any>} The created listing data.
+   */
+  async createListing(title, description, endsAt, media) {
+    const accessToken = this._getRequiredAccessToken();
+
+    const options = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
+        "X-Noroff-API-Key": `${API_KEY}`, // Include the API key
+      },
+      body: JSON.stringify({
+        title,
+        description,
+        endsAt: endsAt,
+        imageUrl: media,
+      }),
+    };
+
+    return await this._request(API_LISTINGS, options, "Error creating listing");
+  }
+
+  /**
+   * Updates a listing by ID.
+   * @param {string} listingId - The ID of the listing.
+   * @param {string} title - The title of the listing.
+   * @param {string} description - The description of the listing.
+   * @param {number} endsAt - The starting bid amount.
+   * @param {string} media - The URL of the listing image.
+   * @returns {Promise<any>} The updated listing data.
+   */
+  async updateListing(listingId, title, description, endsAt, media) {
+    const accessToken = this._getRequiredAccessToken();
+
+    // Prepare the data to send in the request body
+    const data = { title, description, endsAt: endsAt, imageUrl: media };
+
+    const options = {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
+        "X-Noroff-API-Key": `${API_KEY}`, // Include the API key
+      },
+      body: JSON.stringify(data),
+    };
+
+    // Send the request to the API to update the listing
+    return await this._request(
+      `${API_LISTINGS}/${listingId}`, // The listingId is in the URL
+      options,
+      "Error updating listing"
+    );
+  }
+
+  /**
+   * Deletes a listing by ID.
+   * @param {string} listingId - The ID of the listing.
+   * @returns {Promise<void>}
+   */
+  async deleteListing(listingId) {
+    const accessToken = this._getRequiredAccessToken();
+    const options = {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        "X-Noroff-API-Key": `${API_KEY}`, // Include the API key
+      },
+    };
+    try {
+      const response = await fetch(`${API_LISTINGS}/${listingId}`, options);
+      if (!response.ok) {
+        const errorMessage = "Failed to delete listing";
+        throw new Error(`${errorMessage}. Status: ${response.status}`);
+      }
+      return;
+    } catch (error) {
       throw error;
     }
   }
