@@ -57,8 +57,64 @@ function renderSingleListing(listingId) {
   }
 
   const bids = document.createElement("span");
-  bids.className = "listing-bids font-['Inter',sans-serif] text-sm text-[var(--text-color)]";
+  bids.className =
+    "listing-bids font-['Inter',sans-serif] text-sm text-[var(--text-color)]";
   bids.textContent = `${listingId.data._count.bids} bids`;
+
+  // Show only last 3 bids by default
+  const allBids = listingId.data.bids || [];
+  const lastThreeBids = allBids.slice(-3);
+
+  const bidsList = document.createElement("ul");
+  bidsList.className = "listing-bids-list";
+  lastThreeBids.forEach((bid) => {
+    const bidItem = document.createElement("li");
+    bidItem.className = "listing-bid-item";
+    bidItem.textContent = `Bidder: ${bid.bidder.name} - Bid: ${bid.amount} Credits`;
+    bidsList.appendChild(bidItem);
+  });
+
+  // Add 'See older bids' button if there are more than 3 bids
+  let seeOlderBtn = null;
+  let hideOlderBtn = null;
+  if (allBids.length > 3) {
+    seeOlderBtn = document.createElement("button");
+    seeOlderBtn.textContent = "See older bids";
+    seeOlderBtn.className =
+      "see-older-bids-btn mt-2 px-4 py-2 bg-[var(--main-gold)] text-[var(--main-blue)] rounded hover:bg-yellow-500";
+
+    hideOlderBtn = document.createElement("button");
+    hideOlderBtn.textContent = "Hide older bids";
+    hideOlderBtn.className =
+      "hide-older-bids-btn mt-2 px-4 py-2 bg-[var(--main-blue)] text-[var(--main-gold)] rounded hover:bg-blue-700";
+    hideOlderBtn.style.display = "none";
+
+    seeOlderBtn.addEventListener("click", () => {
+      // Show all bids
+      bidsList.innerHTML = "";
+      allBids.forEach((bid) => {
+        const bidItem = document.createElement("li");
+        bidItem.className = "listing-bid-item";
+        bidItem.textContent = `Bidder: ${bid.bidder.name} - Bid: ${bid.amount} Credits`;
+        bidsList.appendChild(bidItem);
+      });
+      seeOlderBtn.style.display = "none";
+      hideOlderBtn.style.display = "inline-block";
+    });
+
+    hideOlderBtn.addEventListener("click", () => {
+      // Show only last 3 bids
+      bidsList.innerHTML = "";
+      lastThreeBids.forEach((bid) => {
+        const bidItem = document.createElement("li");
+        bidItem.className = "listing-bid-item";
+        bidItem.textContent = `Bidder: ${bid.bidder.name} - Bid: ${bid.amount} Credits`;
+        bidsList.appendChild(bidItem);
+      });
+      hideOlderBtn.style.display = "none";
+      seeOlderBtn.style.display = "inline-block";
+    });
+  }
 
   listingContainer.appendChild(title);
   listingContainer.appendChild(seller);
@@ -66,6 +122,9 @@ function renderSingleListing(listingId) {
   listingContainer.appendChild(description);
   bidContainer.appendChild(bids);
   bidContainer.appendChild(endsAt);
+  bidContainer.appendChild(bidsList);
+  if (seeOlderBtn) bidContainer.appendChild(seeOlderBtn);
+  if (hideOlderBtn) bidContainer.appendChild(hideOlderBtn);
   listingContainer.appendChild(bidContainer);
 }
 
