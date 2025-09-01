@@ -174,11 +174,10 @@ export class AuctionApi {
       }
 
       const url = new URL(`${API_PROFILES}/${name}/listings`);
-      // url.searchParams.append("_name", "true"); // Include the _name parameter
-      // url.searchParams.append("_title", "true"); // Include the _title parameter
       url.searchParams.append("_media", "true"); // Include the _media parameter
       url.searchParams.append("_tags", "true"); // Include the _tags parameter
       url.searchParams.append("_description", "true"); // Include the _description parameter
+      url.searchParams.append("_bids", "true"); // Include the _bids parameter
 
       const options = {
         method: "GET",
