@@ -2,12 +2,29 @@ import { AuctionApi } from "../apiClient";
 
 const auctionApi = new AuctionApi();
 
-const profile = await auctionApi.getUserProfile();
-console.log("Profile data:", profile);
+const urlParams = new URLSearchParams(window.location.search);
+const sellerName = urlParams.get("id");
+const profile = await auctionApi.getUserProfileByName(sellerName);
+console.log("seller data:", profile);
 
-function renderProfile(profile) {
+async function showSellerProfile() {
+  if (!sellerName) {
+    document.querySelector(".profile-container").innerHTML =
+      "<p class='text-center text-lg text-gray-500 mt-8'>No seller specified.</p>";
+    return;
+  }
+  try {
+    const profile = await auctionApi.getUserProfileByName(sellerName);
+    renderSellerProfile(profile);
+  } catch (error) {
+    document.querySelector(".profile-container").innerHTML =
+      "<p class='text-center text-lg text-red-500 mt-8'>Error loading seller profile.</p>";
+  }
+}
+
+function renderSellerProfile(profile) {
   const profileContainer = document.querySelector(".profile-container");
-  // Make the container relative for absolute positioning
+
   profileContainer.classList.add("relative");
 
   const bannerContainer = document.createElement("div");
@@ -43,14 +60,38 @@ function renderProfile(profile) {
   contentContainer.className =
     "content-container flex flex-col items-center justify-center mt-30 mb-20";
 
-  profileContainer.appendChild(overlay);
-  overlay.appendChild(name);
-  overlay.appendChild(avatar);
-  profileContainer.appendChild(bannerContainer);
-  bannerContainer.appendChild(banner);
-  contentContainer.appendChild(bio);
+  const listingsGrid = document.querySelector(".user-listings");
+
+  profile.data.listings.forEach((listing) => {
+    const listingContainer = document.createElement("div");
+    listingContainer.className =
+      "listing-container grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 p-4";
+
+    const title = document.createElement("h1");
+    title.className =
+      "listing-title text-xl font-semibold text-[var(--main-blue)] font-['Playfair_Display',serif] mb-2";
+    title.textContent = listing.title;
+
+    const link = document.createElement("a");
+    link.href = `/single-listing/index.html?id=${listing.id}?_seller=true`;
+
+    const img = document.createElement("img");
+    img.src = listing.media.url;
+
+    profileContainer.appendChild(overlay);
+    overlay.appendChild(name);
+    overlay.appendChild(avatar);
+    profileContainer.appendChild(bannerContainer);
+    bannerContainer.appendChild(banner);
+    contentContainer.appendChild(bio);
+
+    link.appendChild(title);
+    link.appendChild(img);
+    listingContainer.appendChild(link);
+    listingsGrid.appendChild(listingContainer);
+  });
 }
 
-renderProfile(profile);
 
-//w-full h-50 object-cover object-[50%_15%] z-10
+
+showSellerProfile();

@@ -1,4 +1,4 @@
-import { Container } from "postcss";
+
 import { AuctionApi } from "../apiClient";
 import { filterListings } from "./filtering.js";
 
@@ -36,10 +36,11 @@ function renderAllListings(listings) {
         "listing-title text-xl font-semibold text-[var(--main-blue)] font-['Playfair_Display',serif] mb-2";
       title.textContent = listing.title;
 
-      const seller = document.createElement("h2");
+      const seller = document.createElement("a");
       seller.className =
         "listing-seller text-md font-regular text-[var(--main-blue)] font-['Playfair_Display',serif] mb-4";
       seller.textContent = `Seller: ${listing.seller.name}`;
+      seller.href = `/profile/index.html?id=${listing.seller.name}`;
 
       const link = document.createElement("a");
       link.href = `/single-listing/index.html?id=${listing.id}?_seller=true`;
@@ -64,7 +65,7 @@ function renderAllListings(listings) {
       bids.textContent = `${listing._count.bids} bids`;
 
       link.appendChild(title);
-    //   link.appendChild(seller);
+      link.appendChild(seller);
       link.appendChild(img);
       listingContainer.appendChild(link);
       listingsGrid.appendChild(listingContainer);

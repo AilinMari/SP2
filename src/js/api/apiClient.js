@@ -106,10 +106,10 @@ export class AuctionApi {
       const accessToken = this._getRequiredAccessToken();
       const name = localStorage.getItem("name");
       const url = new URL(`${API_PROFILES}/${name}`);
-      url.searchParams.append("_posts", "true"); // Include the _posts parameter
-      url.searchParams.append("_author", "true"); // Include the _author parameter
+
       url.searchParams.append("_avatar", "true"); // Include the _avatar parameter
       url.searchParams.append("_banner", "true"); // Include the _banner parameter
+      url.searchParams.append("_listings", "true"); // Include the _listings parameter
       // url.searchParams.append("_media", "true"); // Include the _media parameter
 
       const options = {
@@ -128,17 +128,18 @@ export class AuctionApi {
     }
   }
 
-  async getUserProfileByAuthor(author) {
+  async getUserProfileByName(name) {
     try {
-      if (!author) {
-        throw new Error("Author parameter is missing.");
+      if (!name) {
+        throw new Error("name parameter is missing.");
       }
 
-      const url = new URL(`${API_PROFILES}/${author}`);
-      url.searchParams.append("_posts", "true"); // Include posts
-      url.searchParams.append("_author", "true"); // Include author details
+      const url = new URL(`${API_PROFILES}/${name}`);
+      url.searchParams.append("_name", "true"); // Include the _name parameter
       url.searchParams.append("_avatar", "true"); // Include avatar details
       url.searchParams.append("_banner", "true"); // Include banner details
+      url.searchParams.append("_listings", "true"); // Include listings
+      url.searchParams.append("_media", "true"); // Include media details if needed
 
       const options = {
         method: "GET",
@@ -155,23 +156,24 @@ export class AuctionApi {
         "Error fetching user profile"
       );
     } catch (error) {
-      console.error("Error in getUserProfileByauthor:", error);
+      console.error("Error in getUserProfileByname:", error);
       throw error;
     }
   }
 
-  async getAllPostsByAuthor(author) {
+  async getAllListingsByName(name) {
     try {
-      if (!author) {
-        throw new Error("Author parameter is missing.");
+      if (!name) {
+        throw new Error("Name parameter is missing.");
       }
 
-      const url = new URL(`${API_PROFILES}/${author}/posts`);
-      url.searchParams.append("_author", "true"); // Include the _author parameter
+      const url = new URL(`${API_PROFILES}/${name}/listings`);
+      // url.searchParams.append("_name", "true"); // Include the _name parameter
+      // url.searchParams.append("_title", "true"); // Include the _title parameter
       url.searchParams.append("_media", "true"); // Include the _media parameter
       url.searchParams.append("_tags", "true"); // Include the _tags parameter
-      url.searchParams.append("_body", "true"); // Include the _body parameter
-      url.searchParams.append("_title", "true"); // Include the _title parameter
+      url.searchParams.append("_description", "true"); // Include the _description parameter
+
       const options = {
         method: "GET",
         headers: {
@@ -187,15 +189,15 @@ export class AuctionApi {
         "Error fetching user posts"
       );
     } catch (error) {
-      console.error("Error in getAllPostsByAuthor:", error);
+      console.error("Error in getAllPostsByName:", error);
       throw error;
     }
   }
 
-  async getPostsByLoggedInUser() {
+  async getListingsByLoggedInUser() {
     const accessToken = this._getRequiredAccessToken();
     const username = localStorage.getItem("name"); // Get the username from local storage
-    const url = new URL(`${API_PROFILES}/${username}/posts`);
+    const url = new URL(`${API_PROFILES}/${username}/listings`);
 
     const options = {
       method: "GET",
@@ -205,13 +207,10 @@ export class AuctionApi {
         "X-Noroff-API-Key": `${API_KEY}`, // Include the API key
       },
     };
-
-    // Rettet: Bruk username i loggen i stedet for author
-
     return await this._request(
       url.toString(),
       options,
-      "Error fetching user posts"
+      "Error fetching user listings"
     );
   }
 
