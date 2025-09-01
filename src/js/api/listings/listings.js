@@ -29,7 +29,7 @@ function renderAllListings(listings) {
     ) {
       const listingContainer = document.createElement("div");
       listingContainer.className =
-        "container bg-[var(--card-background)] p-4 border-2 border-[var(--main-gold)] rounded-md rounded-md mb-8 ";
+        "container flex flex-col bg-[var(--card-background)] p-4 border-2 border-[var(--main-gold)] rounded-md rounded-md mb-8 ";
 
       const title = document.createElement("h1");
       title.className =

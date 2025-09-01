@@ -5,7 +5,6 @@ const auctionApi = new AuctionApi();
 const profile = await auctionApi.getUserProfile();
 console.log("Profile data:", profile);
 
-
 function renderProfile(profile) {
   const profileContainer = document.querySelector(".profile-container");
 
@@ -35,6 +34,14 @@ function renderProfile(profile) {
   avatar.className =
     "avatar-image absolute left-1/2 bottom-0 translate-x-[-50%] translate-y-1/2 h-50 w-50 object-cover rounded-full border-3 border-[var(--main-gold)] shadow-lg z-10";
 
+  const editProfile = document.createElement("button");
+  editProfile.textContent = "Edit Profile";
+  editProfile.className =
+    "edit-profile-button cursor-pointer absolute left-1/2 bottom-29 translate-x-[-50%] translate-y-65 border-3 border-[var(--main-gold)] shadow-lg z-10 px-4 py-3 rounded-md font-['Playfair_Display',serif] text-lg bg-[var(--main-blue)] text-[var(--main-gold)]";
+  editProfile.addEventListener("click", () => {
+    // Handle edit profile logic
+    window.location.href = "/auth/profile/update/index.html";});
+
   const bio = document.createElement("p");
   bio.textContent = profile.data.bio;
   bio.className =
@@ -42,15 +49,16 @@ function renderProfile(profile) {
 
   const contentContainer = document.querySelector(".content");
   contentContainer.className =
-    "content-container flex flex-col items-center justify-center mt-30 mb-20";
+    "content-container flex flex-col items-center justify-center mt-40 mb-20";
 
   profileContainer.appendChild(overlay);
   overlay.appendChild(name);
   overlay.appendChild(avatar);
+  overlay.appendChild(editProfile);
+
   profileContainer.appendChild(bannerContainer);
   bannerContainer.appendChild(banner);
   contentContainer.appendChild(bio);
 }
 
 renderProfile(profile);
-

@@ -73,7 +73,7 @@
       </div>
     </nav>
     <main class="flex justify-center items-center h-full mt-auto">
-      <div class="w-full max-w-4xl mx-auto mb-8">
+      <div class="w-full max-w-4xl mx-auto mb-8 flex flex-col justify-center items-center">
         <form
           id="listings-filter-form"
           class="flex flex-col md:flex-row gap-4 items-center justify-center mb-10 mt-10"
@@ -102,7 +102,9 @@
             <option value="least-bids">Least bids</option>
           </select>
         </form>
-        <div class="listings-grid grid lg:grid-cols-2 gap-4"></div>
+        <div
+          class="listings-grid grid lg:grid-cols-2 lg:gap-10 sm:grid-cols-1"
+        ></div>
       </div>
       <div id="app"></div>
       <script type="module" src="/src/js/main.js"></script>
