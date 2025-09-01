@@ -60,23 +60,7 @@ function renderSellerProfile(profile) {
   contentContainer.className =
     "content-container flex flex-col items-center justify-center mt-30 mb-20";
 
-  const listingsGrid = document.querySelector(".user-listings");
 
-  profile.data.listings.forEach((listing) => {
-    const listingContainer = document.createElement("div");
-    listingContainer.className =
-      "listing-container grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 p-4";
-
-    const title = document.createElement("h1");
-    title.className =
-      "listing-title text-xl font-semibold text-[var(--main-blue)] font-['Playfair_Display',serif] mb-2";
-    title.textContent = listing.title;
-
-    const link = document.createElement("a");
-    link.href = `/single-listing/index.html?id=${listing.id}?_seller=true`;
-
-    const img = document.createElement("img");
-    img.src = listing.media.url;
 
     profileContainer.appendChild(overlay);
     overlay.appendChild(name);
@@ -85,11 +69,7 @@ function renderSellerProfile(profile) {
     bannerContainer.appendChild(banner);
     contentContainer.appendChild(bio);
 
-    link.appendChild(title);
-    link.appendChild(img);
-    listingContainer.appendChild(link);
-    listingsGrid.appendChild(listingContainer);
-  });
+
 }
 
 

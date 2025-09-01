@@ -128,6 +128,12 @@ export class AuctionApi {
     }
   }
 
+  /**
+   * name for a user.
+   * @param {string} name - The user's name.
+   * @returns {Promise<any>} User data.
+   */  
+
   async getUserProfileByName(name) {
     try {
       if (!name) {
