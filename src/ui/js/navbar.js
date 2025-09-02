@@ -2,6 +2,8 @@ import { AuctionApi } from "../../js/api/apiClient";
 
 const auctionApi = new AuctionApi();
 
+
+
 const token = localStorage.getItem("token");
 
 const loginLink = document.querySelector(".login-link");
@@ -188,3 +190,19 @@ try {
   // Non-fatal: keep navbar behavior working even if script runs early or elements missing
   console.warn("Hamburger menu not initialized", err);
 }
+
+
+async function init() {
+  const profile = await auctionApi.getUserProfile();
+  renderCredits(profile);
+
+}
+function renderCredits(profile) {
+  const creditsContainer = document.querySelector(".credits-container");
+  if (!creditsContainer) return;
+  const credits = document.createElement("div");
+  credits.textContent = 'Credits ' + (profile.data.credits || 0);
+  credits.className = "credits text-center text-sm text-[var(--main-gold)] font-['Playfair_Display',serif] border-t-2 border-b-2 border-[var(--main-gold)] pb-2 pt-2 text-xl";
+  creditsContainer.appendChild(credits);
+}
+init();

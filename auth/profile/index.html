@@ -31,6 +31,7 @@
           />
         </a>
         <div class="nav-links flex flex-row items-center justify-center gap-10">
+          <div class="credits-container"></div>
           <a
             href="/index.html"
             class="home flex text-lg md:text-xl text-[var(--navbar-text)] flex-col items-center justify-center font-['Playfair_Display',serif]"
@@ -62,6 +63,7 @@
             class="sign-up text-l text-[var(--navbar-text)] font-['Playfair_Display',serif]"
             >Sign up</a
           >
+
           <div id="logout">
             <button
               class="text-lg md:text-xl text-[var(--navbar-text)] flex-col items-center justify-center font-['Playfair_Display',serif] active:text-[var(--main-gold)] cursor-pointer"
@@ -88,7 +90,9 @@
         src="/src/js/api/profiles/myprofile/listings.js"
       ></script>
       <div class="content"></div>
-      <div class="user-listings grid lg:grid-cols-2 gap-4 sm:grid-cols-1 mt-20 mb-20"></div>
+      <div
+        class="user-listings grid lg:grid-cols-2 gap-4 sm:grid-cols-1 mt-20 mb-20"
+      ></div>
     </main>
     <footer
       class="bg-[var(--main-blue)] h-30 mt-auto border-b-3 border-t-3 border-[var(--main-gold)]"

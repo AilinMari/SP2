@@ -6,7 +6,9 @@ const auctionApi = new AuctionApi();
 async function init() {
   const profile = await auctionApi.getUserProfile();
   renderProfile(profile);
+  console.log(renderProfile, profile);
 }
+
 
 function renderProfile(profile) {
   const profileContainer = document.querySelector(".profile-container");
