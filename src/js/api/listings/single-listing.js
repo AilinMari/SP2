@@ -31,12 +31,12 @@ function renderSingleListing(listingId) {
   const title = document.createElement("h1");
   title.textContent = listingId.data.title;
   title.className =
-    "listing-title text-4xl font-semibold mb-4 font-['Playfair_Display',serif] text-[var(--main-blue)]";
+    "listing-title text-4xl font-semibold mb-4 font-['Playfair_Display',serif] text-[var(--main-blue)] max-w-full overflow-hidden text-ellipsis";
 
   const description = document.createElement("p");
   description.textContent = listingId.data.description;
   description.className =
-    "listing-description text-sm text-[var(--text-color)] font-['Inter',sans-serif] mt-4 border-b-[1px] border-b-[var(--main-gold)]";
+    "listing-description text-sm text-[var(--text-color)] font-['Inter',sans-serif] mt-4 border-b-[1px] border-b-[var(--main-gold)] ax-w-full overflow-hidden text-ellipsis";
 
   const seller = document.createElement("p");
   seller.textContent = `Seller: ${listingId.data.seller.name}`;

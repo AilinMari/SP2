@@ -1,4 +1,3 @@
-
 import { AuctionApi } from "../apiClient";
 import { filterListings } from "./filtering.js";
 
@@ -20,58 +19,62 @@ function renderAllListings(listings) {
   console.log("Rendering listings:", listings);
 
   listings.forEach((listing) => {
-    // Only render listings with a valid image URL
-    if (
-      listing.media &&
-      Array.isArray(listing.media) &&
-      listing.media.length > 0 &&
-      listing.media[0].url
-    ) {
-      const listingContainer = document.createElement("div");
-      listingContainer.className =
-        "container flex flex-col bg-[var(--card-background)] p-4 border-2 border-[var(--main-gold)] rounded-md rounded-md mb-8 ";
+    // Render all listings. If no media is present, use a placeholder image.
+    const imageSrc =
+      listing.media && Array.isArray(listing.media) && listing.media[0]?.url
+        ? listing.media[0].url
+        : "/src/images/GoldenBid-icon.png"; // fallback placeholder
+    const imageAlt =
+      listing.media && listing.media[0]?.alt
+        ? listing.media[0].alt
+        : listing.title || "Listing image";
 
-      const title = document.createElement("h1");
-      title.className =
-        "listing-title text-xl font-semibold text-[var(--main-blue)] font-['Playfair_Display',serif] mb-2";
-      title.textContent = listing.title;
+    // Proceed to render the listing
+    const listingContainer = document.createElement("div");
+    listingContainer.className =
+      "container flex flex-col bg-[var(--card-background)] p-4 border-2 border-[var(--main-gold)] rounded-md rounded-md mb-8 ";
 
-      const seller = document.createElement("a");
-      seller.className =
-        "listing-seller text-md font-regular text-[var(--main-blue)] font-['Playfair_Display',serif] mb-4";
-      seller.textContent = `Seller: ${listing.seller.name}`;
-      seller.href = `/profile/index.html?id=${listing.seller.name}`;
+    const title = document.createElement("h1");
+    title.className =
+      "listing-title text-xl font-semibold text-[var(--main-blue)] font-['Playfair_Display',serif] mb-2 max-w-full overflow-hidden text-ellipsis";
+    title.textContent = listing.title;
 
-      const link = document.createElement("a");
-      link.href = `/single-listing/index.html?id=${listing.id}?_seller=true`;
+    const seller = document.createElement("a");
+    seller.className =
+      "listing-seller text-md font-regular text-[var(--main-blue)] font-['Playfair_Display',serif] mb-4";
+    seller.textContent = `Seller: ${listing.seller.name}`;
+    seller.href = `/profile/index.html?id=${listing.seller.name}`;
 
-      const img = document.createElement("img");
-      img.src = listing.media[0].url;
-      img.alt = listing.media[0].alt || listing.title || "Listing image";
-      img.className = "listing-image h-48 w-full object-cover";
+    const link = document.createElement("a");
+    // fix query string: id=...& _seller=true
+    link.href = `/single-listing/index.html?id=${listing.id}&_seller=true`;
 
-      const endsAt = document.createElement("span");
-      endsAt.className = "listing-ends-at block mt-2 text-sm text-red-600";
-      const now = new Date();
-      const endsDate = new Date(listing.endsAt);
-      if (endsDate <= now) {
-        endsAt.textContent = "Auction ended";
-      } else {
-        endsAt.textContent = `Ends at: ${endsDate.toLocaleString()}`;
-      }
+    const img = document.createElement("img");
+    img.src = imageSrc;
+    img.alt = imageAlt;
+    img.className = "listing-image h-48 w-full object-cover";
 
-      const bids = document.createElement("span");
-      bids.className = "listing-bids";
-      bids.textContent = `${listing._count.bids} bids`;
-
-      link.appendChild(title);
-      link.appendChild(seller);
-      link.appendChild(img);
-      listingContainer.appendChild(link);
-      listingsGrid.appendChild(listingContainer);
-      listingContainer.appendChild(endsAt);
-      listingContainer.appendChild(bids);
+    const endsAt = document.createElement("span");
+    endsAt.className = "listing-ends-at block mt-2 text-sm text-red-600";
+    const now = new Date();
+    const endsDate = new Date(listing.endsAt);
+    if (endsDate <= now) {
+      endsAt.textContent = "Auction ended";
+    } else {
+      endsAt.textContent = `Ends at: ${endsDate.toLocaleString()}`;
     }
+
+    const bids = document.createElement("span");
+    bids.className = "listing-bids";
+    bids.textContent = `${listing._count?.bids || 0} bids`;
+
+    link.appendChild(title);
+    link.appendChild(seller);
+    link.appendChild(img);
+    listingContainer.appendChild(link);
+    listingsGrid.appendChild(listingContainer);
+    listingContainer.appendChild(endsAt);
+    listingContainer.appendChild(bids);
   });
 }
 
@@ -79,6 +82,16 @@ let allListings = [];
 
 async function handleListingsView() {
   allListings = await auctionApi.getAllListings();
+  if (!Array.isArray(allListings)) allListings = [];
+  // Default: show active listings (endsAt in future) first
+  const now = new Date();
+  allListings.sort((a, b) => {
+    const aActive = a.endsAt ? new Date(a.endsAt) > now : false;
+    const bActive = b.endsAt ? new Date(b.endsAt) > now : false;
+    if (aActive === bActive) return 0;
+    return aActive ? -1 : 1;
+  });
+
   renderAllListings(allListings);
 }
 
