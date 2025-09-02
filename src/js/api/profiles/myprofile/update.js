@@ -47,7 +47,8 @@ document.addEventListener("DOMContentLoaded", () => {
         // Error already logged and alerted in onUpdateProfile
       }
     });
-  }
-});
 
+  }
+  
+});
 export { onUpdateProfile };

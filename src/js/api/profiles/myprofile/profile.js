@@ -1,5 +1,5 @@
 import { AuctionApi } from "../../apiClient.js";
-import { onUpdateProfile } from "./Update.js";
+import { onUpdateProfile } from "./update.js";
 
 const auctionApi = new AuctionApi();
 
