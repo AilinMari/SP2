@@ -5,7 +5,6 @@ const auctionApi = new AuctionApi();
 
 const username = localStorage.getItem("name"); // Get the username from local storage
 
-
 function renderAllListings(listings) {
   const listingsGrid = document.querySelector(".user-listings");
   if (!listingsGrid) {
@@ -23,7 +22,7 @@ function renderAllListings(listings) {
   listings.forEach((listing) => {
     const listingContainer = document.createElement("div");
     listingContainer.className =
-      "container bg-[var(--card-background)] p-4 border-2 border-[var(--main-gold)] rounded-md m-4";
+      "container bg-[var(--card-background)] p-4 border-2 border-[var(--main-gold)] rounded-md";
 
     const title = document.createElement("h1");
     title.className =
@@ -32,6 +31,24 @@ function renderAllListings(listings) {
 
     const link = document.createElement("a");
     link.href = `/single-listing/index.html?id=${listing.id}?_seller=true`;
+
+    const bidContainer = document.createElement("div");
+    bidContainer.className = "listing-bid-container mt-4";
+
+    const endsAt = document.createElement("span");
+    endsAt.className = "listing-ends-at block mt-2 text-sm text-red-600";
+    const now = new Date();
+    const endsDate = new Date(listing.endsAt);
+    if (endsDate <= now) {
+      endsAt.textContent = "Auction ended";
+    } else {
+      endsAt.textContent = `Ends at: ${endsDate.toLocaleString()}`;
+    }
+
+    const bids = document.createElement("span");
+    bids.className =
+      "listing-bids font-['Inter',sans-serif] text-sm text-[var(--text-color)]";
+    bids.textContent = `${listing.data?._count?.bids || 0} bids`;
 
     // Render image if available
     if (
@@ -57,6 +74,9 @@ function renderAllListings(listings) {
       desc.textContent = listing.description;
       listingContainer.appendChild(desc);
     }
+    bidContainer.appendChild(endsAt);
+    bidContainer.appendChild(bids);
+    listingContainer.appendChild(bidContainer);
 
     listingsGrid.appendChild(listingContainer);
   });
@@ -72,5 +92,3 @@ async function handleListingsView() {
 }
 
 document.addEventListener("DOMContentLoaded", handleListingsView);
-
-

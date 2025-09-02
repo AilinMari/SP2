@@ -123,6 +123,16 @@ function renderProfile(profile) {
   contentContainer.className =
     "content-container flex flex-col items-center justify-center mt-40 mb-20";
 
+    const createListing = document.createElement("button");
+    createListing.textContent = "Create Listing +";
+    createListing.className =
+      "create-listing-btn  cursor-pointer absolute left-1/2 bottom-29 translate-x-[-50%] translate-y-85 border-3 border-[var(--main-gold)] shadow-lg z-10 px-4 py-3 rounded-md font-['Playfair_Display',serif] text-lg bg-[var(--main-blue)] text-[var(--main-gold)]";
+    createListing.addEventListener("click", () => {
+      window.location.href = "/auth/listings/create/index.html";
+      // Handle create listing button click
+      console.log("Create Listing button clicked");
+    });
+
   profileContainer.appendChild(overlay);
   overlay.appendChild(nameEl);
   overlay.appendChild(avatarEl);
@@ -132,6 +142,7 @@ function renderProfile(profile) {
   profileContainer.appendChild(bannerContainer);
   bannerContainer.appendChild(bannerEl);
   contentContainer.appendChild(bioEl);
+  contentContainer.appendChild(createListing);
 }
 
 init();
