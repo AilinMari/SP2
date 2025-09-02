@@ -39,6 +39,7 @@ function renderAllListings(listings) {
     updateBtn.className = "listing-update-btn cursor-pointer border-3 border-[var(--main-gold)] shadow-lg z-10 px-2 py-1 rounded-md font-['Playfair_Display',serif] text-sm bg-[var(--main-blue)] text-[var(--main-gold)] flex float-right";
     updateBtn.textContent = "Update Listing";
     updateBtn.addEventListener("click", () => {
+      window.location.href = `/auth/listings/update/index.html?id=${listing.id}`;
       // Handle update listing logic
     });
 
