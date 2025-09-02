@@ -35,6 +35,13 @@ function renderAllListings(listings) {
     const bidContainer = document.createElement("div");
     bidContainer.className = "listing-bid-container mt-4";
 
+    const updateBtn = document.createElement("button");
+    updateBtn.className = "listing-update-btn cursor-pointer border-3 border-[var(--main-gold)] shadow-lg z-10 px-2 py-1 rounded-md font-['Playfair_Display',serif] text-sm bg-[var(--main-blue)] text-[var(--main-gold)] flex float-right";
+    updateBtn.textContent = "Update Listing";
+    updateBtn.addEventListener("click", () => {
+      // Handle update listing logic
+    });
+
     const endsAt = document.createElement("span");
     endsAt.className = "listing-ends-at block mt-2 text-sm text-red-600";
     const now = new Date();
@@ -76,8 +83,8 @@ function renderAllListings(listings) {
     }
     bidContainer.appendChild(endsAt);
     bidContainer.appendChild(bids);
+    bidContainer.appendChild(updateBtn);
     listingContainer.appendChild(bidContainer);
-
     listingsGrid.appendChild(listingContainer);
   });
 }

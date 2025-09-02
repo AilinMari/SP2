@@ -126,7 +126,7 @@ function renderProfile(profile) {
     const createListing = document.createElement("button");
     createListing.textContent = "Create Listing +";
     createListing.className =
-      "create-listing-btn  cursor-pointer absolute left-1/2 bottom-29 translate-x-[-50%] translate-y-85 border-3 border-[var(--main-gold)] shadow-lg z-10 px-4 py-3 rounded-md font-['Playfair_Display',serif] text-lg bg-[var(--main-blue)] text-[var(--main-gold)]";
+      "create-listing-btn cursor-pointer absolute left-1/2 bottom-29 translate-x-[-50%] translate-y-85 border-3 border-[var(--main-gold)] shadow-lg z-10 px-4 py-3 rounded-md font-['Playfair_Display',serif] text-lg bg-[var(--main-blue)] text-[var(--main-gold)]";
     createListing.addEventListener("click", () => {
       window.location.href = "/auth/listings/create/index.html";
       // Handle create listing button click
