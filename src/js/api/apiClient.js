@@ -325,6 +325,18 @@ export class AuctionApi {
    */
   async createListing(title, description, endsAt, media, tags) {
     const accessToken = this._getRequiredAccessToken();
+    // Normalize media to an array of { url, alt } objects because the API
+    // returns listing.media as an array and other code expects listing.media[0].url
+    let mediaArray = [];
+    if (media) {
+      if (Array.isArray(media)) {
+        mediaArray = media;
+      } else if (typeof media === "string") {
+        mediaArray = [{ url: media }];
+      } else if (typeof media === "object") {
+        mediaArray = [{ url: media.url || "", alt: media.alt || "" }];
+      }
+    }
 
     const options = {
       method: "POST",
@@ -337,7 +349,7 @@ export class AuctionApi {
         title,
         description,
         endsAt: endsAt,
-        imageUrl: media,
+        media: mediaArray,
         tags: tags,
       }),
     };

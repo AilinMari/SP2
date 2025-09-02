@@ -38,12 +38,25 @@ if (form) {
     // Create media object
     const media = imageUrl ? { url: imageUrl, alt: imageAlt } : null;
 
+    // endsAt must be provided and in ISO format for the API
+    if (!endsAt) {
+      alert("Please provide an end date/time for the listing.");
+      return;
+    }
+    let endsAtIso;
+    try {
+      endsAtIso = new Date(endsAt).toISOString();
+    } catch (err) {
+      alert("Invalid end date/time format.");
+      return;
+    }
+
     try {
       // API expects: createListing(title, description, endsAt, media, tags)
       const createdListing = await auctionApi.createListing(
         title,
         body,
-        endsAt,
+        endsAtIso,
         media,
         tags
       );
