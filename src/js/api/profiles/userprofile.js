@@ -101,7 +101,7 @@ function renderSellerProfile(profile) {
     avatar.src = profile.data.avatar?.url || "";
     avatar.alt = `${profile.data.name}'s avatar`;
     avatar.className =
-      "avatar-image absolute left-1/2 bottom-0 translate-x-[-50%] translate-y-1/2 h-50 w-50 object-cover rounded-full border-3 border-[var(--main-gold)] shadow-lg z-10";
+      "avatar-image absolute left-1/2 bottom-0 translate-x-[-50%] translate-y-1/2 h-50 w-50 object-cover rounded-full border-3 border-[var(--main-gold)] shadow-lg z-15";
     overlay.appendChild(avatar);
   }
 
