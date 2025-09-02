@@ -24,8 +24,16 @@ function renderSingleListing(listingId) {
   console.log("Fetching listing with ID:", listingId);
 
   const img = document.createElement("img");
-  img.src = listingId.data.media[0].url;
-  img.alt = listingId.data.media[0].alt;
+  const mediaUrl =
+    listingId.data?.media && listingId.data.media[0]?.url
+      ? listingId.data.media[0].url
+      : "/src/images/GoldenBid-icon.png";
+  const mediaAlt =
+    listingId.data?.media && listingId.data.media[0]?.alt
+      ? listingId.data.media[0].alt
+      : listingId.data?.title || "Listing image";
+  img.src = mediaUrl;
+  img.alt = mediaAlt;
   img.className = "listing-img";
 
   const title = document.createElement("h1");
@@ -39,7 +47,8 @@ function renderSingleListing(listingId) {
     "listing-description text-sm text-[var(--text-color)] font-['Inter',sans-serif] mt-4 border-b-[1px] border-b-[var(--main-gold)] ax-w-full overflow-hidden text-ellipsis";
 
   const seller = document.createElement("p");
-  seller.textContent = `Seller: ${listingId.data.seller.name}`;
+  const sellerName = listingId.data?.seller?.name || "Unknown seller";
+  seller.textContent = `Seller: ${sellerName}`;
   seller.className =
     "listing-seller text-lg text-[var(--text-color)] font-['Playfair_Display',serif] mt-4";
 
@@ -59,10 +68,10 @@ function renderSingleListing(listingId) {
   const bids = document.createElement("span");
   bids.className =
     "listing-bids font-['Inter',sans-serif] text-sm text-[var(--text-color)]";
-  bids.textContent = `${listingId.data._count.bids} bids`;
+  bids.textContent = `${listingId.data?._count?.bids || 0} bids`;
 
   // Show only last 3 bids by default
-  const allBids = listingId.data.bids || [];
+  const allBids = listingId.data?.bids || [];
   const lastThreeBids = allBids.slice(-3);
 
   const bidsList = document.createElement("ul");
@@ -70,7 +79,8 @@ function renderSingleListing(listingId) {
   lastThreeBids.forEach((bid) => {
     const bidItem = document.createElement("li");
     bidItem.className = "listing-bid-item";
-    bidItem.textContent = `Bidder: ${bid.bidder.name} - Bid: ${bid.amount} Credits`;
+    const bidderName = bid?.bidder?.name || "Unknown bidder";
+    bidItem.textContent = `Bidder: ${bidderName} - Bid: ${bid.amount} Credits`;
     bidsList.appendChild(bidItem);
   });
 

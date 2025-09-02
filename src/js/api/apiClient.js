@@ -288,7 +288,7 @@ export class AuctionApi {
     try {
       const url = new URL(`${API_LISTINGS}/${listingId}`);
       url.searchParams.append("_bids", "true"); // Include the _bids parameter
-      url.searchParams.append("?_seller", "true"); // Include the _seller parameter
+      url.searchParams.append("_seller", "true"); // Include the _seller parameter
       url.searchParams.append("_id", listingId); // Include the _id parameter
 
       const options = {
@@ -325,18 +325,6 @@ export class AuctionApi {
    */
   async createListing(title, description, endsAt, media, tags) {
     const accessToken = this._getRequiredAccessToken();
-    // Normalize media to an array of { url, alt } objects because the API
-    // returns listing.media as an array and other code expects listing.media[0].url
-    let mediaArray = [];
-    if (media) {
-      if (Array.isArray(media)) {
-        mediaArray = media;
-      } else if (typeof media === "string") {
-        mediaArray = [{ url: media }];
-      } else if (typeof media === "object") {
-        mediaArray = [{ url: media.url || "", alt: media.alt || "" }];
-      }
-    }
 
     const options = {
       method: "POST",
@@ -349,7 +337,7 @@ export class AuctionApi {
         title,
         description,
         endsAt: endsAt,
-        media: mediaArray,
+        imageUrl: media,
         tags: tags,
       }),
     };
