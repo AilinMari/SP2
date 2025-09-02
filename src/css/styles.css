@@ -94,7 +94,35 @@
   }
 
   /* Ensure logout button is visible inside mobile menu when open */
-  .navbar.mobile-open #logout {
-    display: block !important;
+  /* Hide the original logout area on small screens (we provide a mobile logout inside the dropdown) */
+  .navbar #logout {
+    display: none !important;
+  }
+
+  /* Hide the original right-side login/register/logout block on mobile
+     so the dropdown menu provides those controls instead. */
+  .navbar .login-or-reg {
+    display: none !important;
+  }
+
+  /* Mobile logout button inside dropdown */
+  .mobile-logout {
+    margin-top: 8px;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    padding-top: 8px;
+  }
+  .mobile-logout-btn {
+    width: 100%;
+    text-align: left;
+    background: var(--main-gold);
+    color: var(--main-blue);
+    border: none;
+    padding: 8px 10px;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  .mobile-logout-btn:hover {
+    opacity: 0.95;
   }
 }

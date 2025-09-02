@@ -50,6 +50,72 @@ try {
 
     // Helpers for focus trap and keyboard handling
     const navLinks = navbarEl.querySelector(".nav-links");
+
+    // Robust mobile injection: add/remove simple mobile-only auth controls
+    // and react to breakpoint changes so resizing doesn't duplicate elements.
+    try {
+      const isLoggedIn = Boolean(token);
+      const mql = window.matchMedia("(max-width: 768px)");
+
+      function removeMobileAuth() {
+        if (!navLinks) return;
+        const a = navLinks.querySelector(".mobile-auth");
+        if (a) a.remove();
+        const l = navLinks.querySelector(".mobile-logout");
+        if (l) l.remove();
+        const clones = navLinks.querySelectorAll(".mobile-clone");
+        clones.forEach((c) => c.remove());
+      }
+
+      function addMobileAuth() {
+        if (!navLinks) return;
+        removeMobileAuth(); // ensure idempotent
+        if (!isLoggedIn) {
+          const authWrap = document.createElement("div");
+          authWrap.className = "mobile-auth";
+          const loginA = document.createElement("a");
+          loginA.className = "mobile-clone";
+          loginA.href = "/auth/login/index.html";
+          loginA.textContent = "Login";
+          authWrap.appendChild(loginA);
+          const signA = document.createElement("a");
+          signA.className = "mobile-clone";
+          signA.href = "/auth/register/index.html";
+          signA.textContent = "Sign up";
+          authWrap.appendChild(signA);
+          navLinks.appendChild(authWrap);
+        } else {
+          const mobileLogoutWrap = document.createElement("div");
+          mobileLogoutWrap.className = "mobile-logout";
+          const mobileLogoutBtn = document.createElement("button");
+          mobileLogoutBtn.className = "mobile-logout-btn";
+          mobileLogoutBtn.textContent = "Logout";
+          mobileLogoutWrap.appendChild(mobileLogoutBtn);
+          navLinks.appendChild(mobileLogoutWrap);
+
+          const originalBtn =
+            logoutButton && logoutButton.querySelector("button");
+          mobileLogoutBtn.addEventListener("click", (e) => {
+            e.preventDefault();
+            if (originalBtn) originalBtn.click();
+            else logoutButton && logoutButton.dispatchEvent(new Event("click"));
+          });
+        }
+      }
+
+      function onBreakpointChange(e) {
+        if (e.matches) addMobileAuth();
+        else removeMobileAuth();
+      }
+
+      if (mql.matches) addMobileAuth();
+      if (typeof mql.addEventListener === "function")
+        mql.addEventListener("change", onBreakpointChange);
+      else if (typeof mql.addListener === "function")
+        mql.addListener(onBreakpointChange);
+    } catch (err) {
+      console.warn("Mobile auth injection failed", err);
+    }
     let previouslyFocused = null;
     let onKeyDown;
 
