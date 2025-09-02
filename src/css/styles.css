@@ -5,15 +5,96 @@
 :root {
   --navbar-text: #f7fafc;
   --main-blue: #1c3d5a;
-  --gold-gradient: linear-gradient(
-    0deg,
-    #d4af37 9%,
-    #ffe798 48%,
-    #d4af37 88%
-  );
+  --gold-gradient: linear-gradient(0deg, #d4af37 9%, #ffe798 48%, #d4af37 88%);
   --main-gold: #d4af37;
-  --body-background: #E7ECF0;
-  --main-font: ('Playfair Display', serif);
-  --second-font: 'Inter', sans-serif;
+  --body-background: #e7ecf0;
+  --main-font: ("Playfair Display", serif);
+  --second-font: "Inter", sans-serif;
   --card-background: #ffffff;
+}
+
+/* Hamburger/menu styles */
+.hamburger-btn {
+  display: none; /* shown on small screens via media query */
+  background: var(--main-blue);
+  border-radius: 6px;
+  cursor: pointer;
+  padding: 6px 8px;
+  color: var(--main-gold);
+}
+.hamburger-btn .line {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: var(--main-gold);
+  margin: 4px 0;
+  transition: transform 240ms ease, opacity 240ms ease;
+}
+.hamburger-btn.open .line1 {
+  transform: translateY(6px) rotate(45deg);
+}
+.hamburger-btn.open .line2 {
+  opacity: 0;
+}
+.hamburger-btn.open .line3 {
+  transform: translateY(-6px) rotate(-45deg);
+}
+
+/* Mobile behavior: hide nav-links by default and show when .mobile-open is present */
+@media (max-width: 768px) {
+  /* Ensure navbar is the positioning context for the dropdown */
+  .navbar {
+    position: relative;
+  }
+  .nav-links {
+    display: none;
+    position: absolute;
+    /* Anchor the dropdown to the right below the hamburger button */
+    top: calc(100% + 2px);
+    right: 0px;
+    left: auto;
+    width: min(92%, 320px);
+    background: var(--main-blue);
+    padding: 12px 14px;
+    text-align: left;
+    border-radius: 0px 0 8px 8px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+    z-index: 60;
+    transform-origin: top right;
+    transform: translateY(-6px) scaleY(0.98);
+    opacity: 0;
+    transition: transform 220ms ease, opacity 220ms ease;
+  }
+
+  .navbar.mobile-open .nav-links {
+    display: block;
+    transform: translateY(0) scaleY(1);
+    opacity: 1;
+  }
+
+  /* Adjust menu link styles for dropdown appearance */
+  .navbar .nav-links a,
+  .navbar .nav-links .login-link,
+  .navbar .nav-links .sign-up,
+  .navbar .nav-links .my-bids,
+  .navbar .nav-links .profile {
+    display: block;
+    padding: 8px 6px;
+    color: var(--navbar-text);
+  }
+
+  .hamburger-btn {
+    display: inline-block;
+    margin-right: 0;
+    margin-left: 0;
+    position: absolute;
+    right: 12px;
+    bottom: 12px;
+    z-index: 70;
+  }
+
+  /* Ensure logout button is visible inside mobile menu when open */
+  .navbar.mobile-open #logout {
+    display: block !important;
+  }
 }
