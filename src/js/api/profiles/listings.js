@@ -23,7 +23,7 @@ function renderAllListings(listings) {
   listings.forEach((listing) => {
     const listingContainer = document.createElement("div");
     listingContainer.className =
-      "container bg-[var(--card-background)] p-4 border-2 border-[var(--main-gold)] rounded-md mb-8";
+      "container bg-[var(--card-background)] p-4 border-2 border-[var(--main-gold)] rounded-md mb-8 max-w-md";
 
     const title = document.createElement("h1");
     title.className =
@@ -43,7 +43,7 @@ function renderAllListings(listings) {
       const img = document.createElement("img");
       img.src = listing.media[0].url;
       img.alt = listing.media[0].alt || listing.title || "Listing image";
-      img.className = "listing-image h-48 w-full object-cover mb-2";
+      img.className = "listing-image";
 
       // Optionally add description
       if (listing.description) {
@@ -51,19 +51,19 @@ function renderAllListings(listings) {
         desc.className = "listing-desc text-md text-gray-700 mb-2";
         desc.textContent = listing.description;
 
-              const endsAt = document.createElement("span");
-      endsAt.className = "listing-ends-at block mt-2 text-sm text-red-600";
-      const now = new Date();
-      const endsDate = new Date(listing.endsAt);
-      if (endsDate <= now) {
-        endsAt.textContent = "Auction ended";
-      } else {
-        endsAt.textContent = `Ends at: ${endsDate.toLocaleString()}`;
-      }
+        const endsAt = document.createElement("span");
+        endsAt.className = "listing-ends-at block mt-2 text-sm text-red-600";
+        const now = new Date();
+        const endsDate = new Date(listing.endsAt);
+        if (endsDate <= now) {
+          endsAt.textContent = "Auction ended";
+        } else {
+          endsAt.textContent = `Ends at: ${endsDate.toLocaleString()}`;
+        }
 
-      const bids = document.createElement("span");
-      bids.className = "listing-bids";
-      bids.textContent = `${listing._count.bids} bids`;
+        const bids = document.createElement("span");
+        bids.className = "listing-bids";
+        bids.textContent = `${listing._count.bids} bids`;
 
         link.appendChild(img);
         listingContainer.appendChild(link);

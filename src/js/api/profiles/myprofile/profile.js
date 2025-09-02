@@ -121,7 +121,7 @@ function renderProfile(profile) {
 
   const contentContainer = document.querySelector(".content");
   contentContainer.className =
-    "content-container flex flex-col items-center justify-center mt-40 mb-20";
+    "content-container relative flex flex-col items-center justify-center mt-40 mb-20";
 
     const createListing = document.createElement("button");
     createListing.textContent = "Create Listing +";

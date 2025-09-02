@@ -32,7 +32,7 @@ function renderAllListings(listings) {
     // Proceed to render the listing
     const listingContainer = document.createElement("div");
     listingContainer.className =
-      "container flex flex-col bg-[var(--card-background)] p-4 border-2 border-[var(--main-gold)] rounded-md rounded-md mb-8 ";
+      "container bg-[var(--card-background)] p-4 border-2 border-[var(--main-gold)] rounded-md mb-8 max-w-md";
 
     const title = document.createElement("h1");
     title.className =
@@ -41,7 +41,7 @@ function renderAllListings(listings) {
 
     const seller = document.createElement("a");
     seller.className =
-      "listing-seller text-md font-regular text-[var(--main-blue)] font-['Playfair_Display',serif] mb-4";
+      "listing-seller text-md font-regular text-[var(--main-blue)] font-['Playfair_Display',serif]";
     seller.textContent = `Seller: ${listing.seller.name}`;
     seller.href = `/profile/index.html?id=${listing.seller.name}`;
 
@@ -52,7 +52,7 @@ function renderAllListings(listings) {
     const img = document.createElement("img");
     img.src = imageSrc;
     img.alt = imageAlt;
-    img.className = "listing-image h-48 w-full object-cover";
+    img.className = "listing-image mt-4";
 
     const endsAt = document.createElement("span");
     endsAt.className = "listing-ends-at block mt-2 text-sm text-red-600";
