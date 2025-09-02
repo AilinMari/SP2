@@ -77,9 +77,9 @@ function renderSellerProfile(profile) {
   bannerContainer.className =
     "banner-container w-full h-60 overflow-hidden m-auto w-[100%]";
 
-  if (profile.data.banner && profile.data.banner.url) {
+  if (profile.data.banner?.url) {
     const banner = document.createElement("img");
-    banner.src = profile.data.banner.url;
+    banner.src = profile.data.banner?.url || "";
     banner.alt = `${profile.data.name}'s banner`;
     banner.className = "banner-image object-cover w-screen ";
     bannerContainer.appendChild(banner);
@@ -96,9 +96,9 @@ function renderSellerProfile(profile) {
   name.textContent = profile.data.name;
 
   // Avatar
-  if (profile.data.avatar && profile.data.avatar.url) {
+  if (profile.data.avatar?.url) {
     const avatar = document.createElement("img");
-    avatar.src = profile.data.avatar.url;
+    avatar.src = profile.data.avatar?.url || "";
     avatar.alt = `${profile.data.name}'s avatar`;
     avatar.className =
       "avatar-image absolute left-1/2 bottom-0 translate-x-[-50%] translate-y-1/2 h-50 w-50 object-cover rounded-full border-3 border-[var(--main-gold)] shadow-lg z-10";

@@ -2,24 +2,6 @@ import { AuctionApi } from "../../apiClient";
 
 const auctionApi = new AuctionApi();
 
-// const form = document.getElementById("update-profile-form");
-// if (form) {
-//   form.addEventListener("submit", async (e) => {
-//     e.preventDefault();
-//     const avatar = document.getElementById("avatar-url").value;
-//     const banner = document.getElementById("banner-url").value;
-//     const bio = document.getElementById("bio").value;
-
-//     try {
-//       await auctionApi.updateUserProfile({ avatar, banner, bio });
-//       alert("Profile updated successfully!");
-//       // Optionally reload or redirect
-//       // location.reload();
-//     } catch (error) {
-//       alert("Error updating profile: " + error.message);
-//     }
-//   });
-// }
 
 async function onUpdateProfile(data) {
   try {
@@ -67,3 +49,5 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 });
+
+export { onUpdateProfile };
