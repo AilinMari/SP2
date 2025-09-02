@@ -110,3 +110,14 @@ export async function updateListing() {
 if (listingId) {
   fetchListingData(listingId);
 }
+
+document.addEventListener("DOMContentLoaded", () => {
+  const form = document.getElementById("create-listing-form");
+  if (form) {
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+
+      updateListing();
+    });
+  }
+});

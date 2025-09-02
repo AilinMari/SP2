@@ -337,8 +337,8 @@ export class AuctionApi {
         title,
         description,
         endsAt: endsAt,
-        imageUrl: media,
-        tags: tags,
+        media: Array.isArray(media) ? media : media ? [media] : [],
+        tags: Array.isArray(tags) ? tags : tags ? [tags] : [],
       }),
     };
 
@@ -354,11 +354,20 @@ export class AuctionApi {
    * @param {string} media - The URL of the listing image.
    * @returns {Promise<any>} The updated listing data.
    */
-  async updateListing(listingId, title, description, endsAt, media) {
+  async updateListing(listingId, title, description, endsAt, media, tags) {
     const accessToken = this._getRequiredAccessToken();
 
+    const normalizedMedia = Array.isArray(media) ? media : media ? [media] : [];
+    const normalizedTags = Array.isArray(tags) ? tags : tags ? [tags] : [];
+
     // Prepare the data to send in the request body
-    const data = { title, description, endsAt: endsAt, imageUrl: media };
+    const data = {
+      title,
+      description,
+      endsAt: endsAt,
+      media: normalizedMedia,
+      tags: normalizedTags,
+    };
 
     const options = {
       method: "PUT",
@@ -372,7 +381,7 @@ export class AuctionApi {
 
     // Send the request to the API to update the listing
     return await this._request(
-      `${API_LISTINGS}/${listingId}`, // The listingId is in the URL
+      `${API_LISTINGS}/${listingId}`,
       options,
       "Error updating listing"
     );
