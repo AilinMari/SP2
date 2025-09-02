@@ -126,3 +126,56 @@
     opacity: 0.95;
   }
 }
+
+/* Carousel styles for active listings */
+.active-carousel {
+  width: 100%;
+  max-width: 100%;
+}
+.carousel-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.carousel-track {
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scroll-snap-type: x mandatory;
+  padding: 8px 0;
+}
+.carousel-item {
+  scroll-snap-align: start;
+  background: var(--card-background);
+  border: 1px solid var(--main-gold);
+  border-radius: 8px;
+  padding: 8px;
+  width: 320px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+}
+.carousel-btn {
+  border: 2px solid var(--main-gold);
+  color: var(--main-gold);
+  padding: 8px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 700;
+  
+}
+.carousel-prev {
+  order: 0;
+}
+.carousel-next {
+  order: 2;
+}
+
+@media (max-width: 640px) {
+  .carousel-item {
+    width: 260px;
+  }
+  .carousel-btn {
+    padding: 6px 8px;
+  }
+}

@@ -42,11 +42,11 @@ function renderAllListings(listings) {
     const seller = document.createElement("a");
     seller.className =
       "listing-seller text-md font-regular text-[var(--main-blue)] font-['Playfair_Display',serif]";
-    seller.textContent = `Seller: ${listing.seller.name}`;
-    seller.href = `/profile/index.html?id=${listing.seller.name}`;
+    seller.textContent = `Seller: ${listing.seller?.name || "Unknown"}`;
+    seller.href = `/profile/index.html?id=${listing.seller?.name || ""}`;
 
     const link = document.createElement("a");
-    // fix query string: id=...& _seller=true
+    // fix query string: id=...&_seller=true
     link.href = `/single-listing/index.html?id=${listing.id}&_seller=true`;
 
     const img = document.createElement("img");
@@ -57,8 +57,8 @@ function renderAllListings(listings) {
     const endsAt = document.createElement("span");
     endsAt.className = "listing-ends-at block mt-2 text-sm text-red-600";
     const now = new Date();
-    const endsDate = new Date(listing.endsAt);
-    if (endsDate <= now) {
+    const endsDate = listing.endsAt ? new Date(listing.endsAt) : null;
+    if (!endsDate || endsDate <= now) {
       endsAt.textContent = "Auction ended";
     } else {
       endsAt.textContent = `Ends at: ${endsDate.toLocaleString()}`;
@@ -78,6 +78,90 @@ function renderAllListings(listings) {
   });
 }
 
+function renderActiveCarousel(listings) {
+  // Ensure there's a place to render the carousel above the listings grid
+  const listingsGrid = document.querySelector(".listings-grid");
+  if (!listingsGrid) return;
+
+  // Find or create container
+  let carouselRoot = document.querySelector(".active-carousel");
+  if (!carouselRoot) {
+    carouselRoot = document.createElement("div");
+    carouselRoot.className = "active-carousel mb-6";
+    listingsGrid.parentNode.insertBefore(carouselRoot, listingsGrid);
+  }
+  carouselRoot.innerHTML = "";
+
+  if (!Array.isArray(listings) || listings.length === 0) {
+    return; // nothing to show
+  }
+
+  const wrapper = document.createElement("div");
+  wrapper.className = "carousel-wrapper relative";
+
+  const prev = document.createElement("button");
+  prev.className = "carousel-btn carousel-prev";
+  prev.setAttribute("aria-label", "Previous");
+  prev.textContent = "<";
+
+  const next = document.createElement("button");
+  next.className = "carousel-btn carousel-next";
+  next.setAttribute("aria-label", "Next");
+  next.textContent = ">";
+
+  const track = document.createElement("div");
+  track.className = "carousel-track flex gap-4 overflow-x-auto scroll-smooth";
+  track.style.scrollSnapType = "x mandatory";
+
+  listings.forEach((listing) => {
+    const item = document.createElement("div");
+    item.className =
+      "carousel-item flex-shrink-0 scroll-snap-align-start w-[320px]";
+
+    const imageSrc =
+      listing.media && Array.isArray(listing.media) && listing.media[0]?.url
+        ? listing.media[0].url
+        : "/src/images/GoldenBid-icon.png";
+    const img = document.createElement("img");
+    img.src = imageSrc;
+    img.alt = listing.title || "Listing image";
+    img.className = "w-full h-40 object-cover rounded";
+
+    const title = document.createElement("h3");
+    title.className = "mt-2 text-lg font-semibold text-[var(--main-blue)]";
+    title.textContent = listing.title;
+
+    const seller = document.createElement("div");
+    seller.className = "text-sm text-[var(--main-blue)]";
+    seller.textContent = `Seller: ${listing.seller?.name || "Unknown"}`;
+
+    const link = document.createElement("a");
+    link.href = `/single-listing/index.html?id=${listing.id}&_seller=true`;
+    link.appendChild(img);
+
+    item.appendChild(link);
+    item.appendChild(title);
+    item.appendChild(seller);
+    track.appendChild(item);
+  });
+
+  wrapper.appendChild(prev);
+  wrapper.appendChild(track);
+  wrapper.appendChild(next);
+  carouselRoot.appendChild(wrapper);
+
+  // Scroll behavior: move by item width
+  function scrollBy(direction) {
+    const card = track.querySelector(".carousel-item");
+    if (!card) return;
+    const width = card.getBoundingClientRect().width + 16; // include gap
+    track.scrollBy({ left: direction * width, behavior: "smooth" });
+  }
+
+  prev.addEventListener("click", () => scrollBy(-1));
+  next.addEventListener("click", () => scrollBy(1));
+}
+
 let allListings = [];
 
 async function handleListingsView() {
@@ -85,14 +169,18 @@ async function handleListingsView() {
   if (!Array.isArray(allListings)) allListings = [];
   // Default: show active listings (endsAt in future) first
   const now = new Date();
-  allListings.sort((a, b) => {
-    const aActive = a.endsAt ? new Date(a.endsAt) > now : false;
-    const bActive = b.endsAt ? new Date(b.endsAt) > now : false;
-    if (aActive === bActive) return 0;
-    return aActive ? -1 : 1;
+  // Partition: active listings (endsAt in future) vs others
+  const active = [];
+  const others = [];
+  allListings.forEach((l) => {
+    const ends = l.endsAt ? new Date(l.endsAt) : null;
+    if (ends && ends > now) active.push(l);
+    else others.push(l);
   });
 
-  renderAllListings(allListings);
+  // Render active carousel first (if any), then the other listings in the grid
+  if (active.length) renderActiveCarousel(active);
+  renderAllListings(others.length ? others : active);
 }
 
 handleListingsView();
