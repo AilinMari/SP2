@@ -318,11 +318,12 @@ export class AuctionApi {
    * Creates a new listing.
    * @param {string} title - The title of the listing.
    * @param {string} description - The description of the listing.
-   * @param {number} endsAt - The starting bid amount.
+   * @param {number} endsAt - The ending date and time of the listing.
    * @param {string} media - The URL of the listing image.
+   * @param {string} tags - The tags associated with the listing.
    * @returns {Promise<any>} The created listing data.
    */
-  async createListing(title, description, endsAt, media) {
+  async createListing(title, description, endsAt, media, tags) {
     const accessToken = this._getRequiredAccessToken();
 
     const options = {
@@ -337,6 +338,7 @@ export class AuctionApi {
         description,
         endsAt: endsAt,
         imageUrl: media,
+        tags: tags,
       }),
     };
 
