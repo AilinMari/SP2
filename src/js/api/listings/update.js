@@ -70,8 +70,9 @@ export async function updateListing() {
   // Convert tags into an array
   const tags = tagsInput ? tagsInput.split(",").map((tag) => tag.trim()) : [];
 
-  // Create media object
-  const media = imageUrl ? { url: imageUrl, alt: imageAlt } : null;
+  // Create media object and normalize into an array (api expects array)
+  const mediaObj = imageUrl ? { url: imageUrl, alt: imageAlt } : null;
+  const media = mediaObj ? [mediaObj] : [];
 
   if (!endsAt) {
     alert("Please provide an end date/time for the listing.");
@@ -92,11 +93,13 @@ export async function updateListing() {
       title,
       body,
       endsAtIso,
-      media
+      media,
+      tags
     );
 
-    // Redirect to the updated listing page
-    window.location.href = "/listing/?id=" + updatedListing.data.id;
+    // Redirect to the updated listing page (use returned id if available)
+    const id = updatedListing?.data?.id || listingId;
+    window.location.href = `/single-listing/index.html?id=${id}&_seller=true`;
   } catch (error) {
     console.error("Error updating listing:", error);
     alert("Failed to update listing. Please try again.");

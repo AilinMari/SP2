@@ -62,7 +62,7 @@ if (form) {
       );
 
       // Redirect to the new listing page (use absolute path)
-      window.location.href = "/listing/?id=" + createdListing.data.id;
+      window.location.href = `/single-listing/index.html?id=${createdListing.data.id}&_seller=true`;
     } catch (error) {
       console.error("Error creating listing:", error);
       alert("Failed to create listing. Please try again.");

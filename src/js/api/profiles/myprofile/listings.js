@@ -30,7 +30,7 @@ function renderAllListings(listings) {
     title.textContent = listing.title;
 
     const link = document.createElement("a");
-    link.href = `/single-listing/index.html?id=${listing.id}?_seller=true`;
+    link.href = `/single-listing/index.html?id=${listing.id}&_seller=true`;
 
     const bidContainer = document.createElement("div");
     bidContainer.className = "listing-bid-container mt-4";
