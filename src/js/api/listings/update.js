@@ -19,7 +19,17 @@ async function fetchListingData(listingId) {
 function populateFormFields(listing) {
   document.getElementById("listing-title").value = listing.title;
   document.getElementById("listing-body").value = listing.description;
-  document.getElementById("listing-ends-at").value = listing.endsAt;
+  // Convert ISO endsAt to datetime-local value (YYYY-MM-DDTHH:MM)
+  if (listing.endsAt) {
+    const d = new Date(listing.endsAt);
+    const pad = (n) => String(n).padStart(2, "0");
+    const local = `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(
+      d.getDate()
+    )}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
+    document.getElementById("listing-ends-at").value = local;
+  } else {
+    document.getElementById("listing-ends-at").value = "";
+  }
   document.getElementById("listing-tags").value = listing.tags.join(", ");
   if (listing.media[0]) {
     document.getElementById("listing-image-url").value =
@@ -30,7 +40,6 @@ function populateFormFields(listing) {
   document.getElementById("listing-tags").value = listing.tags
     ? listing.tags.join(", ")
     : "";
-
 }
 
 export async function updateListing() {
@@ -82,13 +91,12 @@ export async function updateListing() {
       listingId,
       title,
       body,
-      tags,
-      media,
-      endsAtIso
+      endsAtIso,
+      media
     );
 
     // Redirect to the updated listing page
-    window.location.href = repoUrl + "/listing/?id=" + updatedListing.data.id;
+    window.location.href = "/listing/?id=" + updatedListing.data.id;
   } catch (error) {
     console.error("Error updating listing:", error);
     alert("Failed to update listing. Please try again.");
