@@ -330,17 +330,40 @@ export class AuctionApi {
       if (accessToken) {
         options.headers["Authorization"] = `Bearer ${accessToken}`;
       }
-      return await this._request(
-        url.toString(),
-        options,
-        "Error placing bid"
-      );
+      return await this._request(url.toString(), options, "Error placing bid");
     } catch (error) {
       console.error(error);
       throw error;
     }
   }
 
+  /**
+   * Fetches bids for a user profile.
+   * @param {string} name - The user's name.
+   * @returns {Promise<any>} User data.
+   */
+
+  async getBidsByProfile(name) {
+    const accessToken = this._getRequiredAccessToken();
+    const url = new URL(`${API_PROFILES}/${name}/bids`);
+    url.searchParams.append("_bids", "true");
+    url.searchParams.append("_seller", "true");
+    url.searchParams.append("_listings", "true");
+
+    const options = {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
+        "X-Noroff-API-Key": `${API_KEY}`, // Include the API key
+      },
+    };
+    return await this._request(
+      url.toString(),
+      options,
+      "Error fetching bids by profile"
+    );
+  }
 
   /**
    * Creates a new listing.

@@ -143,9 +143,15 @@ function renderActiveCarousel(listings) {
 
     const latestBid = document.createElement("div");
     latestBid.className = "listing-latest-bid mt-2 text-sm text-green-600";
-    latestBid.textContent = `Latest bid: $${
-      listing.bids ? listing.bids[0].amount : 0
-    }`;
+    let latestBidAmount = 0;
+    if (listing.bids && listing.bids.length > 0) {
+      // Find the bid with the latest created date
+      const latest = listing.bids.reduce((max, bid) => {
+      return new Date(bid.created) > new Date(max.created) ? bid : max;
+      }, listing.bids[0]);
+      latestBidAmount = latest.amount;
+    }
+    latestBid.textContent = `Latest bid: $${latestBidAmount}`;
 
     const joinBidding = document.createElement("button");
     joinBidding.className =

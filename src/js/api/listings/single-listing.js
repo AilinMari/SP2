@@ -125,6 +125,7 @@ function renderSingleListing(listingId) {
       allBids.forEach((bid) => {
         const bidItem = document.createElement("li");
         bidItem.className = "listing-bid-item";
+        const bidDate = new Date(bid.created);
         bidItem.textContent = `Bidder: ${bid.bidder.name} - Bid: ${bid.amount} Credits`;
         bidsList.appendChild(bidItem);
       });
@@ -138,6 +139,7 @@ function renderSingleListing(listingId) {
       lastThreeBids.forEach((bid) => {
         const bidItem = document.createElement("li");
         bidItem.className = "listing-bid-item";
+        const bidDate = new Date(bid.created);
         bidItem.textContent = `Bidder: ${bid.bidder.name} - Bid: ${bid.amount} Credits`;
         bidsList.appendChild(bidItem);
       });

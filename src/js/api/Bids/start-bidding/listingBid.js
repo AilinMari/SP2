@@ -125,7 +125,7 @@ function renderSingleListing(listing) {
       }
     } catch (err) {
       console.error("Bid error", err);
-      msg.textContent = `Failed to place bid: ${err.message || err}`;
+      msg.textContent = `Failed to place bid: you can not bid on your own listing.`;
       msg.style.color = "red";
       bidBtn.disabled = false;
       bidBtn.textContent = "Place bid";
