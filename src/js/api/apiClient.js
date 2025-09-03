@@ -365,6 +365,34 @@ export class AuctionApi {
     );
   }
 
+    /**
+   * Fetches wins for a user profile.
+   * @param {string} name - The user's name.
+   * @returns {Promise<any>} User data.
+   */
+
+  async getWinsByProfile(name) {
+    const accessToken = this._getRequiredAccessToken();
+    const url = new URL(`${API_PROFILES}/${name}/wins`);
+    url.searchParams.append("_bids", "true");
+    url.searchParams.append("_seller", "true");
+    url.searchParams.append("_listings", "true");
+
+    const options = {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
+        "X-Noroff-API-Key": `${API_KEY}`, // Include the API key
+      },
+    };
+    return await this._request(
+      url.toString(),
+      options,
+      "Error fetching bids by profile"
+    );
+  }
+
   /**
    * Creates a new listing.
    * @param {string} title - The title of the listing.
