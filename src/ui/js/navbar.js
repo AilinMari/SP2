@@ -29,6 +29,7 @@ if (token) {
   homeLink.style.display = "none";
   profileLink.style.display = "none";
   myBidsLink.style.display = "none";
+
 }
 
 // Add a hamburger button for small screens and toggle mobile menu

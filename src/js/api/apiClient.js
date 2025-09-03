@@ -314,6 +314,34 @@ export class AuctionApi {
     }
   }
 
+  async bidOnListing(listingId, bidAmount) {
+    try {
+      const url = new URL(`${API_LISTINGS}/${listingId}/bids`);
+      const options = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-Noroff-API-Key": `${API_KEY}`,
+        },
+        body: JSON.stringify({ amount: bidAmount }),
+      };
+      // If logged in, add Authorization header
+      const accessToken = localStorage.getItem("token");
+      if (accessToken) {
+        options.headers["Authorization"] = `Bearer ${accessToken}`;
+      }
+      return await this._request(
+        url.toString(),
+        options,
+        "Error placing bid"
+      );
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  }
+
+
   /**
    * Creates a new listing.
    * @param {string} title - The title of the listing.
