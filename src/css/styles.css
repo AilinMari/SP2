@@ -187,3 +187,25 @@ input[type="submit"],
     padding: 6px 8px;
   }
 }
+
+/* Profile-specific: center the carousel when we reuse the .user-listings container */
+.user-listings.profile-active-carousel,
+.user-listings.active-carousel {
+  display: flex !important;
+  justify-content: center;
+  align-items: center;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.user-listings.profile-active-carousel .carousel-wrapper,
+.user-listings.active-carousel .carousel-wrapper {
+  width: 100%;
+  max-width: 1180px; /* keep the carousel centered and prevent full-bleed */
+}
+
+.user-listings.profile-active-carousel .carousel-track,
+.user-listings.active-carousel .carousel-track {
+  padding-left: 12px;
+  padding-right: 12px;
+}
