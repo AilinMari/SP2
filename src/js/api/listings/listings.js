@@ -138,16 +138,31 @@ function renderActiveCarousel(listings) {
     const link = document.createElement("a");
     link.href = `/single-listing/index.html?id=${listing.id}&_seller=true`;
 
+    const bidContainer = document.createElement("div");
+    bidContainer.className = "listing-bids-container mt-2 flex justify-between";
+
     const latestBid = document.createElement("div");
     latestBid.className = "listing-latest-bid mt-2 text-sm text-green-600";
-    latestBid.textContent = `Latest bid: $${listing.bids ? listing.bids[0].amount : 0}`;
+    latestBid.textContent = `Latest bid: $${
+      listing.bids ? listing.bids[0].amount : 0
+    }`;
+
+    const joinBidding = document.createElement("button");
+    joinBidding.className =
+      "join-bidding mt-2 text-sm bg-[var(--main-gold)] text-[var(--main-blue)] py-1 px-2 rounded font-semibold font-([inter, sans-serif])  hover:bg-yellow-500";
+    joinBidding.textContent = "Start bidding now";
+    joinBidding.addEventListener("click", () => {
+      window.location.href = `/auth/my-bids/bidding/index.html?id=${listing.id}&_seller=true`;
+    });
 
     link.appendChild(img);
 
     item.appendChild(link);
-    item.appendChild(title);
+    link.appendChild(title);
     item.appendChild(seller);
-    item.appendChild(latestBid);
+    bidContainer.appendChild(latestBid);
+    item.appendChild(bidContainer);
+    bidContainer.appendChild(joinBidding);
     track.appendChild(item);
   });
 

@@ -46,14 +46,23 @@ function renderSingleListing(listingId) {
   description.className =
     "listing-description text-sm text-[var(--text-color)] font-['Inter',sans-serif] mt-4 border-b-[1px] border-b-[var(--main-gold)] ax-w-full overflow-hidden text-ellipsis";
 
-  const seller = document.createElement("p");
+  const seller = document.createElement("a");
   const sellerName = listingId.data?.seller?.name || "Unknown seller";
   seller.textContent = `Seller: ${sellerName}`;
   seller.className =
     "listing-seller text-lg text-[var(--text-color)] font-['Playfair_Display',serif] mt-4";
+  seller.href = `/profile/index.html?id=${sellerName}`;
 
   const bidContainer = document.createElement("div");
   bidContainer.className = "listing-bid-container mt-4";
+
+  const joinBidding = document.createElement("button");
+  joinBidding.className =
+    "join-bidding mt-2 px-4 py-2 bg-[var(--main-gold)] text-[var(--main-blue)] hover:bg-yellow-500 rounded font-semibold font-([inter, sans-serif]) float-right";
+  joinBidding.textContent = "Start bidding now";
+  joinBidding.addEventListener("click", () => {
+    window.location.href = `/auth/my-bids/bidding/index.html?id=${listingId}&_seller=true`;
+  });
 
   const endsAt = document.createElement("span");
   endsAt.className = "listing-ends-at block mt-2 text-sm text-red-600";
@@ -91,12 +100,12 @@ function renderSingleListing(listingId) {
     seeOlderBtn = document.createElement("button");
     seeOlderBtn.textContent = "See older bids";
     seeOlderBtn.className =
-      "see-older-bids-btn mt-2 px-4 py-2 bg-[var(--main-gold)] text-[var(--main-blue)] rounded hover:bg-yellow-500";
+      "see-older-bids-btn mt-2 px-4 py-2 bg-[var(--main-gold)] text-[var(--main-blue)] rounded hover:bg-yellow-500 font-([inter, sans-serif])";
 
     hideOlderBtn = document.createElement("button");
     hideOlderBtn.textContent = "Hide older bids";
     hideOlderBtn.className =
-      "hide-older-bids-btn mt-2 px-4 py-2 bg-[var(--main-blue)] text-[var(--main-gold)] rounded hover:bg-blue-700";
+      "hide-older-bids-btn mt-2 px-4 py-2 bg-[var(--main-blue)] text-[var(--main-gold)] rounded hover:bg-blue-700 font-([inter, sans-serif])";
     hideOlderBtn.style.display = "none";
 
     seeOlderBtn.addEventListener("click", () => {
@@ -135,6 +144,7 @@ function renderSingleListing(listingId) {
   bidContainer.appendChild(bidsList);
   if (seeOlderBtn) bidContainer.appendChild(seeOlderBtn);
   if (hideOlderBtn) bidContainer.appendChild(hideOlderBtn);
+  bidContainer.appendChild(joinBidding);
   listingContainer.appendChild(bidContainer);
 }
 
