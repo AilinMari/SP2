@@ -137,11 +137,17 @@ function renderActiveCarousel(listings) {
 
     const link = document.createElement("a");
     link.href = `/single-listing/index.html?id=${listing.id}&_seller=true`;
+
+    const latestBid = document.createElement("div");
+    latestBid.className = "listing-latest-bid mt-2 text-sm text-green-600";
+    latestBid.textContent = `Latest bid: $${listing.bids ? listing.bids[0].amount : 0}`;
+
     link.appendChild(img);
 
     item.appendChild(link);
     item.appendChild(title);
     item.appendChild(seller);
+    item.appendChild(latestBid);
     track.appendChild(item);
   });
 
