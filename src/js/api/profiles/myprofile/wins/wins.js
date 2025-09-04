@@ -1,4 +1,4 @@
-import { AuctionApi } from "../../apiClient.js";
+import { AuctionApi } from "../../../apiClient.js";
 
 const auctionApi = new AuctionApi();
 
