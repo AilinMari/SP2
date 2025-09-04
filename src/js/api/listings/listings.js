@@ -32,7 +32,7 @@ function renderAllListings(listings) {
     // Proceed to render the listing
     const listingContainer = document.createElement("div");
     listingContainer.className =
-      "container bg-[var(--card-background)] p-4 border-2 border-[var(--main-gold)] rounded-md mb-8 max-w-md";
+      "container bg-[var(--card-background)] p-4 border-2 border-[var(--main-gold)] rounded-md mb-8 max-w-md max-h-150 overflow-hidden";
 
     const title = document.createElement("h1");
     title.className =
@@ -52,7 +52,7 @@ function renderAllListings(listings) {
     const img = document.createElement("img");
     img.src = imageSrc;
     img.alt = imageAlt;
-    img.className = "listing-image mt-4";
+    img.className = "listing-image mt-4 object-cover object-top w-full h-100";
 
     const endsAt = document.createElement("span");
     endsAt.className = "listing-ends-at block mt-2 text-sm text-red-600";
@@ -147,7 +147,7 @@ function renderActiveCarousel(listings) {
     if (listing.bids && listing.bids.length > 0) {
       // Find the bid with the latest created date
       const latest = listing.bids.reduce((max, bid) => {
-      return new Date(bid.created) > new Date(max.created) ? bid : max;
+        return new Date(bid.created) > new Date(max.created) ? bid : max;
       }, listing.bids[0]);
       latestBidAmount = latest.amount;
     }
