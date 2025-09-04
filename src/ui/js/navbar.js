@@ -12,7 +12,7 @@ const or = document.querySelector(".or");
 const logoutButton = document.querySelector("#logout");
 const homeLink = document.querySelector(".home");
 const profileLink = document.querySelector(".profile");
-const myBidsLink = document.querySelector(".my-bids");
+
 
 if (token) {
   loginLink.style.display = "none";
@@ -21,14 +21,14 @@ if (token) {
   logoutButton.style.display = "block";
   homeLink.style.display = "block";
   profileLink.style.display = "block";
-  myBidsLink.style.display = "block";
+
 } else {
   loginLink.style.display = "block";
   signUpLink.style.display = "block";
   logoutButton.style.display = "none";
   homeLink.style.display = "none";
   profileLink.style.display = "none";
-  myBidsLink.style.display = "none";
+
 
 }
 
@@ -54,8 +54,6 @@ try {
     // Helpers for focus trap and keyboard handling
     const navLinks = navbarEl.querySelector(".nav-links");
 
-    // Robust mobile injection: add/remove simple mobile-only auth controls
-    // and react to breakpoint changes so resizing doesn't duplicate elements.
     try {
       const isLoggedIn = Boolean(token);
       const mql = window.matchMedia("(max-width: 768px)");

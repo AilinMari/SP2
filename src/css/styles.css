@@ -33,14 +33,14 @@ input[type="submit"],
 }
 .hamburger-btn .line {
   display: block;
-  width: 22px;
-  height: 2px;
+  width: 26px;
+  height: 2.5px;
   background: var(--main-gold);
-  margin: 4px 0;
+  margin: 6px 0;
   transition: transform 240ms ease, opacity 240ms ease;
 }
 .hamburger-btn.open .line1 {
-  transform: translateY(6px) rotate(45deg);
+  transform: translateY(11px) rotate(45deg);
 }
 .hamburger-btn.open .line2 {
   opacity: 0;
