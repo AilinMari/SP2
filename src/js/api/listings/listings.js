@@ -20,11 +20,10 @@ function renderAllListings(listings) {
 
   listings.forEach((listing) => {
     // Render all listings. If no media is present, use a placeholder image.
-    const rawImage =
+    const imageSrc =
       listing.media && Array.isArray(listing.media) && listing.media[0]?.url
         ? listing.media[0].url
         : "/src/images/GoldenBid-icon.png"; // fallback placeholder
-    const imageSrc = rewriteImageForDev(rawImage);
     const imageAlt =
       listing.media && listing.media[0]?.alt
         ? listing.media[0].alt
@@ -119,11 +118,10 @@ function renderActiveCarousel(listings) {
     item.className =
       "carousel-item flex-shrink-0 scroll-snap-align-start w-[320px]";
 
-    const rawImage =
+    const imageSrc =
       listing.media && Array.isArray(listing.media) && listing.media[0]?.url
         ? listing.media[0].url
         : "/src/images/GoldenBid-icon.png";
-    const imageSrc = rewriteImageForDev(rawImage);
     const img = document.createElement("img");
     img.src = imageSrc;
     img.alt = listing.title || "Listing image";
@@ -191,27 +189,6 @@ function renderActiveCarousel(listings) {
   next.addEventListener("click", () => scrollBy(1));
 }
 
-// Rewrite an external image URL to go through the dev server proxy so the
-// browser treats it as same-origin during development. Leaves data: URIs and
-// same-origin URLs unchanged.
-function rewriteImageForDev(url) {
-  try {
-    if (!url || typeof url !== "string") return url;
-    if (url.startsWith("data:image/")) return url;
-    // relative URLs or same-origin: leave as-is
-    const parsed = new URL(
-      url,
-      typeof location !== "undefined" ? location.href : undefined
-    );
-    if (typeof location !== "undefined" && parsed.origin === location.origin)
-      return url;
-    // otherwise route through dev proxy
-    return `/api/image-proxy?url=${encodeURIComponent(parsed.href)}`;
-  } catch (e) {
-    return url;
-  }
-}
-
 let allListings = [];
 
 async function handleListingsView() {
@@ -219,9 +196,12 @@ async function handleListingsView() {
   const listingsGrid = document.querySelector(".listings-grid");
   if (listingsGrid) listingsGrid.innerHTML = "<p>Loading listings...</p>";
 
-  // Fetch all pages but let the API client handle throttling and media filtering
-  allListings = await auctionApi.getAllListingsAll({ limit: 100 });
-  if (!Array.isArray(allListings)) allListings = [];
+  // fetch all pages and aggregate results
+  if (typeof auctionApi.getAllListingsAll === "function") {
+    allListings = await auctionApi.getAllListingsAll({ limit: 100 });
+  } else {
+    allListings = await auctionApi.getAllListings();
+  }
   if (!Array.isArray(allListings)) allListings = [];
   // Sort by created date descending so newest listings appear first
   allListings.sort((a, b) => new Date(b.created) - new Date(a.created));
