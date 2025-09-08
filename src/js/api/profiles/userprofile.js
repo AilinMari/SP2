@@ -51,7 +51,7 @@ function showLoginPopup() {
     "px-6 py-2 bg-[var(--main-gold)] text-[var(--main-blue)] rounded font-semibold hover:bg-yellow-500";
   loginBtn.textContent = "Go to Login";
   loginBtn.onclick = () => {
-    window.location.href = "/auth/login/index.html";
+    window.location.href = "/login.html";
   };
 
   modalContent.appendChild(message);

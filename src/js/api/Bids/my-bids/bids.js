@@ -65,7 +65,7 @@ async function fetchMyBids() {
       const listingId =
         bid?.listing?.id || bid?.listing?._id || bid?.listingId || "";
       link.href = listingId
-        ? `/single-listing/index.html?id=${listingId}&_seller=true`
+        ? `/singleListing.html?id=${listingId}&_seller=true`
         : "#";
 
       const imageSrc =

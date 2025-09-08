@@ -31,7 +31,7 @@ function renderAllListings(listings) {
     title.textContent = listing.title;
 
     const link = document.createElement("a");
-    link.href = `/single-listing/index.html?id=${listing.id}&_seller=true`;
+    link.href = `/singleListing.html?id=${listing.id}&_seller=true`;
     link.appendChild(title);
     // Render image if available
     if (

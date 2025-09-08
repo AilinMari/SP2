@@ -76,12 +76,12 @@ try {
           authWrap.className = "mobile-auth";
           const loginA = document.createElement("a");
           loginA.className = "mobile-clone";
-          loginA.href = "/auth/login/index.html";
+          loginA.href = "login.html";
           loginA.textContent = "Login";
           authWrap.appendChild(loginA);
           const signA = document.createElement("a");
           signA.className = "mobile-clone";
-          signA.href = "/auth/register/index.html";
+          signA.href = "register.html";
           signA.textContent = "Sign up";
           authWrap.appendChild(signA);
           navLinks.appendChild(authWrap);

@@ -46,7 +46,7 @@ export async function updateListing() {
   const token = localStorage.getItem("token");
   if (!token) {
     alert("You must be logged in to update a listing.");
-    window.location.href = "/auth/login/index.html"; // Redirect to login page
+    window.location.href = "/login.html"; // Redirect to login page
     return;
   }
 
@@ -99,7 +99,7 @@ export async function updateListing() {
 
     // Redirect to the updated listing page (use returned id if available)
     const id = updatedListing?.data?.id || listingId;
-    window.location.href = `/single-listing/index.html?id=${id}&_seller=true`;
+    window.location.href = `/singleListing.html?id=${id}&_seller=true`;
   } catch (error) {
     console.error("Error updating listing:", error);
     alert("Failed to update listing. Please try again.");

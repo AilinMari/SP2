@@ -65,7 +65,7 @@ async function fetchMyWins() {
       const listingId =
         win?.listing?.id || win?.listing?._id || win?.listingId || "";
       link.href = listingId
-        ? `/single-listing/index.html?id=${listingId}&_seller=true`
+        ? `/singleListing.html?id=${listingId}&_seller=true`
         : "#";
 
       const imageSrc =
@@ -79,7 +79,6 @@ async function fetchMyWins() {
       title.className = "mt-2 text-lg font-semibold text-[var(--main-blue)]";
       title.textContent = win?.listing?.title || "Untitled";
 
-     
       const bidContainerInner = document.createElement("div");
       bidContainerInner.className =
         "listing-bids-container mt-2 flex justify-between";

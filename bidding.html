@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Profile</title>
+    <title>Bidding</title>
     <link rel="stylesheet" href="/src/css/styles.css" />
     <link
       href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap"
@@ -20,7 +20,7 @@
       ></div>
     </div>
     <nav
-      class="mt-6 mb-10 lg:mt-10 bg-[var(--main-blue)] border-b-3 border-t-3 border-[var(--main-gold)]"
+      class="mt-6 lg:mt-10 bg-[var(--main-blue)] border-b-3 border-t-3 border-[var(--main-gold)]"
     >
       <div class="navbar grid grid-cols-[4fr_3fr_1fr]">
         <a href="/index.html">
@@ -38,15 +38,14 @@
             >Home</a
           >
           <a
-            href="/auth/profile/index.html"
+            href="/myProfile.html"
             class="profile flex text-lg md:text-xl text-[var(--navbar-text)] flex-col items-center justify-center font-['Playfair_Display',serif]"
             >Profile</a
           >
-
         </div>
         <div class="login-or-reg flex flex-col items-center justify-center">
           <a
-            href="/auth/login/index.html"
+            href="/login.html"
             class="login-link text-lg md:text-xl text-[var(--navbar-text)] pt-1 pb-1 px-3 border-2 border-[var(--main-gold)] rounded-md w-fit font-['Playfair_Display',serif] active:bg-[image:var(--gold-gradient)] active:text-[var(--main-blue)] active:shadow-inner"
             >Login</a
           >
@@ -55,7 +54,7 @@
             >or</span
           >
           <a
-            href="/auth/register/index.html"
+            href="/register.html"
             class="sign-up text-l text-[var(--navbar-text)] font-['Playfair_Display',serif]"
             >Sign up</a
           >
@@ -69,19 +68,21 @@
         </div>
       </div>
     </nav>
-    <main class="flex justify-center items-center flex-col h-full mt-auto">
-      <div class="profile-container max-h-60"></div>
-
-      <div id="app"></div>
-      <script type="module" src="/src/js/main.js"></script>
-      <script type="module" src="/src/ui/js/logout.js"></script>
-      <script type="module" src="/src/ui/js/navbar.js"></script>
-      <script type="module" src="/src/js/api/profiles/userprofile.js"></script>
-      <script type="module" src="/src/js/api/profiles/listings.js"></script>
-      <div class="content"></div>
+    <main class="flex justify-center items-center h-full mt-auto">
       <div
-        class="user-listings grid lg:grid-cols-2 lg:gap-10 sm:grid-cols-1"
-      ></div>
+        class="content bg-[var(--card-background)] border-2 border-[var(--main-gold)] rounded-md pt-10 pb-10 px-15 m-20"
+      >
+        <div class="listing-container"></div>
+        <div class="bidding-container"></div>
+        <div id="app"></div>
+        <script type="module" src="/src/js/main.js"></script>
+        <script type="module" src="/src/ui/js/logout.js"></script>
+        <script type="module" src="/src/ui/js/navbar.js"></script>
+        <script
+          type="module"
+          src="/src/js/api/Bids/start-bidding/listingBid.js"
+        ></script>
+      </div>
     </main>
     <footer
       class="bg-[var(--main-blue)] h-30 mt-auto border-b-3 border-t-3 border-[var(--main-gold)]"

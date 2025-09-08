@@ -146,7 +146,7 @@ function renderActiveCarousel(listings) {
       : null;
 
     const link = document.createElement("a");
-    link.href = `/single-listing/index.html?id=${listing.id}&_seller=true`;
+    link.href = `/singleListing.html?id=${listing.id}&_seller=true`;
 
     const title = document.createElement("h1");
     title.className =
@@ -186,7 +186,7 @@ function renderActiveCarousel(listings) {
       "listing-update-btn cursor-pointer border-3 border-[var(--main-gold)] shadow-lg z-10 px-2 py-1 rounded-md font-['Playfair_Display',serif] text-sm bg-[var(--main-blue)] text-[var(--main-gold)]";
     updateBtn.textContent = "Update Listing";
     updateBtn.addEventListener("click", () => {
-      window.location.href = `/auth/listings/update/index.html?id=${listing.id}`;
+      window.location.href = `/updateListing.html?id=${listing.id}`;
     });
 
     // assemble in one place

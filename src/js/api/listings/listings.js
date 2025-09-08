@@ -43,11 +43,11 @@ function renderAllListings(listings) {
     seller.className =
       "listing-seller text-md font-regular text-[var(--main-blue)] font-['Playfair_Display',serif]";
     seller.textContent = `Seller: ${listing.seller?.name || "Unknown"}`;
-    seller.href = `/profile/index.html?id=${listing.seller?.name || ""}`;
+    seller.href = `/sellerProfile?id=${listing.seller?.name || ""}`;
 
     const link = document.createElement("a");
     // fix query string: id=...&_seller=true
-    link.href = `/single-listing/index.html?id=${listing.id}&_seller=true`;
+    link.href = `/singleListing.html?id=${listing.id}&_seller=true`;
 
     const img = document.createElement("img");
     img.src = imageSrc;
@@ -136,7 +136,7 @@ function renderActiveCarousel(listings) {
     seller.textContent = `Seller: ${listing.seller?.name || "Unknown"}`;
 
     const link = document.createElement("a");
-    link.href = `/single-listing/index.html?id=${listing.id}&_seller=true`;
+    link.href = `/singleListing.html?id=${listing.id}&_seller=true`;
 
     const bidContainer = document.createElement("div");
     bidContainer.className = "listing-bids-container mt-2 flex justify-between";
@@ -158,7 +158,7 @@ function renderActiveCarousel(listings) {
       "join-bidding mt-2 text-sm bg-[var(--main-gold)] text-[var(--main-blue)] py-1 px-2 rounded font-semibold font-([inter, sans-serif])  hover:bg-yellow-500";
     joinBidding.textContent = "Start bidding now";
     joinBidding.addEventListener("click", () => {
-      window.location.href = `/auth/my-bids/bidding/index.html?id=${listing.id}&_seller=true`;
+      window.location.href = `/bidding.html?id=${listing.id}&_seller=true`;
     });
 
     link.appendChild(img);

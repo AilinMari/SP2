@@ -37,25 +37,26 @@ document.addEventListener("DOMContentLoaded", () => {
     .addEventListener("submit", async (event) => {
       event.preventDefault();
 
-    const name = document.getElementById("full-name").value;
-    const email = document.getElementById("email").value;
-    const password = document.getElementById("password").value;
+      const name = document.getElementById("full-name").value;
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
 
-    try {
-      await register({ name, email, password });
-      // Redirect to login page after successful registration//
-      console.log("Registration successful");
-      console.log("Registered user:", { name, email });
-    //   window.location.href = "/";
-    } catch (error) {
-      // Display error message to the user
-      console.error("Registration error:", error);
-    //   const registerFailed = document.querySelector(".registerFailed");
-      if (registerFailed) {
-        registerFailed.textContent =
-          error.message || "Registration failed. Please try again.";
-        registerFailed.style.color = "red";
+      try {
+        await register({ name, email, password });
+        // Redirect to login page after successful registration//
+        window.location.href = "/login.html";
+        console.log("Registration successful");
+        console.log("Registered user:", { name, email });
+        //   window.location.href = "/";
+      } catch (error) {
+        // Display error message to the user
+        console.error("Registration error:", error);
+        //   const registerFailed = document.querySelector(".registerFailed");
+        if (registerFailed) {
+          registerFailed.textContent =
+            error.message || "Registration failed. Please try again.";
+          registerFailed.style.color = "red";
+        }
       }
-    }
-  });
+    });
 });

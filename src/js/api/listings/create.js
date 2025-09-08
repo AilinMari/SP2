@@ -6,7 +6,7 @@ export async function createPost() {
   const token = localStorage.getItem("token");
   if (!token) {
     alert("You must be logged in to create a listing.");
-    window.location.href = "/auth/login/index.html";
+    window.location.href = "/login.html";
     return;
   }
 
@@ -14,7 +14,7 @@ export async function createPost() {
   const user = await auctionApi.getUserProfile(token);
   if (!user) {
     alert("You must be logged in to create a listing.");
-    window.location.href = "/auth/login/index.html";
+    window.location.href = "/login.html";
     return;
   }
 }
@@ -62,7 +62,7 @@ if (form) {
       );
 
       // Redirect to the new listing page (use absolute path)
-      window.location.href = `/single-listing/index.html?id=${createdListing.data.id}&_seller=true`;
+      window.location.href = `/singleListing.html?id=${createdListing.data.id}&_seller=true`;
     } catch (error) {
       console.error("Error creating listing:", error);
       alert("Failed to create listing. Please try again.");

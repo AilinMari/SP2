@@ -52,7 +52,7 @@ function renderSingleListing(listing) {
   seller.textContent = `Seller: ${sellerName}`;
   seller.className =
     "listing-seller text-lg text-[var(--text-color)] font-['Playfair_Display',serif] mt-4";
-  seller.href = `/profile/index.html?id=${sellerName}`;
+  seller.href = `/sellerProfile.html?id=${sellerName}`;
 
   const bidContainer = document.createElement("div");
   bidContainer.className = "listing-bid-container mt-4";
@@ -118,7 +118,7 @@ function renderSingleListing(listing) {
       // Redirect to the bidding index page for this listing
       const listingIdValue = listing.data?.id || listing.data?._id || "";
       if (listingIdValue) {
-        window.location.href = `/auth/my-bids/bidding/index.html?id=${listingIdValue}&_seller=true`;
+        window.location.href = `/bidding.html?id=${listingIdValue}&_seller=true`;
       } else {
         // fallback: reload if id not available
         setTimeout(() => window.location.reload(), 900);
