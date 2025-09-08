@@ -192,8 +192,19 @@ function renderActiveCarousel(listings) {
 let allListings = [];
 
 async function handleListingsView() {
-  allListings = await auctionApi.getAllListings();
+  // show a simple loading state while we fetch potentially many pages
+  const listingsGrid = document.querySelector(".listings-grid");
+  if (listingsGrid) listingsGrid.innerHTML = "<p>Loading listings...</p>";
+
+  // fetch all pages and aggregate results
+  if (typeof auctionApi.getAllListingsAll === "function") {
+    allListings = await auctionApi.getAllListingsAll({ limit: 100 });
+  } else {
+    allListings = await auctionApi.getAllListings();
+  }
   if (!Array.isArray(allListings)) allListings = [];
+  // Sort by created date descending so newest listings appear first
+  allListings.sort((a, b) => new Date(b.created) - new Date(a.created));
   // Default: show active listings (endsAt in future) first
   const now = new Date();
   // Partition: active listings (endsAt in future) vs others
@@ -206,11 +217,30 @@ async function handleListingsView() {
   });
 
   // Render active carousel first (if any), then the other listings in the grid
-  if (active.length) renderActiveCarousel(active);
-  renderAllListings(others.length ? others : active);
+  if (active.length)
+    renderActiveCarousel(
+      active.sort((a, b) => new Date(b.created) - new Date(a.created))
+    );
+  renderAllListings(
+    others.length
+      ? others.sort((a, b) => new Date(b.created) - new Date(a.created))
+      : active
+  );
 }
 
 handleListingsView();
+
+// Listen for a one-off 'listings:updated' event so the page refreshes when a new listing is created
+window.addEventListener("listings:updated", (e) => {
+  // Only refresh if the listings grid exists on the current page (we're on listings view)
+  const listingsGrid = document.querySelector(".listings-grid");
+  if (!listingsGrid) return;
+
+  // Re-run the handler to fetch fresh pages and re-render
+  handleListingsView().catch((err) =>
+    console.error("Failed to refresh listings after update:", err)
+  );
+});
 
 // Filtering UI logic
 document.addEventListener("DOMContentLoaded", () => {

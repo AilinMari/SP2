@@ -62,6 +62,16 @@ if (form) {
       );
 
       // Redirect to the new listing page (use absolute path)
+      // Notify other parts of the app that listings have been updated
+      try {
+        window.dispatchEvent(
+          new CustomEvent("listings:updated", { detail: createdListing.data })
+        );
+      } catch (e) {
+        // ignore if dispatching fails in older browsers
+      }
+
+      // Redirect to the new listing page (use absolute path)
       window.location.href = `/singleListing.html?id=${createdListing.data.id}&_seller=true`;
     } catch (error) {
       console.error("Error creating listing:", error);

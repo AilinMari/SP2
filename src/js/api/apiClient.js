@@ -266,8 +266,11 @@ export class AuctionApi {
   async getAllListings() {
     // pick endpoint
     const url = new URL(API_LISTINGS);
-      url.searchParams.append("_bids", "true"); // Include the _bids parameter
-      url.searchParams.append("_seller", "true"); // Include the _seller parameter
+    url.searchParams.append("_bids", "true"); // Include the _bids parameter
+    url.searchParams.append("_seller", "true"); // Include the _seller parameter
+    url.searchParams.append("_media", "true"); // Include the _media parameter
+    url.searchParams.append("page", "1"); // Include the page parameter
+    url.searchParams.append("limit", "100"); // Include the limit parameter
 
     const options = {
       method: "GET",
@@ -287,6 +290,56 @@ export class AuctionApi {
       "Error fetching listings"
     );
     return data;
+  }
+
+  /**
+   * Fetch all listing pages and return an aggregated array.
+   * This will loop pages until a page returns fewer items than the requested limit.
+   * @param {object} opts - options
+   * @param {number} opts.limit - page size to request per page (default 100)
+   * @returns {Promise<any[]>} aggregated listing array
+   */
+  async getAllListingsAll({ limit = 100 } = {}) {
+    const aggregated = [];
+    let page = 1;
+    while (true) {
+      const url = new URL(API_LISTINGS);
+      url.searchParams.append("_bids", "true");
+      url.searchParams.append("_seller", "true");
+      url.searchParams.append("_media", "true");
+      url.searchParams.append("page", String(page));
+      url.searchParams.append("limit", String(limit));
+
+      const options = {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "X-Noroff-API-Key": `${API_KEY}`,
+        },
+      };
+      const accessToken = localStorage.getItem("token");
+      if (accessToken) {
+        options.headers["Authorization"] = `Bearer ${accessToken}`;
+      }
+
+      const res = await this._request(
+        url.toString(),
+        options,
+        `Error fetching listings page ${page}`
+      );
+
+      // support { data: [...] } shape or direct array
+      const pageData = Array.isArray(res) ? res : res?.data ?? [];
+      if (!Array.isArray(pageData) || pageData.length === 0) break;
+
+      aggregated.push(...pageData);
+
+      // stop if last page (fewer than limit items)
+      if (pageData.length < limit) break;
+      page += 1;
+    }
+
+    return aggregated;
   }
 
   //      API_LISTINGS + "?_bids=true" + "&_seller=true",
