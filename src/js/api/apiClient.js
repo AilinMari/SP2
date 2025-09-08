@@ -300,15 +300,38 @@ export class AuctionApi {
    * @returns {Promise<any[]>} aggregated listing array
    */
   async getAllListingsAll({ limit = 100 } = {}) {
+    // Fetch all pages sequentially with throttling and retry-on-429.
+    // Options can be extended: { limit, delayMs, maxPages, retries, retryDelay }
+    const opts = {
+      limit,
+      delayMs: 200,
+      maxPages: 0,
+      retries: 3,
+      retryDelay: 1000,
+    };
     const aggregated = [];
     let page = 1;
+
+    const imageExtPattern = /\.(jpe?g|png|gif|webp|svg)(\?|$)/i;
+    const isValidImageUrl = (u) => {
+      if (!u || typeof u !== "string") return false;
+      // allow inline data URIs
+      if (u.startsWith("data:image/")) return true;
+      // filter out problematic hosts that start with www. (as requested)
+      // this avoids many broken images that trigger console/browser errors
+      if (u.includes("www.")) return false;
+      return imageExtPattern.test(u);
+    };
+
+    const sleep = (ms) => new Promise((res) => setTimeout(res, ms));
+
     while (true) {
       const url = new URL(API_LISTINGS);
       url.searchParams.append("_bids", "true");
       url.searchParams.append("_seller", "true");
       url.searchParams.append("_media", "true");
       url.searchParams.append("page", String(page));
-      url.searchParams.append("limit", String(limit));
+      url.searchParams.append("limit", String(opts.limit));
 
       const options = {
         method: "GET",
@@ -318,25 +341,80 @@ export class AuctionApi {
         },
       };
       const accessToken = localStorage.getItem("token");
-      if (accessToken) {
+      if (accessToken)
         options.headers["Authorization"] = `Bearer ${accessToken}`;
+
+      let res;
+      let attempts = 0;
+      while (true) {
+        attempts += 1;
+        try {
+          res = await this._request(
+            url.toString(),
+            options,
+            `Error fetching listings page ${page}`
+          );
+          break;
+        } catch (err) {
+          const msg = String(err?.message || "");
+          // If rate limited, retry with backoff
+          if (
+            (/Status:\s*429/.test(msg) || /429/.test(msg)) &&
+            attempts <= opts.retries
+          ) {
+            const backoff = opts.retryDelay * attempts;
+            console.warn(
+              `Rate limited fetching listings page ${page}, retrying in ${backoff}ms (attempt ${attempts})`
+            );
+            // eslint-disable-next-line no-await-in-loop
+            await sleep(backoff);
+            continue;
+          }
+          throw err;
+        }
       }
 
-      const res = await this._request(
-        url.toString(),
-        options,
-        `Error fetching listings page ${page}`
-      );
-
-      // support { data: [...] } shape or direct array
       const pageData = Array.isArray(res) ? res : res?.data ?? [];
       if (!Array.isArray(pageData) || pageData.length === 0) break;
 
-      aggregated.push(...pageData);
+      // normalize and filter each listing's arrays: keep only listings with at least one valid image
+      for (const listing of pageData) {
+        // normalize arrays
+        listing.media = Array.isArray(listing.media)
+          ? listing.media
+          : listing.media
+          ? [listing.media]
+          : [];
+        listing.tags = Array.isArray(listing.tags)
+          ? listing.tags
+          : listing.tags
+          ? [listing.tags]
+          : [];
+        listing.bids = Array.isArray(listing.bids)
+          ? listing.bids
+          : listing.bids
+          ? [listing.bids]
+          : [];
 
-      // stop if last page (fewer than limit items)
-      if (pageData.length < limit) break;
+        // filter media entries to valid images
+        listing.media = listing.media.filter(
+          (m) => m && (isValidImageUrl(m.url) || isValidImageUrl(m))
+        ); // support media as {url} or string
+        // if media entries are strings, convert to objects
+        listing.media = listing.media.map((m) =>
+          typeof m === "string" ? { url: m } : m
+        );
+
+        if (listing.media.length > 0) aggregated.push(listing);
+      }
+
+      // stop if last page (fewer than limit items) or reached maxPages
+      if (pageData.length < opts.limit) break;
+      if (opts.maxPages > 0 && page >= opts.maxPages) break;
       page += 1;
+      // throttle between pages to be kind to API
+      // eslint-disable-next-line no-await-in-loop
+      await sleep(opts.delayMs);
     }
 
     return aggregated;
