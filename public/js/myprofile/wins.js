@@ -65,7 +65,7 @@ async function fetchMyWins() {
       const listingId =
         win?.listing?.id || win?.listing?._id || win?.listingId || "";
       link.href = listingId
-        ? `/singleListing.html?id=${listingId}&_seller=true`
+        ? `/single-listing.html?id=${listingId}&_seller=true`
         : "#";
 
       const imageSrc =

@@ -1,4 +1,4 @@
-import { AuctionApi } from "../../src/js/api/apiClient.js";
+import { AuctionApi } from "../apiClient.js";
 
 const auctionApi = new AuctionApi();
 
@@ -99,7 +99,7 @@ export async function updateListing() {
 
     // Redirect to the updated listing page (use returned id if available)
     const id = updatedListing?.data?.id || listingId;
-    window.location.href = `/singleListing.html?id=${id}&_seller=true`;
+    window.location.href = `/single-listing.html?id=${id}&_seller=true`;
   } catch (error) {
     console.error("Error updating listing:", error);
     alert("Failed to update listing. Please try again.");

@@ -1,4 +1,4 @@
-import { AuctionApi } from "../../src/js/api/apiClient";
+import { AuctionApi } from "../apiClient.js";
 
 const auctionApi = new AuctionApi();
 
@@ -51,7 +51,7 @@ function renderSingleListing(listingId) {
   seller.textContent = `Seller: ${sellerName}`;
   seller.className =
     "listing-seller text-lg text-[var(--text-color)] font-['Playfair_Display',serif] mt-4";
-  seller.href = `/sellerProfile.html?id=${sellerName}`;
+  seller.href = `/user-profile.html?id=${sellerName}`;
 
   const bidContainer = document.createElement("div");
   bidContainer.className = "listing-bid-container mt-4";

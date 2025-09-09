@@ -47,7 +47,7 @@ function renderAllListings(listings) {
 
     const link = document.createElement("a");
     // fix query string: id=...&_seller=true
-    link.href = `/singleListing.html?id=${listing.id}&_seller=true`;
+    link.href = `/single-listing.html?id=${listing.id}&_seller=true`;
 
     const img = document.createElement("img");
     img.src = imageSrc;
@@ -136,7 +136,7 @@ function renderActiveCarousel(listings) {
     seller.textContent = `Seller: ${listing.seller?.name || "Unknown"}`;
 
     const link = document.createElement("a");
-    link.href = `/singleListing.html?id=${listing.id}&_seller=true`;
+    link.href = `/single-listing.html?id=${listing.id}&_seller=true`;
 
     const bidContainer = document.createElement("div");
     bidContainer.className = "listing-bids-container mt-2 flex justify-between";

@@ -1,4 +1,4 @@
-import { AuctionApi } from "../../src/js/api/apiClient.js";
+import { AuctionApi } from "../apiClient.js";
 
 const auctionApi = new AuctionApi();
 
@@ -72,7 +72,7 @@ if (form) {
       }
 
       // Redirect to the new listing page (use absolute path)
-      window.location.href = `/singleListing.html?id=${createdListing.data.id}&_seller=true`;
+      window.location.href = `/single-listing.html?id=${createdListing.data.id}&_seller=true`;
     } catch (error) {
       console.error("Error creating listing:", error);
       alert("Failed to create listing. Please try again.");
