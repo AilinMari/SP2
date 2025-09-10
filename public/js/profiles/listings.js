@@ -5,6 +5,7 @@ const auctionApi = new AuctionApi();
 const urlParams = new URLSearchParams(window.location.search);
 const sellerName = urlParams.get("id");
 
+
 function renderActiveCarousel(listings) {
   const listingsGrid = document.querySelector(".user-listings");
   if (!listingsGrid) return;
@@ -97,13 +98,7 @@ function renderActiveCarousel(listings) {
       listing.data?._count?.bids || listing._count?.bids || 0
     } bids`;
 
-    const updateBtn = document.createElement("button");
-    updateBtn.className =
-      "listing-update-btn cursor-pointer border-3 border-[var(--main-gold)] shadow-lg z-10 px-2 py-1 rounded-md font-['Playfair_Display',serif] text-sm bg-[var(--main-blue)] text-[var(--main-gold)]";
-    updateBtn.textContent = "Update Listing";
-    updateBtn.addEventListener("click", () => {
-      window.location.href = `/update-listing.html?id=${listing.id}`;
-    });
+console.log(listing);
 
     // assemble in one place
     if (img) link.appendChild(img);
@@ -112,7 +107,7 @@ function renderActiveCarousel(listings) {
     if (desc) item.appendChild(desc);
     bidContainer.appendChild(endsAt);
     bidContainer.appendChild(bids);
-    bidContainer.appendChild(updateBtn);
+
     item.appendChild(bidContainer);
     track.appendChild(item);
   });

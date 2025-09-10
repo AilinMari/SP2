@@ -28,19 +28,19 @@ function renderProfile(profile) {
 
   const nameEl = document.createElement("h2");
   nameEl.className =
-    "profile-name uppercase absolute left-1/2 bottom-18 translate-x-[-50%] translate-y-1/2 border-3 border-[var(--main-gold)] shadow-lg z-10 px-4 py-3 rounded-md font-['Playfair_Display',serif] text-lg bg-[var(--main-blue)] text-[var(--main-gold)]";
+    "profile-name uppercase absolute left-1/2 translate-x-[-50%] translate-y-170 border-3 border-[var(--main-gold)] shadow-lg z-5 px-4 py-3 rounded-md font-['Playfair_Display',serif] text-lg bg-[var(--main-blue)] text-[var(--main-gold)]";
   nameEl.textContent = profile.data.name;
 
   const avatarEl = document.createElement("img");
   avatarEl.src = profile.data.avatar?.url || "";
   avatarEl.alt = `${profile.data.name}'s avatar`;
   avatarEl.className =
-    "avatar-image absolute left-1/2 bottom-0 translate-x-[-50%] translate-y-1/2 h-50 w-50 object-cover rounded-full border-3 border-[var(--main-gold)] shadow-lg z-15";
+    "avatar-image absolute left-1/2 translate-x-[-50%] bottom-0 translate-y-1/2 h-50 w-50 object-cover rounded-full border-3 border-[var(--main-gold)] shadow-lg z-15";
 
   const editProfile = document.createElement("button");
   editProfile.textContent = "Edit Profile";
   editProfile.className =
-    "edit-profile-button cursor-pointer absolute left-1/2 bottom-0 translate-x-[-50%] translate-y-[-50%] border-3 border-[var(--main-gold)] shadow-lg z-10 px-4 py-3 rounded-md font-['Playfair_Display',serif] text-lg bg-[var(--main-blue)] text-[var(--main-gold)]";
+    "edit-profile-button cursor-pointer absolute left-1/2 translate-x-[-50%] translate-y-20 border-3 border-[var(--main-gold)] shadow-lg z-10 px-4 py-3 rounded-md font-['Playfair_Display',serif] text-lg bg-[var(--main-blue)] text-[var(--main-gold)]";
 
   // create inline form container hidden by default
   const formContainer = document.createElement("div");
@@ -92,7 +92,7 @@ function renderProfile(profile) {
   const bioEl = document.createElement("p");
   bioEl.textContent = profile.data.bio || "";
   bioEl.className =
-    "profile-bio flex flex-col justify-center items-center rounded-md font-['Playfair_Display',serif] text-lg bg-[var(--card-background)] border-3 border-[var(--main-gold)] shadow-lg min-h-50 min-w-150";
+    "profile-bio flex flex-col justify-center items-center rounded-md font-['Playfair_Display',serif] text-lg bg-[var(--card-background)] border-3 border-[var(--main-gold)] shadow-lg min-h-10 min-w-150 p-4 text-center";
 
   formContainer.addEventListener("submit", async (e) => {
     if (e.target && e.target.id === "inline-update-profile-form") {
@@ -122,12 +122,12 @@ function renderProfile(profile) {
 
   const contentContainer = document.querySelector(".content");
   contentContainer.className =
-    "content-container relative flex flex-col items-center justify-center mt-40 mb-20";
+    "content-container flex flex-col items-center mb-20 mt-20";
 
   const createListing = document.createElement("button");
   createListing.textContent = "Create Listing +";
   createListing.className =
-    "create-listing-btn cursor-pointer absolute left-1/2 bottom-29 translate-x-[-50%] translate-y-65 border-3 border-[var(--main-gold)] shadow-lg z-10 px-4 py-3 rounded-md font-['Playfair_Display',serif] text-lg bg-[var(--main-blue)] text-[var(--main-gold)]";
+    "create-listing-btn mt-10 cursor-pointer border-3 border-[var(--main-gold)] shadow-lg z-10 px-4 py-3 rounded-md font-['Playfair_Display',serif] text-lg bg-[var(--main-blue)] text-[var(--main-gold)]";
   createListing.addEventListener("click", () => {
     window.location.href = "/create-listing.html";
     // Handle create listing button click
