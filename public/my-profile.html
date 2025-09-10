@@ -70,19 +70,22 @@
     </nav>
     <main class="flex justify-center items-center flex-col h-full mt-auto">
       <div class="profile-container max-h-60"></div>
-
-      <div id="app"></div>
-      <script type="module" src="/js/main.js"></script>
-      <script type="module" src="/js/ui/logout.js"></script>
-      <script type="module" src="/js/ui/navbar.js"></script>
-      <script type="module" src="/js/myprofile/profile.js"></script>
-      <script type="module" src="/js/myprofile/listings.js"></script>
-      <script type="module" src="/js/bids/profileBids.js"></script>
-      <script type="module" src="/js/myprofile/wins.js"></script>
-      <div class="content"></div>
-      <div class="user-listings mt-20"></div>
-      <div class="my-active-bids mt-10"></div>
-      <div class="my-wins mb-20 mt-10"></div>
+      <div
+        class="w-full max-w-4xl mx-auto mb-8 flex flex-col justify-center items-center"
+      >
+        <div id="app"></div>
+        <script type="module" src="/js/main.js"></script>
+        <script type="module" src="/js/ui/logout.js"></script>
+        <script type="module" src="/js/ui/navbar.js"></script>
+        <script type="module" src="/js/myprofile/profile.js"></script>
+        <script type="module" src="/js/myprofile/listings.js"></script>
+        <script type="module" src="/js/bids/profileBids.js"></script>
+        <script type="module" src="/js/myprofile/wins.js"></script>
+        <div class="content"></div>
+        <div class="user-listings mt-20"></div>
+        <div class="my-active-bids mt-10"></div>
+        <div class="my-wins mb-20 mt-10"></div>
+      </div>
     </main>
     <footer
       class="bg-[var(--main-blue)] h-30 mt-auto border-b-3 border-t-3 border-[var(--main-gold)]"

@@ -70,17 +70,20 @@
     </nav>
     <main class="flex justify-center items-center flex-col h-full mt-auto">
       <div class="profile-container max-h-60"></div>
-
-      <div id="app"></div>
-      <script type="module" src="/js/main.js"></script>
-      <script type="module" src="/js/ui/logout.js"></script>
-      <script type="module" src="/js/ui/navbar.js"></script>
-      <script type="module" src="/js/profiles/userprofile.js"></script>
-      <script type="module" src="/js/profiles/listings.js"></script>
-      <div class="content"></div>
       <div
-        class="user-listings grid lg:grid-cols-2 lg:gap-10 sm:grid-cols-1"
-      ></div>
+        class="w-full max-w-4xl mx-auto mb-8 flex flex-col justify-center items-center"
+      >
+        <div id="app"></div>
+        <script type="module" src="/js/main.js"></script>
+        <script type="module" src="/js/ui/logout.js"></script>
+        <script type="module" src="/js/ui/navbar.js"></script>
+        <script type="module" src="/js/profiles/userprofile.js"></script>
+        <script type="module" src="/js/profiles/listings.js"></script>
+        <div class="content"></div>
+        <div
+          class="user-listings grid lg:grid-cols-2 lg:gap-10 sm:grid-cols-1"
+        ></div>
+      </div>
     </main>
     <footer
       class="bg-[var(--main-blue)] h-30 mt-auto border-b-3 border-t-3 border-[var(--main-gold)]"

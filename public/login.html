@@ -70,80 +70,84 @@
     </nav>
     <main class="flex justify-center items-center h-full mt-auto">
       <div
-        class="content bg-[var(--card-background)] border-2 border-[var(--main-gold)] rounded-md pt-10 pb-10 px-15 m-20"
+        class="w-full max-w-4xl mx-auto mb-8 flex flex-col justify-center items-center"
       >
         <div
-          id="headline"
-          class="text-center text-4xl font-['Playfair_Display',serif] text-[var(--main-blue)] mb-10"
+          class="content bg-[var(--card-background)] border-2 border-[var(--main-gold)] rounded-md pt-10 pb-10 px-15 m-20"
         >
-          <h1>Please enter your details</h1>
-        </div>
-        <form name="login" class="flex flex-col items-center">
-          <div class="form-group flex flex-col mb-5">
-            <label for="email" class="font-['Inter',sans-serif] text-1xl"
-              >Email</label
-            >
-            <input
-              type="email"
-              class="border-2 border-[var(--main-gold)] rounded-md pt-1.5 pb-1.5 px-6"
-              id="email"
-              name="email"
-              autocomplete="email"
-              required
-            />
-          </div>
-
-          <div class="form-group flex flex-col mb-5">
-            <label for="password" class="font-['Inter',sans-serif] text-1xl"
-              >Password</label
-            >
-            <input
-              type="password"
-              name="password"
-              id="password"
-              class="border-2 border-[var(--main-gold)] rounded-md pt-1.5 pb-1.5 px-6"
-              required
-            />
-          </div>
-
-          <div class="form-group flex items-center mb-5">
-            <input
-              type="checkbox"
-              id="remember"
-              name="remember"
-              class="mr-2 accent-[var(--main-gold)]"
-            />
-            <label
-              for="remember"
-              class="font-['Inter',sans-serif] text-sm cursor-pointer"
-            >
-              Remember me
-            </label>
-          </div>
-
-          <button
-            class="bg-[var(--main-blue)] drop-shadow-lg text-white py-1 px-24 rounded-md font-['Playfair_Display',serif] text-1xl active:bg-[image:var(--gold-gradient)] active:text-[var(--main-blue)] active:shadow-inner cursor-pointer"
+          <div
+            id="headline"
+            class="text-center text-4xl font-['Playfair_Display',serif] text-[var(--main-blue)] mb-10"
           >
-            Login
-          </button>
-
-          <div class="register-account flex gap-1 mt-5">
-            <p class="new-account font-['Inter',sans-serif] text-sm">
-              Or, create a new account
-            </p>
-            <a
-              href="/auth/register/index.html"
-              class="font-['Inter',sans-serif] font-bold text-sm"
-              >here</a
-            >
+            <h1>Please enter your details</h1>
           </div>
-        </form>
+          <form name="login" class="flex flex-col items-center">
+            <div class="form-group flex flex-col mb-5">
+              <label for="email" class="font-['Inter',sans-serif] text-1xl"
+                >Email</label
+              >
+              <input
+                type="email"
+                class="border-2 border-[var(--main-gold)] rounded-md pt-1.5 pb-1.5 px-6"
+                id="email"
+                name="email"
+                autocomplete="email"
+                required
+              />
+            </div>
+
+            <div class="form-group flex flex-col mb-5">
+              <label for="password" class="font-['Inter',sans-serif] text-1xl"
+                >Password</label
+              >
+              <input
+                type="password"
+                name="password"
+                id="password"
+                class="border-2 border-[var(--main-gold)] rounded-md pt-1.5 pb-1.5 px-6"
+                required
+              />
+            </div>
+
+            <div class="form-group flex items-center mb-5">
+              <input
+                type="checkbox"
+                id="remember"
+                name="remember"
+                class="mr-2 accent-[var(--main-gold)]"
+              />
+              <label
+                for="remember"
+                class="font-['Inter',sans-serif] text-sm cursor-pointer"
+              >
+                Remember me
+              </label>
+            </div>
+
+            <button
+              class="bg-[var(--main-blue)] drop-shadow-lg text-white py-1 px-24 rounded-md font-['Playfair_Display',serif] text-1xl active:bg-[image:var(--gold-gradient)] active:text-[var(--main-blue)] active:shadow-inner cursor-pointer"
+            >
+              Login
+            </button>
+
+            <div class="register-account flex gap-1 mt-5">
+              <p class="new-account font-['Inter',sans-serif] text-sm">
+                Or, create a new account
+              </p>
+              <a
+                href="/auth/register/index.html"
+                class="font-['Inter',sans-serif] font-bold text-sm"
+                >here</a
+              >
+            </div>
+          </form>
+        </div>
+        <div id="app"></div>
+        <script type="module" src="/js/main.js"></script>
+        <script type="module" src="/js/auth/login.js"></script>
+        <script type="module" src="/js/ui/logout.js"></script>
+        <script type="module" src="/js/ui/navbar.js"></script>
       </div>
-      <div id="app"></div>
-      <script type="module" src="/js/main.js"></script>
-      <script type="module" src="/js/auth/login.js"></script>
-      <script type="module" src="/js/ui/logout.js"></script>
-      <script type="module" src="/js/ui/navbar.js"></script>
     </main>
     <footer
       class="bg-[var(--main-blue)] h-30 mt-auto border-b-3 border-t-3 border-[var(--main-gold)]"
