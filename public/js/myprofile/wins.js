@@ -69,7 +69,7 @@ async function fetchMyWins() {
         : "#";
 
       const imageSrc =
-        win?.listing?.media?.[0]?.url || "/src/images/GoldenBid-icon.png";
+        win?.listing?.media?.[0]?.url || "/images/GoldenBid-icon.png";
       const img = document.createElement("img");
       img.src = imageSrc;
       img.alt = win?.listing?.title || "Listing image";

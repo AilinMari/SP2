@@ -46,7 +46,7 @@ function renderActiveCarousel(listings) {
     const imageSrc =
       listing.media && Array.isArray(listing.media) && listing.media[0]?.url
         ? listing.media[0].url
-        : "/src/images/GoldenBid-icon.png";
+        : "/images/GoldenBid-icon.png";
     const img = imageSrc
       ? (() => {
           const i = document.createElement("img");

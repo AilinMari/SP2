@@ -23,7 +23,7 @@ function renderAllListings(listings) {
     const imageSrc =
       listing.media && Array.isArray(listing.media) && listing.media[0]?.url
         ? listing.media[0].url
-        : "/src/images/GoldenBid-icon.png"; // fallback placeholder
+        : "/images/GoldenBid-icon.png"; // fallback placeholder
     const imageAlt =
       listing.media && listing.media[0]?.alt
         ? listing.media[0].alt
@@ -121,7 +121,7 @@ function renderActiveCarousel(listings) {
     const imageSrc =
       listing.media && Array.isArray(listing.media) && listing.media[0]?.url
         ? listing.media[0].url
-        : "/src/images/GoldenBid-icon.png";
+        : "/images/GoldenBid-icon.png";
     const img = document.createElement("img");
     img.src = imageSrc;
     img.alt = listing.title || "Listing image";

@@ -72,8 +72,7 @@ function renderActiveCarousel(bids) {
       ? `/single-listing.html?id=${listingId}&_seller=true`
       : "#";
 
-    const imageSrc =
-      listing?.media?.[0]?.url || "/src/images/GoldenBid-icon.png";
+    const imageSrc = listing?.media?.[0]?.url || "/images/GoldenBid-icon.png";
     const img = document.createElement("img");
     img.src = imageSrc;
     img.alt = listing?.title || "Listing image";
@@ -115,7 +114,9 @@ function renderActiveCarousel(bids) {
     const yourBid = document.createElement("div");
     yourBid.className =
       "listing-latest-bid text-sm text-green-600 font-semibold";
-    yourBid.textContent = `Your bid: ${bid?.amount ?? bid?.value ?? "N/A"} credits`;
+    yourBid.textContent = `Your bid: ${
+      bid?.amount ?? bid?.value ?? "N/A"
+    } credits`;
 
     footer.appendChild(endsAt);
 

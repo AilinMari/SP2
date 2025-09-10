@@ -5,7 +5,6 @@ const auctionApi = new AuctionApi();
 const urlParams = new URLSearchParams(window.location.search);
 const sellerName = urlParams.get("id");
 
-
 function renderActiveCarousel(listings) {
   const listingsGrid = document.querySelector(".user-listings");
   if (!listingsGrid) return;
@@ -48,7 +47,7 @@ function renderActiveCarousel(listings) {
     const imageSrc =
       listing.media && Array.isArray(listing.media) && listing.media[0]?.url
         ? listing.media[0].url
-        : "/src/images/GoldenBid-icon.png";
+        : "/images/GoldenBid-icon.png";
     const img = imageSrc
       ? (() => {
           const i = document.createElement("img");
@@ -152,4 +151,3 @@ async function handleListingsView() {
 }
 
 document.addEventListener("DOMContentLoaded", handleListingsView);
-

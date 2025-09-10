@@ -28,7 +28,7 @@ function renderSingleListing(listing) {
   const mediaUrl =
     listing.data?.media && listing.data.media[0]?.url
       ? listing.data.media[0].url
-      : "/src/images/GoldenBid-icon.png";
+      : "/images/GoldenBid-icon.png";
   const mediaAlt =
     listing.data?.media && listing.data.media[0]?.alt
       ? listing.data.media[0].alt
