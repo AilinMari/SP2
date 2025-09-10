@@ -138,29 +138,15 @@ let allListings = [];
 
 async function handleListingsView() {
   const result = await auctionApi.getListingsByLoggedInUser(username);
-  // If API returns {data: [...]}, use result.data
-  allListings = result.data || result;
-  // Show active listings (not ended) in a carousel first, then the rest in the grid
-  const now = new Date();
-  const active = [];
-  const others = [];
-  allListings.forEach((l) => {
-    const ends = l.endsAt
-      ? new Date(l.endsAt)
-      : l.data?.endsAt
-      ? new Date(l.data.endsAt)
-      : null;
-    if (ends && ends > now) active.push(l);
-    else others.push(l);
-  });
-
-  if (active.length) {
-    // Replace the grid with the active carousel
-    renderActiveCarousel(active);
-  } else {
-    // No active listings — render the grid of listings instead
-    renderAllListings(others.length ? others : active);
+  allListings = result.data || result || [];
+  if (!Array.isArray(allListings) || allListings.length === 0) {
+    const listingsGrid = document.querySelector(".user-listings");
+    if (listingsGrid) listingsGrid.innerHTML = "<p>No listings available.</p>";
+    return;
   }
+
+  // Show all listings in the carousel (no filtering)
+  renderActiveCarousel(allListings);
 }
 
 document.addEventListener("DOMContentLoaded", handleListingsView);

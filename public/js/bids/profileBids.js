@@ -1,14 +1,8 @@
 import { AuctionApi } from "../apiClient.js";
 
 const auctionApi = new AuctionApi();
-const token = localStorage.getItem("token");
 
 async function fetchMyBids() {
-  if (!token) {
-    console.warn("No token found; skipping fetchMyBids");
-    return;
-  }
-
   const username = localStorage.getItem("name");
   if (!username) {
     console.warn(
@@ -19,10 +13,10 @@ async function fetchMyBids() {
 
   try {
     const response = await auctionApi.getBidsByProfile(username);
-    // API may return { data: [...] } or the array directly
     const bids = response?.data ?? response;
     if (!Array.isArray(bids) || bids.length === 0) {
-      console.log("No bids to render");
+      const container = document.querySelector(".my-active-bids");
+      if (container) container.innerHTML = "<p>No bids available.</p>";
       return;
     }
 
@@ -34,35 +28,27 @@ async function fetchMyBids() {
 
 function renderActiveCarousel(bids) {
   const container = document.querySelector(".my-active-bids");
-  if (!container) {
-    console.warn(
-      "No .my-active-bids container found in DOM. Bids will not be rendered."
-    );
-    return;
-  }
-
-  if (!Array.isArray(bids) || bids.length === 0) {
-    container.innerHTML = "";
-    return;
-  }
+  if (!container) return;
+  if (!Array.isArray(bids) || bids.length === 0) return;
 
   container.innerHTML = "";
-
-  const carouselRoot = document.createElement("div");
-  carouselRoot.className = "active-carousel mb-6 profile-active-carousel";
+  const carouselRoot = container;
+  carouselRoot.classList.add(
+    "active-carousel",
+    "mb-6",
+    "profile-active-carousel"
+  );
 
   const wrapper = document.createElement("div");
   wrapper.className = "carousel-wrapper relative";
 
   const prev = document.createElement("button");
-  prev.className =
-    "carousel-btn carousel-prev absolute left-2 top-1/2 -translate-y-1/2 z-10";
+  prev.className = "carousel-btn carousel-prev";
   prev.setAttribute("aria-label", "Previous");
   prev.textContent = "<";
 
   const next = document.createElement("button");
-  next.className =
-    "carousel-btn carousel-next absolute right-2 top-1/2 -translate-y-1/2 z-10";
+  next.className = "carousel-btn carousel-next";
   next.setAttribute("aria-label", "Next");
   next.textContent = ">";
 
@@ -70,44 +56,71 @@ function renderActiveCarousel(bids) {
   track.className =
     "carousel-track flex gap-4 overflow-x-auto scroll-smooth py-2";
   track.style.scrollSnapType = "x mandatory";
-
+  console.log(bids);
   bids.forEach((bid) => {
-    const item = document.createElement("div");
-    item.className =
-      "carousel-item flex-shrink-0 scroll-snap-align-start w-[320px]";
+    // API returns bid objects; the listing may be under bid.listing
+    const listing = bid?.listing ?? bid;
+    const listingId = listing?.id || listing?._id || bid?.listingId || "";
 
-    const listingId =
-      bid?.listing?.id || bid?.listing?._id || bid?.listingId || "";
+    const item = document.createElement("div");
+    item.className = "carousel-item flex-shrink-0 scroll-snap-align-start";
+    item.style.width = "min(380px, 92vw)";
+    item.style.boxSizing = "border-box";
+
     const link = document.createElement("a");
     link.href = listingId
-      ? `/single-Listing.html?id=${listingId}&_seller=true`
+      ? `/single-listing.html?id=${listingId}&_seller=true`
       : "#";
 
     const imageSrc =
-      bid?.listing?.media?.[0]?.url || "/src/images/GoldenBid-icon.png";
+      listing?.media?.[0]?.url || "/src/images/GoldenBid-icon.png";
     const img = document.createElement("img");
     img.src = imageSrc;
-    img.alt = bid?.listing?.title || "Listing image";
-    img.className = "w-full h-40 object-cover rounded";
+    img.alt = listing?.title || "Listing image";
+    img.className = "w-full h-48 object-cover mb-2 rounded";
 
     const title = document.createElement("h3");
     title.className = "mt-2 text-lg font-semibold text-[var(--main-blue)]";
-    title.textContent = bid?.listing?.title || "Untitled";
+    title.textContent = listing?.title || "Untitled";
 
-    const bidInfo = document.createElement("div");
-    bidInfo.className =
-      "listing-bids-container mt-2 flex justify-between items-center";
-
-    const latestBid = document.createElement("div");
-    latestBid.className = "listing-latest-bid mt-2 text-sm text-green-600";
-    latestBid.textContent = `Your bid: ${bid?.amount ?? bid?.value ?? "N/A"}`;
-
-    bidInfo.appendChild(latestBid);
-
-    link.appendChild(img);
+    if (img) link.appendChild(img);
     link.appendChild(title);
     item.appendChild(link);
-    item.appendChild(bidInfo);
+
+    if (listing?.description) {
+      const d = document.createElement("p");
+      d.className = "listing-desc text-md text-gray-700 mb-2";
+      d.textContent = listing.description;
+      item.appendChild(d);
+    }
+
+    // footer info: endsAt, total bids, and user's bid
+    const footer = document.createElement("div");
+    footer.className =
+      "listing-bid-footer mt-3 flex items-center justify-between gap-2";
+
+    const endsAt = document.createElement("span");
+    endsAt.className = "listing-ends-at text-sm text-red-600";
+    const now = new Date();
+    const endsDate = listing?.endsAt
+      ? new Date(listing.endsAt)
+      : listing?.data?.endsAt
+      ? new Date(listing.data.endsAt)
+      : null;
+    endsAt.textContent =
+      !endsDate || endsDate <= now
+        ? "Auction ended"
+        : `Ends at: ${endsDate.toLocaleString()}`;
+
+    const yourBid = document.createElement("div");
+    yourBid.className =
+      "listing-latest-bid text-sm text-green-600 font-semibold";
+    yourBid.textContent = `Your bid: ${bid?.amount ?? bid?.value ?? "N/A"} credits`;
+
+    footer.appendChild(endsAt);
+
+    item.appendChild(footer);
+    item.appendChild(yourBid);
 
     track.appendChild(item);
   });
@@ -116,21 +129,18 @@ function renderActiveCarousel(bids) {
   wrapper.appendChild(track);
   wrapper.appendChild(next);
   carouselRoot.appendChild(wrapper);
-  container.appendChild(carouselRoot);
 
   // Scroll by one card width (+ gap)
   function scrollByDirection(direction) {
     const card = track.querySelector(".carousel-item");
     if (!card) return;
-    const gap = 16; // matches tailwind gap-4 (4 * 4px)
+    const gap = 16; // matches tailwind gap-4
     const width = Math.round(card.getBoundingClientRect().width + gap);
     track.scrollBy({ left: direction * width, behavior: "smooth" });
   }
 
   prev.addEventListener("click", () => scrollByDirection(-1));
   next.addEventListener("click", () => scrollByDirection(1));
-
-  console.log("Rendered bids carousel with", bids.length, "cards");
 }
 
 // Run after DOM ready to ensure .my-active-bids exists
