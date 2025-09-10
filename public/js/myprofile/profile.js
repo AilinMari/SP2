@@ -9,7 +9,6 @@ async function init() {
   console.log(renderProfile, profile);
 }
 
-
 function renderProfile(profile) {
   const profileContainer = document.querySelector(".profile-container");
   if (!profileContainer) return;
@@ -29,7 +28,7 @@ function renderProfile(profile) {
 
   const nameEl = document.createElement("h2");
   nameEl.className =
-    "profile-name uppercase absolute left-1/2 bottom-29 translate-x-[-50%] translate-y-1/2 border-3 border-[var(--main-gold)] shadow-lg z-10 px-4 py-3 rounded-md font-['Playfair_Display',serif] text-lg bg-[var(--main-blue)] text-[var(--main-gold)]";
+    "profile-name uppercase absolute left-1/2 bottom-18 translate-x-[-50%] translate-y-1/2 border-3 border-[var(--main-gold)] shadow-lg z-10 px-4 py-3 rounded-md font-['Playfair_Display',serif] text-lg bg-[var(--main-blue)] text-[var(--main-gold)]";
   nameEl.textContent = profile.data.name;
 
   const avatarEl = document.createElement("img");
@@ -41,7 +40,7 @@ function renderProfile(profile) {
   const editProfile = document.createElement("button");
   editProfile.textContent = "Edit Profile";
   editProfile.className =
-    "edit-profile-button cursor-pointer absolute left-1/2 bottom-29 translate-x-[-50%] translate-y-65 border-3 border-[var(--main-gold)] shadow-lg z-10 px-4 py-3 rounded-md font-['Playfair_Display',serif] text-lg bg-[var(--main-blue)] text-[var(--main-gold)]";
+    "edit-profile-button cursor-pointer absolute left-1/2 bottom-0 translate-x-[-50%] translate-y-[-50%] border-3 border-[var(--main-gold)] shadow-lg z-10 px-4 py-3 rounded-md font-['Playfair_Display',serif] text-lg bg-[var(--main-blue)] text-[var(--main-gold)]";
 
   // create inline form container hidden by default
   const formContainer = document.createElement("div");
@@ -125,15 +124,15 @@ function renderProfile(profile) {
   contentContainer.className =
     "content-container relative flex flex-col items-center justify-center mt-40 mb-20";
 
-    const createListing = document.createElement("button");
-    createListing.textContent = "Create Listing +";
-    createListing.className =
-      "create-listing-btn cursor-pointer absolute left-1/2 bottom-29 translate-x-[-50%] translate-y-65 border-3 border-[var(--main-gold)] shadow-lg z-10 px-4 py-3 rounded-md font-['Playfair_Display',serif] text-lg bg-[var(--main-blue)] text-[var(--main-gold)]";
-    createListing.addEventListener("click", () => {
-      window.location.href = "/create-listing.html";
-      // Handle create listing button click
-      console.log("Create Listing button clicked");
-    });
+  const createListing = document.createElement("button");
+  createListing.textContent = "Create Listing +";
+  createListing.className =
+    "create-listing-btn cursor-pointer absolute left-1/2 bottom-29 translate-x-[-50%] translate-y-65 border-3 border-[var(--main-gold)] shadow-lg z-10 px-4 py-3 rounded-md font-['Playfair_Display',serif] text-lg bg-[var(--main-blue)] text-[var(--main-gold)]";
+  createListing.addEventListener("click", () => {
+    window.location.href = "/create-listing.html";
+    // Handle create listing button click
+    console.log("Create Listing button clicked");
+  });
 
   profileContainer.appendChild(overlay);
   overlay.appendChild(nameEl);
