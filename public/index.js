@@ -43,7 +43,7 @@ function renderAllListings(listings) {
     seller.className =
       "listing-seller text-md font-regular text-[var(--main-blue)] font-['Playfair_Display',serif]";
     seller.textContent = `Seller: ${listing.seller?.name || "Unknown"}`;
-    seller.href = `/sellerProfile?id=${listing.seller?.name || ""}`;
+    seller.href = `/user-profile.html?id=${listing.seller?.name || ""}`;
 
     const link = document.createElement("a");
     // fix query string: id=...&_seller=true

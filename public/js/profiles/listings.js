@@ -1,88 +1,155 @@
-import { data } from "autoprefixer";
-import { AuctionApi } from "../apiClient";
+import { AuctionApi } from "../apiClient.js";
 
 const auctionApi = new AuctionApi();
 
 const urlParams = new URLSearchParams(window.location.search);
 const sellerName = urlParams.get("id");
 
-function renderAllListings(listings) {
-  const listingsGrid = document.querySelector(".user-listings");
-  if (!listingsGrid) {
-    console.error("Listings grid not found");
-    return;
-  }
-  listingsGrid.innerHTML = ""; // Clear existing listings
-  console.log("Rendering listings:", listings);
 
-  if (!Array.isArray(listings) || listings.length === 0) {
-    listingsGrid.innerHTML = "<p>No listings available.</p>";
-    return;
-  }
+function renderActiveCarousel(listings) {
+  const listingsGrid = document.querySelector(".user-listings");
+  if (!listingsGrid) return;
+  if (!Array.isArray(listings) || listings.length === 0) return;
+
+  // Use the existing listingsGrid as the carousel root
+  listingsGrid.innerHTML = "";
+  const carouselRoot = listingsGrid;
+  carouselRoot.classList.add(
+    "active-carousel",
+    "mb-6",
+    "profile-active-carousel"
+  );
+
+  const wrapper = document.createElement("div");
+  wrapper.className = "carousel-wrapper relative";
+
+  const prev = document.createElement("button");
+  prev.className = "carousel-btn carousel-prev";
+  prev.setAttribute("aria-label", "Previous");
+  prev.textContent = "<";
+
+  const next = document.createElement("button");
+  next.className = "carousel-btn carousel-next";
+  next.setAttribute("aria-label", "Next");
+  next.textContent = ">";
+
+  const track = document.createElement("div");
+  track.className = "carousel-track flex gap-4 overflow-x-auto scroll-smooth";
+  track.style.scrollSnapType = "x mandatory";
 
   listings.forEach((listing) => {
-    const listingContainer = document.createElement("div");
-    listingContainer.className =
-      "container bg-[var(--card-background)] p-4 border-2 border-[var(--main-gold)] rounded-md mb-8 max-w-md";
+    // Create all nodes first
+    const item = document.createElement("div");
+    item.className =
+      "carousel-item container bg-[var(--card-background)] p-4 border-2 border-[var(--main-gold)] rounded-md flex-shrink-0 scroll-snap-align-start w-[320px]";
+    item.style.width = "min(380px, 92vw)";
+    item.style.boxSizing = "border-box";
+
+    const imageSrc =
+      listing.media && Array.isArray(listing.media) && listing.media[0]?.url
+        ? listing.media[0].url
+        : "/src/images/GoldenBid-icon.png";
+    const img = imageSrc
+      ? (() => {
+          const i = document.createElement("img");
+          i.src = imageSrc;
+          i.alt =
+            listing.media && listing.media[0]?.alt
+              ? listing.media[0].alt
+              : listing.title || "Listing image";
+          i.className = "listing-image h-48 w-full object-cover mb-2 rounded";
+          return i;
+        })()
+      : null;
+
+    const link = document.createElement("a");
+    link.href = `/single-listing.html?id=${listing.id}&_seller=true`;
 
     const title = document.createElement("h1");
     title.className =
       "listing-title text-xl font-semibold text-[var(--main-blue)] font-['Playfair_Display',serif] mb-2";
     title.textContent = listing.title;
 
-    const link = document.createElement("a");
-    link.href = `/single-listing.html?id=${listing.id}&_seller=true`;
+    const desc = listing.description
+      ? (() => {
+          const d = document.createElement("p");
+          d.className = "listing-desc text-md text-gray-700 mb-2";
+          d.textContent = listing.description;
+          return d;
+        })()
+      : null;
+
+    const bidContainer = document.createElement("div");
+    bidContainer.className =
+      "listing-bid-container mt-4 flex items-center gap-2 justify-between";
+    const endsAt = document.createElement("span");
+    endsAt.className = "listing-ends-at block mt-2 text-sm text-red-600";
+    const now = new Date();
+    const endsDate = new Date(listing.endsAt || listing.data?.endsAt || null);
+    endsAt.textContent =
+      !endsDate || endsDate <= now
+        ? "Auction ended"
+        : `Ends at: ${endsDate.toLocaleString()}`;
+
+    const bids = document.createElement("span");
+    bids.className =
+      "listing-bids font-['Inter',sans-serif] text-sm text-[var(--text-color)]";
+    bids.textContent = `${
+      listing.data?._count?.bids || listing._count?.bids || 0
+    } bids`;
+
+    const updateBtn = document.createElement("button");
+    updateBtn.className =
+      "listing-update-btn cursor-pointer border-3 border-[var(--main-gold)] shadow-lg z-10 px-2 py-1 rounded-md font-['Playfair_Display',serif] text-sm bg-[var(--main-blue)] text-[var(--main-gold)]";
+    updateBtn.textContent = "Update Listing";
+    updateBtn.addEventListener("click", () => {
+      window.location.href = `/update-listing.html?id=${listing.id}`;
+    });
+
+    // assemble in one place
+    if (img) link.appendChild(img);
     link.appendChild(title);
-    // Render image if available
-    if (
-      listing.media &&
-      Array.isArray(listing.media) &&
-      listing.media.length > 0 &&
-      listing.media[0].url
-    ) {
-      const img = document.createElement("img");
-      img.src = listing.media[0].url;
-      img.alt = listing.media[0].alt || listing.title || "Listing image";
-      img.className = "listing-image";
-
-      // Optionally add description
-      if (listing.description) {
-        const desc = document.createElement("p");
-        desc.className = "listing-desc text-md text-gray-700 mb-2";
-        desc.textContent = listing.description;
-
-        const endsAt = document.createElement("span");
-        endsAt.className = "listing-ends-at block mt-2 text-sm text-red-600";
-        const now = new Date();
-        const endsDate = new Date(listing.endsAt);
-        if (endsDate <= now) {
-          endsAt.textContent = "Auction ended";
-        } else {
-          endsAt.textContent = `Ends at: ${endsDate.toLocaleString()}`;
-        }
-
-        const bids = document.createElement("span");
-        bids.className = "listing-bids";
-        bids.textContent = `${listing._count.bids} bids`;
-
-        link.appendChild(img);
-        listingContainer.appendChild(link);
-        listingContainer.appendChild(desc);
-        listingContainer.appendChild(endsAt);
-        listingContainer.appendChild(bids);
-        listingsGrid.appendChild(listingContainer);
-      }
-    }
+    item.appendChild(link);
+    if (desc) item.appendChild(desc);
+    bidContainer.appendChild(endsAt);
+    bidContainer.appendChild(bids);
+    bidContainer.appendChild(updateBtn);
+    item.appendChild(bidContainer);
+    track.appendChild(item);
   });
+
+  wrapper.appendChild(prev);
+  wrapper.appendChild(track);
+  wrapper.appendChild(next);
+  carouselRoot.appendChild(wrapper);
+
+  // Scroll behavior: move by item width + gap
+  function scrollBy(direction) {
+    const card = track.querySelector(".carousel-item");
+    if (!card) return;
+    const gap = 16; // match CSS gap
+    const width = card.getBoundingClientRect().width + gap;
+    track.scrollBy({ left: direction * width, behavior: "smooth" });
+  }
+
+  prev.addEventListener("click", () => scrollBy(-1));
+  next.addEventListener("click", () => scrollBy(1));
 }
 
 let allListings = [];
 
 async function handleListingsView() {
   const result = await auctionApi.getAllListingsByName(sellerName);
-  // If API returns {data: [...]}, use result.data
-  allListings = result.data || result;
-  renderAllListings(allListings);
+  allListings = result.data || result || [];
+  if (!Array.isArray(allListings) || allListings.length === 0) {
+    const listingsGrid = document.querySelector(".user-listings");
+    if (listingsGrid) listingsGrid.innerHTML = "<p>No listings available.</p>";
+    return;
+  }
+
+  // Show all listings in the carousel (no filtering)
+  renderActiveCarousel(allListings);
 }
 
 document.addEventListener("DOMContentLoaded", handleListingsView);
+
