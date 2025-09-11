@@ -766,8 +766,11 @@ video {
   height: 15rem;
 }
 
-.avatar-image {
+.h-7 {
   height: 14rem;
+}
+
+.w-7 {
   width: 14rem;
 }
 

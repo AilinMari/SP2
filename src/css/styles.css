@@ -189,8 +189,11 @@ input[type="submit"],
   min-height: 5rem;
 }
 
-.avatar-image {
+.h-7 {
   height: 14rem;
+}
+
+.w-7 {
   width: 14rem;
 }
 

@@ -35,7 +35,7 @@ function renderProfile(profile) {
   avatarEl.src = profile.data.avatar?.url || "";
   avatarEl.alt = `${profile.data.name}'s avatar`;
   avatarEl.className =
-    "avatar-image absolute left-1/2 translate-x-[-50%] bottom-0 translate-y-1/2 h-50 w-50 object-cover rounded-full border-3 border-[var(--main-gold)] shadow-lg z-15";
+    "avatar-image h-7 w-7 absolute left-1/2 translate-x-[-50%] bottom-0 translate-y-1/2 object-cover rounded-full border-3 border-[var(--main-gold)] shadow-lg z-15";
 
   const editProfile = document.createElement("button");
   editProfile.textContent = "Edit Profile";

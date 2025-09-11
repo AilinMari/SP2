@@ -37,7 +37,7 @@ function renderProfile(profile) {
   avatarEl.src = profile.data.avatar?.url || "";
   avatarEl.alt = `${profile.data.name}'s avatar`;
   avatarEl.className =
-    "avatar-image absolute left-1/2 translate-x-[-50%] bottom-0 translate-y-1/2 object-cover rounded-full border-3 border-[var(--main-gold)] shadow-lg z-15";
+    "avatar-image h-7 w-7 absolute left-1/2 translate-x-[-50%] bottom-0 translate-y-1/2 object-cover rounded-full border-3 border-[var(--main-gold)] shadow-lg z-15";
 
   // handle submit
   // create bio element early so submit handler can safely reference it
