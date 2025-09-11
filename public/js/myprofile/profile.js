@@ -45,7 +45,7 @@ function renderProfile(profile) {
   // create inline form container hidden by default
   const formContainer = document.createElement("div");
   formContainer.className =
-    "inline-update-form mt-4 w-full max-w-md z-20 absolute left-1/2 bottom-29 translate-x-[-50%] translate-y-170";
+    "inline-update-form w-full max-w-md z-20 absolute left-1/2 translate-x-[-50%] translate-y-90";
   formContainer.style.display = "none";
   formContainer.innerHTML = `
     <form id="inline-update-profile-form" class="flex flex-col gap-6 w-full bg-white p-4 rounded-lg shadow-lg border-2 border-[var(--main-gold)]">
