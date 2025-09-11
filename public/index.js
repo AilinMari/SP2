@@ -42,7 +42,7 @@ function renderAllListings(listings) {
     const seller = document.createElement("a");
     seller.className =
       "listing-seller text-md font-regular text-[var(--main-blue)] font-['Playfair_Display',serif]";
-    seller.textContent = `Seller: ${listing.seller?.name || "Unknown"}`;
+    seller.textContent = `By ${listing.seller?.name || "Unknown"}`;
     seller.href = `/user-profile.html?id=${listing.seller?.name || ""}`;
 
     const link = document.createElement("a");
@@ -133,7 +133,7 @@ function renderActiveCarousel(listings) {
 
     const seller = document.createElement("a");
     seller.className = "text-sm text-[var(--main-blue)]";
-    seller.textContent = `Seller: ${listing.seller?.name || "Unknown"}`;
+    seller.textContent = `By ${listing.seller?.name || "Unknown"}`;
     seller.href = `/user-profile.html?id=${listing.seller.name}`;
 
     const link = document.createElement("a");

@@ -34,12 +34,12 @@ function renderSingleListing(listingId) {
       : listingId.data?.title || "Listing image";
   img.src = mediaUrl;
   img.alt = mediaAlt;
-  img.className = "listing-img";
+  img.className = "listing-img mt-4";
 
   const title = document.createElement("h1");
   title.textContent = listingId.data.title;
   title.className =
-    "listing-title text-4xl font-semibold mb-4 font-['Playfair_Display',serif] text-[var(--main-blue)] max-w-full overflow-hidden text-ellipsis";
+    "listing-title text-4xl font-semibold font-['Playfair_Display',serif] text-[var(--main-blue)] max-w-full overflow-hidden text-ellipsis";
 
   const description = document.createElement("p");
   description.textContent = listingId.data.description;
@@ -48,9 +48,9 @@ function renderSingleListing(listingId) {
 
   const seller = document.createElement("a");
   const sellerName = listingId.data?.seller?.name || "Unknown seller";
-  seller.textContent = `Seller: ${sellerName}`;
+  seller.textContent = `By ${sellerName}`;
   seller.className =
-    "listing-seller text-lg text-[var(--text-color)] font-['Playfair_Display',serif] mt-4";
+    "listing-seller text-md text-[var(--main-blue)] font-['Playfair_Display', serif]";
   seller.href = `/user-profile.html?id=${sellerName}`;
 
   const bidContainer = document.createElement("div");
