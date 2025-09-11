@@ -1,6 +1,6 @@
 import { AuctionApi } from "../apiClient.js";
 import { attachCountdown, detachCountdown } from "../utils/countdown.js";
-import { renderEndedCarousel } from "./endedListings.js";
+import { renderEndedCarousels } from "./endedListings.js";
 
 const auctionApi = new AuctionApi();
 
@@ -184,7 +184,7 @@ async function handleListingsView() {
   });
 
   if (active.length) renderActiveCarousel(active);
-  if (ended.length) renderEndedCarousel(ended);
+  if (ended.length) renderEndedCarousels(ended);
 }
 
 document.addEventListener("DOMContentLoaded", handleListingsView);
