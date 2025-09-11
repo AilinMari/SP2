@@ -1,5 +1,6 @@
 import { AuctionApi } from "../apiClient.js";
 import { attachCountdown, detachCountdown } from "../utils/countdown.js";
+import { renderEndedCarousel } from "./endedListings.js";
 
 const auctionApi = new AuctionApi();
 
@@ -95,7 +96,7 @@ function renderActiveCarousel(listings) {
     bids.textContent = `${
       listing.data?._count?.bids || listing._count?.bids || 0
     } bids`;
-
+    // update button (restore)
     const updateBtn = document.createElement("button");
     updateBtn.className =
       "listing-update-btn cursor-pointer border-3 border-[var(--main-gold)] shadow-lg z-10 px-2 py-1 rounded-md font-['Playfair_Display',serif] text-sm bg-[var(--main-blue)] text-[var(--main-gold)]";
@@ -108,10 +109,10 @@ function renderActiveCarousel(listings) {
     if (img) link.appendChild(img);
     link.appendChild(title);
     item.appendChild(link);
-
     bidContainer.appendChild(endsAt);
     bidContainer.appendChild(bids);
     bidContainer.appendChild(updateBtn);
+
     item.appendChild(bidContainer);
     track.appendChild(item);
   });
@@ -157,8 +158,27 @@ async function handleListingsView() {
     return;
   }
 
-  // Show all listings in the carousel (no filtering)
-  renderActiveCarousel(allListings);
+  // split into active and ended
+  const now = new Date();
+  const active = allListings.filter((l) => {
+    const ends = l.endsAt
+      ? new Date(l.endsAt)
+      : l.data?.endsAt
+      ? new Date(l.data.endsAt)
+      : null;
+    return ends && ends > now;
+  });
+  const ended = allListings.filter((l) => {
+    const ends = l.endsAt
+      ? new Date(l.endsAt)
+      : l.data?.endsAt
+      ? new Date(l.data.endsAt)
+      : null;
+    return !ends || ends <= now;
+  });
+
+  if (active.length) renderActiveCarousel(active);
+  if (ended.length) renderEndedCarousel(ended);
 }
 
 document.addEventListener("DOMContentLoaded", handleListingsView);

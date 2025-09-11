@@ -1,5 +1,6 @@
 import { AuctionApi } from "../apiClient.js";
 import { attachCountdown, detachCountdown } from "../utils/countdown.js";
+import { renderEndedCarousel } from "./endedListings.js";
 
 const auctionApi = new AuctionApi();
 
@@ -81,8 +82,6 @@ function renderActiveCarousel(listings) {
       "listing-title text-xl font-semibold text-[var(--main-blue)] font-['Playfair_Display',serif] mb-2";
     title.textContent = listing.title;
 
-  
-
     const bidContainer = document.createElement("div");
     bidContainer.className =
       "listing-bid-container mt-4 flex items-center gap-2 justify-between";
@@ -151,10 +150,27 @@ async function handleListingsView() {
     return;
   }
 
-  // Show all listings in the carousel (no filtering)
-  renderActiveCarousel(allListings);
+  // split into active and ended
+  const now = new Date();
+  const active = allListings.filter((l) => {
+    const ends = l.endsAt
+      ? new Date(l.endsAt)
+      : l.data?.endsAt
+      ? new Date(l.data.endsAt)
+      : null;
+    return ends && ends > now;
+  });
+  const ended = allListings.filter((l) => {
+    const ends = l.endsAt
+      ? new Date(l.endsAt)
+      : l.data?.endsAt
+      ? new Date(l.data.endsAt)
+      : null;
+    return !ends || ends <= now;
+  });
+
+  if (active.length) renderActiveCarousel(active);
+  if (ended.length) renderEndedCarousel(ended);
 }
 
 document.addEventListener("DOMContentLoaded", handleListingsView);
-
-    
