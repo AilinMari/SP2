@@ -1,5 +1,6 @@
 import { AuctionApi } from "../apiClient.js";
 import { attachCountdown, detachCountdown } from "../utils/countdown.js";
+import { mountCarousel } from "/js/ui/carousel.js";
 
 const auctionApi = new AuctionApi();
 
@@ -24,18 +25,40 @@ function renderSingleListing(listingId) {
 
   console.log("Fetching listing with ID:", listingId);
 
-  const img = document.createElement("img");
-  const mediaUrl =
-    listingId.data?.media && listingId.data.media[0]?.url
-      ? listingId.data.media[0].url
-      : "/images/GoldenBid-icon.png";
-  const mediaAlt =
-    listingId.data?.media && listingId.data.media[0]?.alt
-      ? listingId.data.media[0].alt
-      : listingId.data?.title || "Listing image";
-  img.src = mediaUrl;
-  img.alt = mediaAlt;
-  img.className = "listing-img mt-4";
+  // Render media: if multiple media entries exist, mount a small carousel
+  const mediaArr = listingId.data?.media || [];
+  let mediaRoot = null;
+  if (Array.isArray(mediaArr) && mediaArr.length > 1) {
+    mediaRoot = document.createElement("div");
+    mediaRoot.className = "single-media-carousel mt-4";
+
+    // Use mountCarousel to display each media item; make items full-width
+    mountCarousel(
+      mediaRoot,
+      mediaArr,
+      (m) => {
+        const item = document.createElement("div");
+        item.className = "single-media-item";
+        const im = document.createElement("img");
+        im.src = m?.url || "/images/GoldenBid-icon.png";
+        im.alt = m?.alt || listingId.data?.title || "Listing image";
+        im.style.width = "100%";
+        im.style.height = "auto";
+        im.className = "object-cover rounded";
+        item.appendChild(im);
+        return item;
+      },
+      { itemWidth: "100%", gap: 8 }
+    );
+  } else {
+    const img = document.createElement("img");
+    const mediaUrl = mediaArr && mediaArr[0]?.url ? mediaArr[0].url : "/images/GoldenBid-icon.png";
+    const mediaAlt = mediaArr && mediaArr[0]?.alt ? mediaArr[0].alt : listingId.data?.title || "Listing image";
+    img.src = mediaUrl;
+    img.alt = mediaAlt;
+    img.className = "listing-img mt-4";
+    mediaRoot = img;
+  }
 
   const title = document.createElement("h1");
   title.textContent = listingId.data.title;
@@ -176,7 +199,7 @@ function renderSingleListing(listingId) {
 
   listingContainer.appendChild(title);
   listingContainer.appendChild(seller);
-  listingContainer.appendChild(img);
+  if (mediaRoot) listingContainer.appendChild(mediaRoot);
   listingContainer.appendChild(description);
   bidContainer.appendChild(bidsSpan);
   bidContainer.appendChild(endsAt);

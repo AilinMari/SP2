@@ -1,5 +1,6 @@
 import { AuctionApi } from "../apiClient.js";
 import { attachCountdown, detachCountdown } from "../utils/countdown.js";
+import { mountCarousel } from "/js/ui/carousel.js";
 
 const auctionApi = new AuctionApi();
 
@@ -25,18 +26,38 @@ function renderSingleListing(listing) {
 
   console.log("Rendering listing:", listing?.data?.id || listing);
 
-  const img = document.createElement("img");
-  const mediaUrl =
-    listing.data?.media && listing.data.media[0]?.url
-      ? listing.data.media[0].url
-      : "/images/GoldenBid-icon.png";
-  const mediaAlt =
-    listing.data?.media && listing.data.media[0]?.alt
-      ? listing.data.media[0].alt
-      : listing.data?.title || "Listing image";
-  img.src = mediaUrl;
-  img.alt = mediaAlt;
-  img.className = "listing-img";
+  // Render media: if multiple media entries exist, mount a small carousel
+  const mediaArr = listing.data?.media || [];
+  let mediaRoot = null;
+  if (Array.isArray(mediaArr) && mediaArr.length > 1) {
+    mediaRoot = document.createElement("div");
+    mediaRoot.className = "single-media-carousel mb-4";
+    mountCarousel(
+      mediaRoot,
+      mediaArr,
+      (m) => {
+        const item = document.createElement("div");
+        item.className = "single-media-item";
+        const im = document.createElement("img");
+        im.src = m?.url || "/images/GoldenBid-icon.png";
+        im.alt = m?.alt || listing.data?.title || "Listing image";
+        im.style.width = "100%";
+        im.style.height = "auto";
+        im.className = "object-cover rounded";
+        item.appendChild(im);
+        return item;
+      },
+      { itemWidth: "100%", gap: 8 }
+    );
+  } else {
+    const img = document.createElement("img");
+    const mediaUrl = mediaArr && mediaArr[0]?.url ? mediaArr[0].url : "/images/GoldenBid-icon.png";
+    const mediaAlt = mediaArr && mediaArr[0]?.alt ? mediaArr[0].alt : listing.data?.title || "Listing image";
+    img.src = mediaUrl;
+    img.alt = mediaAlt;
+    img.className = "listing-img";
+    mediaRoot = img;
+  }
 
   const title = document.createElement("h1");
   title.textContent = listing.data.title;
@@ -228,7 +249,7 @@ function renderSingleListing(listing) {
 
   listingContainer.appendChild(title);
   listingContainer.appendChild(seller);
-  listingContainer.appendChild(img);
+  if (mediaRoot) listingContainer.appendChild(mediaRoot);
   listingContainer.appendChild(description);
   bidContainer.appendChild(bids);
   bidContainer.appendChild(endsAt);
