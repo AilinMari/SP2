@@ -74,22 +74,29 @@ async function fetchMyWins() {
         "carousel-item flex-shrink-0 scroll-snap-align-start w-[320px]";
 
       const link = document.createElement("a");
-      const listingId =
-        win?.listing?.id || win?.listing?._id || win?.listingId || "";
+      const listingId = win?.id || win?._id || win?.id || "";
       link.href = listingId
         ? `/single-listing.html?id=${listingId}&_seller=true`
         : "#";
 
       const imageSrc =
-        win?.listing?.media?.[0]?.url || "/images/GoldenBid-icon.png";
-      const img = document.createElement("img");
-      img.src = imageSrc;
-      img.alt = win?.listing?.title || "Listing image";
-      img.className = "w-full h-40 object-cover rounded";
+        win?.media && Array.isArray(win?.media) && win?.media[0]?.url
+          ? win?.media[0]?.url
+          : "/images/GoldenBid-icon.png";
+      if (imageSrc) {
+        const img = document.createElement("img");
+        img.src = imageSrc;
+        img.alt =
+          win.media && win.media[0]?.alt
+            ? win.media[0].alt
+            : win.title || "Listing image";
+        img.className = "listing-image h-40 w-full object-cover mb-2 rounded";
+        item.appendChild(img);
+      }
 
       const title = document.createElement("h3");
       title.className = "mt-2 text-lg font-semibold text-[var(--main-blue)]";
-      title.textContent = win?.listing?.title || "Untitled";
+      title.textContent = win?.title || "Untitled";
 
       const bidContainerInner = document.createElement("div");
       bidContainerInner.className =
@@ -97,11 +104,17 @@ async function fetchMyWins() {
 
       const latestWin = document.createElement("div");
       latestWin.className = "listing-latest-win mt-2 text-sm text-green-600";
-      latestWin.textContent = `Your win: ${win?.amount ?? win?.value ?? "N/A"}`;
+      let latestBidAmount = 0;
+      if (win.bids && win.bids.length > 0) {
+        const latest = win.bids.reduce((max, bid) => {
+          return new Date(bid.created) > new Date(max.created) ? bid : max;
+        }, win.bids[0]);
+        latestBidAmount = latest.amount;
+      }
+      latestWin.textContent = `Win amount ${latestBidAmount} credits`;
 
       bidContainerInner.appendChild(latestWin);
 
-      link.appendChild(img);
       item.appendChild(link);
       link.appendChild(title);
 
