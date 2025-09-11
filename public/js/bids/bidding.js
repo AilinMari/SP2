@@ -51,8 +51,14 @@ function renderSingleListing(listing) {
     );
   } else {
     const img = document.createElement("img");
-    const mediaUrl = mediaArr && mediaArr[0]?.url ? mediaArr[0].url : "/images/GoldenBid-icon.png";
-    const mediaAlt = mediaArr && mediaArr[0]?.alt ? mediaArr[0].alt : listing.data?.title || "Listing image";
+    const mediaUrl =
+      mediaArr && mediaArr[0]?.url
+        ? mediaArr[0].url
+        : "/images/GoldenBid-icon.png";
+    const mediaAlt =
+      mediaArr && mediaArr[0]?.alt
+        ? mediaArr[0].alt
+        : listing.data?.title || "Listing image";
     img.src = mediaUrl;
     img.alt = mediaAlt;
     img.className = "listing-img";
