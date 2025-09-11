@@ -21,7 +21,6 @@ function renderActiveCarousel(listings) {
       }
     });
   }
-
   // Use the existing listingsGrid as the carousel root
   listingsGrid.innerHTML = "";
   const carouselRoot = listingsGrid;
@@ -30,9 +29,6 @@ function renderActiveCarousel(listings) {
     "mb-6",
     "profile-active-carousel"
   );
-
-
-
   const wrapper = document.createElement("div");
   wrapper.className = "carousel-wrapper relative";
 
@@ -107,13 +103,38 @@ function renderActiveCarousel(listings) {
       window.location.href = `/update-listing.html?id=${listing.id}`;
     });
 
+    // delete button
+    const deleteBtn = document.createElement("button");
+    deleteBtn.className =
+      "listing-delete-btn cursor-pointer border-3 border-red shadow z-10 px-2 py-1 rounded-md text-sm bg-red text-white hover:opacity-90";
+    deleteBtn.textContent = "Delete";
+    deleteBtn.addEventListener("click", async () => {
+      const ok = window.confirm("Delete this listing? This cannot be undone.");
+      if (!ok) return;
+      deleteBtn.disabled = true;
+      try {
+        await auctionApi.deleteListing(listing.id);
+        // refresh the list
+        handleListingsView();
+      } catch (err) {
+        console.error("Failed to delete listing", err);
+        alert("Failed to delete listing. See console for details.");
+        deleteBtn.disabled = false;
+      }
+    });
+
     // assemble in one place
     if (img) link.appendChild(img);
     link.appendChild(title);
     item.appendChild(link);
     bidContainer.appendChild(endsAt);
     bidContainer.appendChild(bids);
-    bidContainer.appendChild(updateBtn);
+    // place update and delete buttons together
+    const btnWrap = document.createElement("div");
+    btnWrap.className = "flex items-center gap-2";
+    btnWrap.appendChild(updateBtn);
+    btnWrap.appendChild(deleteBtn);
+    bidContainer.appendChild(btnWrap);
 
     item.appendChild(bidContainer);
     track.appendChild(item);

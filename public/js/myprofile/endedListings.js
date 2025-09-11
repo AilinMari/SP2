@@ -1,5 +1,8 @@
 import { formatDateShort } from "../utils/date.js";
 import { mountCarousel } from "../ui/carousel.js";
+import { AuctionApi } from "../apiClient.js";
+
+const auctionApi = new AuctionApi();
 
 // Fresh, from-scratch ended listings carousel.
 // This mounts into the HTML element with class `.my-ended-listings` (keeps heading)
@@ -27,7 +30,6 @@ export function renderEndedCarousels(listings) {
     // nothing to show
     return;
   }
-
 
   // Create a container that mountCarousel will populate (so heading stays)
   const carouselHost = document.createElement("div");
@@ -75,6 +77,31 @@ export function renderEndedCarousels(listings) {
       endedAt.textContent = ends ? `Ended: ${formatDateShort(ends)}` : "Ended";
       item.appendChild(endedAt);
 
+      // delete button for ended listings
+      const deleteBtn = document.createElement("button");
+      deleteBtn.className =
+        "listing-delete-btn cursor-pointer border-3 shadow z-10 px-2 py-1 rounded-md text-sm bg-red text-white hover:opacity-90 mt-2";
+      deleteBtn.textContent = "Delete";
+      deleteBtn.addEventListener("click", async () => {
+        const ok = window.confirm(
+          "Delete this listing? This cannot be undone."
+        );
+        if (!ok) return;
+        deleteBtn.disabled = true;
+        try {
+          const idToDelete = listing.id || listing._id;
+          if (!idToDelete) throw new Error("Listing id missing");
+          await auctionApi.deleteListing(idToDelete);
+          // refresh the page to update carousels
+          window.location.reload();
+        } catch (err) {
+          console.error("Failed to delete listing", err);
+          alert("Failed to delete listing. See console for details.");
+          deleteBtn.disabled = false;
+        }
+      });
+      item.appendChild(deleteBtn);
+
       return item;
     },
     { itemWidth: "min(380px, 92vw)", gap: 16 }
@@ -94,4 +121,3 @@ export function renderEndedCarousels(listings) {
 
   return carousel;
 }
-

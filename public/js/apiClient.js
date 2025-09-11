@@ -342,53 +342,6 @@ export class AuctionApi {
     return aggregated;
   }
 
-  //      API_LISTINGS + "?_bids=true" + "&_seller=true",
-  // async getAllListings({
-  //   limit = 40,
-  //   page = 1,
-  //   tag = "",
-  //   active = null,
-  //   seller = false,
-  //   bids = false,
-  //   sort,
-  //   sortOrder,
-  //   search,
-  // } = {}) => {
-  //   // pick endpoint
-  //   const url = new URL(
-  //     search ? `${API_ACTION_LISTINGS}/search` : API_ACTION_LISTINGS
-  //   );
-  //   const query = url.searchParams;
-
-  //   query.set("limit", String(limit));
-  //   query.set("page", String(page));
-
-  //   // search
-  //   if (search && search.trim().length) query.set("q", search.trim());
-
-  //   // filters
-  //   if (tag) query.set("_tag", tag);
-  //   if (typeof active === "boolean") query.set("_active", String(active));
-
-  //   // include extra data
-  //   if (seller) query.set("_seller", "true");
-  //   if (bids) query.set("_bids", "true");
-
-  //   // sorting
-  //   if (sort) {
-  //     query.set("sort", sort);
-  //     if (sortOrder) query.set("sortOrder", sortOrder);
-  //   }
-
-  //   const res = await fetch(url.toString(), {
-  //     method: "GET",
-  //     headers: { accept: "application/json" },
-  //     cache: "no-store",
-  //   });
-  //   if (!res.ok) throw new Error(`Fetch failed: ${res.status} ${res.statusText}`);
-  //   return res.json();
-  // };
-
   async getListingById(listingId) {
     try {
       const url = new URL(`${API_LISTINGS}/${listingId}`);
@@ -417,6 +370,23 @@ export class AuctionApi {
       console.error(error);
       throw error;
     }
+  }
+
+  async deleteListing(listingId) {
+    const accessToken = this._getRequiredAccessToken();
+    const options = {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
+        "X-Noroff-API-Key": `${API_KEY}`,
+      },
+    };
+    return await this._request(
+      `${API_LISTINGS}/${listingId}`,
+      options,
+      "Error deleting listing"
+    );
   }
 
   async bidOnListing(listingId, bidAmount) {
