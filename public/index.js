@@ -131,9 +131,10 @@ function renderActiveCarousel(listings) {
     title.className = "mt-2 text-lg font-semibold text-[var(--main-blue)]";
     title.textContent = listing.title;
 
-    const seller = document.createElement("div");
+    const seller = document.createElement("a");
     seller.className = "text-sm text-[var(--main-blue)]";
     seller.textContent = `Seller: ${listing.seller?.name || "Unknown"}`;
+    seller.href = `/user-profile.html?id=${listing.seller.name}`;
 
     const link = document.createElement("a");
     link.href = `/single-listing.html?id=${listing.id}&_seller=true`;
