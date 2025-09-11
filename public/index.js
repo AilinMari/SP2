@@ -1,6 +1,7 @@
 import { AuctionApi } from "/js/apiClient.js";
 import { attachCountdown, detachCountdown } from "/js/utils/countdown.js";
 import { filterListings } from "/js/listings/filtering.js";
+import { mountCarousel } from "/js/ui/carousel.js";
 
 const auctionApi = new AuctionApi();
 
@@ -85,54 +86,22 @@ function renderAllListings(listings) {
 }
 
 function renderActiveCarousel(listings) {
-  // Ensure there's a place to render the carousel above the listings grid
   const listingsGrid = document.querySelector(".listings-grid");
   if (!listingsGrid) return;
 
-  // Find or create container
   let carouselRoot = document.querySelector(".active-carousel");
   if (!carouselRoot) {
     carouselRoot = document.createElement("div");
     carouselRoot.className = "active-carousel mb-6";
     listingsGrid.parentNode.insertBefore(carouselRoot, listingsGrid);
   }
-  // detach countdowns inside carouselRoot before clearing
-  if (carouselRoot.querySelectorAll) {
-    carouselRoot.querySelectorAll(".listing-ends-at").forEach((el) => {
-      try {
-        detachCountdown(el);
-      } catch (e) {
-        // ignore
-      }
-    });
-  }
-  carouselRoot.innerHTML = "";
 
-  if (!Array.isArray(listings) || listings.length === 0) {
-    return; // nothing to show
-  }
+  if (!Array.isArray(listings) || listings.length === 0) return;
 
-  const wrapper = document.createElement("div");
-  wrapper.className = "carousel-wrapper relative";
-
-  const prev = document.createElement("button");
-  prev.className = "carousel-btn carousel-prev";
-  prev.setAttribute("aria-label", "Previous");
-  prev.textContent = "<";
-
-  const next = document.createElement("button");
-  next.className = "carousel-btn carousel-next";
-  next.setAttribute("aria-label", "Next");
-  next.textContent = ">";
-
-  const track = document.createElement("div");
-  track.className = "carousel-track flex gap-4 overflow-x-auto scroll-smooth";
-  track.style.scrollSnapType = "x mandatory";
-
-  listings.forEach((listing) => {
+  // Use mountCarousel with a renderer for each listing
+  mountCarousel(carouselRoot, listings, (listing) => {
     const item = document.createElement("div");
-    item.className =
-      "carousel-item flex-shrink-0 scroll-snap-align-start w-[320px]";
+    item.className = "w-[320px]"; // base width, mountCarousel augments classes
 
     const imageSrc =
       listing.media && Array.isArray(listing.media) && listing.media[0]?.url
@@ -150,7 +119,7 @@ function renderActiveCarousel(listings) {
     const seller = document.createElement("a");
     seller.className = "text-sm text-[var(--main-blue)]";
     seller.textContent = `By ${listing.seller?.name || "Unknown"}`;
-    seller.href = `/user-profile.html?id=${listing.seller.name}`;
+    seller.href = `/user-profile.html?id=${listing.seller?.name}`;
 
     const link = document.createElement("a");
     link.href = `/single-listing.html?id=${listing.id}&_seller=true`;
@@ -162,7 +131,6 @@ function renderActiveCarousel(listings) {
     latestBid.className = "listing-latest-bid mt-2 text-sm text-green-600";
     let latestBidAmount = 0;
     if (listing.bids && listing.bids.length > 0) {
-      // Find the bid with the latest created date
       const latest = listing.bids.reduce((max, bid) => {
         return new Date(bid.created) > new Date(max.created) ? bid : max;
       }, listing.bids[0]);
@@ -170,40 +138,30 @@ function renderActiveCarousel(listings) {
     }
     latestBid.textContent = `Latest bid: $${latestBidAmount}`;
 
+    const endsAt = document.createElement("span");
+    endsAt.className = "listing-ends-at block mt-2 text-sm text-red-600";
+    const endsDate = listing.endsAt ? new Date(listing.endsAt) : null;
+    attachCountdown(endsAt, endsDate);
+
     const joinBidding = document.createElement("button");
     joinBidding.className =
-      "join-bidding mt-2 text-sm bg-[var(--main-gold)] text-[var(--main-blue)] py-1 px-2 rounded font-semibold font-([inter, sans-serif])  hover:bg-yellow-500";
+      "join-bidding mt-2 text-sm bg-[var(--main-gold)] text-[var(--main-blue)] py-1 px-2 rounded font-semibold hover:bg-yellow-500";
     joinBidding.textContent = "Start bidding now";
     joinBidding.addEventListener("click", () => {
       window.location.href = `/bidding.html?id=${listing.id}&_seller=true`;
     });
 
     link.appendChild(img);
-
     item.appendChild(link);
     link.appendChild(title);
     item.appendChild(seller);
+    item.appendChild(endsAt);
     bidContainer.appendChild(latestBid);
     item.appendChild(bidContainer);
     bidContainer.appendChild(joinBidding);
-    track.appendChild(item);
+
+    return item;
   });
-
-  wrapper.appendChild(prev);
-  wrapper.appendChild(track);
-  wrapper.appendChild(next);
-  carouselRoot.appendChild(wrapper);
-
-  // Scroll behavior: move by item width
-  function scrollBy(direction) {
-    const card = track.querySelector(".carousel-item");
-    if (!card) return;
-    const width = card.getBoundingClientRect().width + 16; // include gap
-    track.scrollBy({ left: direction * width, behavior: "smooth" });
-  }
-
-  prev.addEventListener("click", () => scrollBy(-1));
-  next.addEventListener("click", () => scrollBy(1));
 }
 
 let allListings = [];

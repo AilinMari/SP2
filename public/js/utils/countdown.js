@@ -35,7 +35,7 @@ export function attachCountdown(el, endDate) {
       return;
     }
     const human = formatRemaining(diff);
-    el.textContent = `Ends in: ${human}`;
+    el.textContent = `${human}`;
   }
 
   update();
