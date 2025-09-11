@@ -81,14 +81,7 @@ function renderActiveCarousel(listings) {
       "listing-title text-xl font-semibold text-[var(--main-blue)] font-['Playfair_Display',serif] mb-2";
     title.textContent = listing.title;
 
-    const desc = listing.description
-      ? (() => {
-          const d = document.createElement("p");
-          d.className = "listing-desc text-md text-gray-700 mb-2";
-          d.textContent = listing.description;
-          return d;
-        })()
-      : null;
+  
 
     const bidContainer = document.createElement("div");
     bidContainer.className =
@@ -111,7 +104,6 @@ function renderActiveCarousel(listings) {
     if (img) link.appendChild(img);
     link.appendChild(title);
     item.appendChild(link);
-    if (desc) item.appendChild(desc);
     bidContainer.appendChild(endsAt);
     bidContainer.appendChild(bids);
 
@@ -164,3 +156,5 @@ async function handleListingsView() {
 }
 
 document.addEventListener("DOMContentLoaded", handleListingsView);
+
+    

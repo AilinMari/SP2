@@ -97,12 +97,7 @@ function renderActiveCarousel(bids) {
     link.appendChild(title);
     item.appendChild(link);
 
-    if (listing?.description) {
-      const d = document.createElement("p");
-      d.className = "listing-desc text-md text-gray-700 mb-2";
-      d.textContent = listing.description;
-      item.appendChild(d);
-    }
+
 
     // footer info: endsAt, total bids, and user's bid
     const footer = document.createElement("div");
