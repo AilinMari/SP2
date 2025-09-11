@@ -90,7 +90,7 @@ function renderActiveCarousel(bids) {
     img.className = "w-full h-48 object-cover mb-2 rounded";
 
     const title = document.createElement("h3");
-    title.className = "mt-2 text-lg font-semibold text-[var(--main-blue)]";
+    title.className = "text-xl font-semibold text-[var(--main-blue)] font-['Playfair_Display',serif] mb-2";
     title.textContent = listing?.title || "Untitled";
 
     if (img) link.appendChild(img);
