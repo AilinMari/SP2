@@ -3,167 +3,14 @@ import { attachCountdown, detachCountdown } from "/js/utils/countdown.js";
 import { filterListings } from "/js/listings/filtering.js";
 import { initListingFilters } from "/js/listings/filterControls.js";
 import { mountCarousel } from "/js/ui/carousel.js";
+import { renderAllListings } from "/js/listings/allListingsRenderer.js";
+import { renderActiveCarousel } from "/js/listings/activeCarousel.js";
 
 const auctionApi = new AuctionApi();
 
-function renderAllListings(listings) {
-  const listingsGrid = document.querySelector(".listings-grid");
-  if (!listingsGrid) {
-    console.error("Listings grid not found");
-    return;
-  }
-  // detach countdowns from any existing elements before clearing the grid
-  if (listingsGrid.querySelectorAll) {
-    listingsGrid.querySelectorAll(".listing-ends-at").forEach((el) => {
-      try {
-        detachCountdown(el);
-      } catch (e) {
-        // ignore
-      }
-    });
-  }
-  listingsGrid.innerHTML = ""; // Clear existing listings
+// `renderAllListings` moved to /js/listings/allListingsRenderer.js
 
-  if (!Array.isArray(listings) || listings.length === 0) {
-    listingsGrid.innerHTML = "<p>No listings available.</p>";
-    return;
-  }
-
-  console.log("Rendering listings:", listings);
-
-  listings.forEach((listing) => {
-    // Render all listings. If no media is present, use a placeholder image.
-    const imageSrc =
-      listing.media && Array.isArray(listing.media) && listing.media[0]?.url
-        ? listing.media[0].url
-        : "/images/GoldenBid-icon.png"; // fallback placeholder
-    const imageAlt =
-      listing.media && listing.media[0]?.alt
-        ? listing.media[0].alt
-        : listing.title || "Listing image";
-
-    // Proceed to render the listing
-    const listingContainer = document.createElement("div");
-    listingContainer.className =
-      "container bg-[var(--card-background)] p-4 border-2 border-[var(--main-gold)] rounded-md mb-8 max-w-md max-h-150 overflow-hidden";
-
-    const title = document.createElement("h1");
-    title.className =
-      "listing-title text-xl font-semibold text-[var(--main-blue)] font-['Playfair_Display',serif] mb-2 max-w-full overflow-hidden text-ellipsis";
-    title.textContent = listing.title;
-
-    const seller = document.createElement("a");
-    seller.className =
-      "listing-seller text-md font-regular text-[var(--main-blue)] font-['Playfair_Display',serif]";
-    seller.textContent = `By ${listing.seller?.name || "Unknown"}`;
-    seller.href = `/user-profile.html?id=${listing.seller?.name || ""}`;
-
-    const link = document.createElement("a");
-    // fix query string: id=...&_seller=true
-    link.href = `/single-listing.html?id=${listing.id}&_seller=true`;
-
-    const img = document.createElement("img");
-    img.src = imageSrc;
-    img.alt = imageAlt;
-    img.className = "listing-image mt-4 object-cover object-top w-full h-100";
-
-    const endsAt = document.createElement("span");
-    endsAt.className = "listing-ends-at block mt-2 text-sm text-red-600";
-    const endsDate = listing.endsAt ? new Date(listing.endsAt) : null;
-    attachCountdown(endsAt, endsDate);
-
-    const bids = document.createElement("span");
-    bids.className = "listing-bids";
-    bids.textContent = `${listing._count?.bids || 0} bids`;
-
-    link.appendChild(title);
-    link.appendChild(seller);
-    link.appendChild(img);
-    listingContainer.appendChild(link);
-    listingsGrid.appendChild(listingContainer);
-    listingContainer.appendChild(endsAt);
-    listingContainer.appendChild(bids);
-  });
-}
-
-function renderActiveCarousel(listings) {
-  const listingsGrid = document.querySelector(".listings-grid");
-  if (!listingsGrid) return;
-
-  let carouselRoot = document.querySelector(".active-carousel");
-  if (!carouselRoot) {
-    carouselRoot = document.createElement("div");
-    carouselRoot.className = "active-carousel mb-6";
-    listingsGrid.parentNode.insertBefore(carouselRoot, listingsGrid);
-  }
-
-  if (!Array.isArray(listings) || listings.length === 0) return;
-
-  // Use mountCarousel with a renderer for each listing
-  mountCarousel(carouselRoot, listings, (listing) => {
-    const item = document.createElement("div");
-    item.className = "w-[320px]"; // base width, mountCarousel augments classes
-
-    const imageSrc =
-      listing.media && Array.isArray(listing.media) && listing.media[0]?.url
-        ? listing.media[0].url
-        : "/images/GoldenBid-icon.png";
-    const img = document.createElement("img");
-    img.src = imageSrc;
-    img.alt = listing.title || "Listing image";
-    img.className = "w-full h-40 object-cover rounded";
-
-    const title = document.createElement("h3");
-    title.className = "mt-2 text-lg font-semibold text-[var(--main-blue)]";
-    title.textContent = listing.title;
-
-    const seller = document.createElement("a");
-    seller.className = "text-sm text-[var(--main-blue)]";
-    seller.textContent = `By ${listing.seller?.name || "Unknown"}`;
-    seller.href = `/user-profile.html?id=${listing.seller?.name}`;
-
-    const link = document.createElement("a");
-    link.href = `/single-listing.html?id=${listing.id}&_seller=true`;
-
-    const bidContainer = document.createElement("div");
-    bidContainer.className = "listing-bids-container mt-2 flex justify-between";
-
-    const latestBid = document.createElement("div");
-    latestBid.className = "listing-latest-bid mt-2 text-sm text-green-600";
-    let latestBidAmount = 0;
-    if (listing.bids && listing.bids.length > 0) {
-      const latest = listing.bids.reduce((max, bid) => {
-        return new Date(bid.created) > new Date(max.created) ? bid : max;
-      }, listing.bids[0]);
-      latestBidAmount = latest.amount;
-    }
-    latestBid.textContent = `Latest bid: $${latestBidAmount}`;
-
-    const endsAt = document.createElement("span");
-    endsAt.className = "listing-ends-at block mt-2 text-sm text-red-600";
-    const endsDate = listing.endsAt ? new Date(listing.endsAt) : null;
-    attachCountdown(endsAt, endsDate);
-
-    const joinBidding = document.createElement("button");
-    joinBidding.className =
-      "join-bidding mt-2 text-sm bg-[var(--main-gold)] text-[var(--main-blue)] py-1 px-2 rounded font-semibold hover:bg-yellow-500";
-    joinBidding.textContent = "Start bidding now";
-    joinBidding.addEventListener("click", () => {
-      window.location.href = `/bidding.html?id=${listing.id}&_seller=true`;
-    });
-
-    link.appendChild(img);
-    item.appendChild(link);
-    link.appendChild(title);
-    item.appendChild(seller);
-    item.appendChild(endsAt);
-    bidContainer.appendChild(latestBid);
-    item.appendChild(bidContainer);
-    bidContainer.appendChild(joinBidding);
-
-    return item;
-  });
-}
+// ...existing code... (renderActiveCarousel moved to /js/listings/activeCarousel.js)
 
 let allListings = [];
 
@@ -181,26 +28,36 @@ async function handleListingsView() {
   if (!Array.isArray(allListings)) allListings = [];
   // Sort by created date descending so newest listings appear first
   allListings.sort((a, b) => new Date(b.created) - new Date(a.created));
-  // Default: show active listings (endsAt in future) first
+  // Show a "Most bids" carousel first (most popular) but only from active listings
+  // Determine active listings (ends in the future), then sort by bids desc and take top N.
   const now = new Date();
-  // Partition: active listings (endsAt in future) vs others
-  const active = [];
-  const others = [];
-  allListings.forEach((l) => {
-    const ends = l.endsAt ? new Date(l.endsAt) : null;
-    if (ends && ends > now) active.push(l);
-    else others.push(l);
+  const topCount = 10;
+  const activeListings = allListings.filter((l) => {
+    const ends = l.endsAt
+      ? new Date(l.endsAt)
+      : l.data?.endsAt
+      ? new Date(l.data.endsAt)
+      : null;
+    return ends && ends > now;
   });
 
-  // Render active carousel first (if any), then the other listings in the grid
-  if (active.length)
-    renderActiveCarousel(
-      active.sort((a, b) => new Date(b.created) - new Date(a.created))
-    );
+  const topBids = activeListings
+    .slice()
+    .sort((a, b) => (b._count?.bids || 0) - (a._count?.bids || 0))
+    .slice(0, topCount);
+
+  // Render the top-bids carousel (only active listings)
+  if (topBids.length) renderActiveCarousel(topBids);
+
+  // Remove carousel items from the grid to avoid duplicates
+  const shownIds = new Set(topBids.map((l) => l.id || l._id));
+  const remaining = allListings.filter((l) => !shownIds.has(l.id || l._id));
+
+  // Render the remaining listings in the grid (sorted newest first)
   renderAllListings(
-    others.length
-      ? others.sort((a, b) => new Date(b.created) - new Date(a.created))
-      : active
+    remaining.length
+      ? remaining.sort((a, b) => new Date(b.created) - new Date(a.created))
+      : []
   );
 }
 
