@@ -142,12 +142,21 @@ function renderSingleListing(listing) {
     "listing-bids font-['Inter',sans-serif] text-sm text-[var(--text-color)]";
   bids.textContent = `${listing.data?._count?.bids || 0} bids`;
 
-  // Show only last 3 bids by default
-  const lastThreeBids = bidsData.slice(-3);
+  // Show top bids sorted by amount (highest first), then by most recent
+  const allBids = bidsData || [];
+  const sortedBids = allBids.slice().sort((a, b) => {
+    const amountDiff = (b.amount || 0) - (a.amount || 0);
+    if (amountDiff !== 0) return amountDiff;
+    const dateA = a.created ? new Date(a.created).getTime() : 0;
+    const dateB = b.created ? new Date(b.created).getTime() : 0;
+    return dateB - dateA;
+  });
+
+  const topThree = sortedBids.slice(0, 3);
 
   const bidsList = document.createElement("ul");
   bidsList.className = "listing-bids-list";
-  lastThreeBids.forEach((bid) => {
+  topThree.forEach((bid) => {
     const bidItem = document.createElement("li");
     bidItem.className = "listing-bid-item";
     const bidderName = bid?.bidder?.name || "Unknown bidder";
@@ -158,7 +167,7 @@ function renderSingleListing(listing) {
   // Add 'See older bids' button if there are more than 3 bids
   let seeOlderBtn = null;
   let hideOlderBtn = null;
-  if (bidsData.length > 3) {
+  if (sortedBids.length > 3) {
     seeOlderBtn = document.createElement("button");
     seeOlderBtn.textContent = "See older bids";
     seeOlderBtn.className =
@@ -171,8 +180,7 @@ function renderSingleListing(listing) {
     hideOlderBtn.style.display = "none";
 
     seeOlderBtn.addEventListener("click", () => {
-      // Show all bids
-      // detach countdowns inside bidsList before clearing
+      // Show all bids in sorted order (highest -> lowest)
       if (bidsList.querySelectorAll) {
         bidsList.querySelectorAll(".listing-ends-at").forEach((el) => {
           try {
@@ -183,12 +191,11 @@ function renderSingleListing(listing) {
         });
       }
       bidsList.innerHTML = "";
-      bidsData.forEach((bid) => {
+      sortedBids.forEach((bid) => {
         const bidItem = document.createElement("li");
         bidItem.className = "listing-bid-item";
-        bidItem.textContent = `Bidder: ${
-          bid.bidder?.name || "Unknown bidder"
-        } - Bid: ${bid.amount} Credits`;
+        const bidderName = bid?.bidder?.name || "Unknown bidder";
+        bidItem.textContent = `Bidder: ${bidderName} - Bid: ${bid.amount} Credits`;
         bidsList.appendChild(bidItem);
       });
       seeOlderBtn.style.display = "none";
@@ -196,8 +203,7 @@ function renderSingleListing(listing) {
     });
 
     hideOlderBtn.addEventListener("click", () => {
-      // Show only last 3 bids
-      // detach countdowns inside bidsList before clearing
+      // Revert to top 3 bids
       if (bidsList.querySelectorAll) {
         bidsList.querySelectorAll(".listing-ends-at").forEach((el) => {
           try {
@@ -208,12 +214,11 @@ function renderSingleListing(listing) {
         });
       }
       bidsList.innerHTML = "";
-      lastThreeBids.forEach((bid) => {
+      topThree.forEach((bid) => {
         const bidItem = document.createElement("li");
         bidItem.className = "listing-bid-item";
-        bidItem.textContent = `Bidder: ${
-          bid.bidder?.name || "Unknown bidder"
-        } - Bid: ${bid.amount} Credits`;
+        const bidderName = bid?.bidder?.name || "Unknown bidder";
+        bidItem.textContent = `Bidder: ${bidderName} - Bid: ${bid.amount} Credits`;
         bidsList.appendChild(bidItem);
       });
       hideOlderBtn.style.display = "none";
