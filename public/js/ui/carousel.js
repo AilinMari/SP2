@@ -51,7 +51,11 @@ export function mountCarousel(root, items, renderItem, opts = {}) {
     const node = renderItem(itemData);
     if (!node) return;
     // Ensure item has carousel-item styles
-    node.classList.add("carousel-item", "flex-shrink-0", "scroll-snap-align-start");
+    node.classList.add(
+      "carousel-item",
+      "flex-shrink-0",
+      "scroll-snap-align-start"
+    );
     // only set style.width if not already set
     if (!node.style.width) node.style.width = itemWidth;
     track.appendChild(node);

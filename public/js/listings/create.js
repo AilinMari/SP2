@@ -35,8 +35,21 @@ if (form) {
     // Convert tags into an array
     const tags = tagsInput ? tagsInput.split(",").map((tag) => tag.trim()) : [];
 
-    // Create media object
-    const media = imageUrl ? { url: imageUrl, alt: imageAlt } : null;
+    // Create media object(s).
+    // Allow multiple image URLs separated by commas. If one URL is provided, keep
+    // the original single-object shape; if multiple, build an array of media objects.
+    const images = imageUrl
+      ? imageUrl
+          .split(",")
+          .map((s) => s.trim())
+          .filter(Boolean)
+      : [];
+    let media = null;
+    if (images.length === 1) {
+      media = { url: images[0], alt: imageAlt };
+    } else if (images.length > 1) {
+      media = images.map((u) => ({ url: u, alt: imageAlt }));
+    }
 
     // endsAt must be provided and in ISO format for the API
     if (!endsAt) {

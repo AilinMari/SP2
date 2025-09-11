@@ -70,9 +70,16 @@ export async function updateListing() {
   // Convert tags into an array
   const tags = tagsInput ? tagsInput.split(",").map((tag) => tag.trim()) : [];
 
-  // Create media object and normalize into an array (api expects array)
-  const mediaObj = imageUrl ? { url: imageUrl, alt: imageAlt } : null;
-  const media = mediaObj ? [mediaObj] : [];
+  // Create media object(s) from comma-separated URLs.
+  // If the user provided one URL we still send an array (API expects array),
+  // if multiple, build array of media objects.
+  const images = imageUrl
+    ? imageUrl
+        .split(",")
+        .map((s) => s.trim())
+        .filter(Boolean)
+    : [];
+  const media = images.map((u) => ({ url: u, alt: imageAlt }));
 
   if (!endsAt) {
     alert("Please provide an end date/time for the listing.");
