@@ -1,6 +1,7 @@
 import { AuctionApi } from "/js/apiClient.js";
 import { attachCountdown, detachCountdown } from "/js/utils/countdown.js";
 import { filterListings } from "/js/listings/filtering.js";
+import { initListingFilters } from "/js/listings/filterControls.js";
 import { mountCarousel } from "/js/ui/carousel.js";
 
 const auctionApi = new AuctionApi();
@@ -219,47 +220,9 @@ window.addEventListener("listings:updated", (e) => {
 
 // Filtering UI logic
 document.addEventListener("DOMContentLoaded", () => {
-  const searchBar = document.getElementById("search-bar");
-  const statusFilter = document.getElementById("status-filter");
-  const sortFilter = document.getElementById("sort-filter");
-
-  function sortListings(listings, sortType) {
-    let sorted = [...listings];
-    switch (sortType) {
-      case "newest":
-        sorted.sort((a, b) => new Date(b.created) - new Date(a.created));
-        break;
-      case "oldest":
-        sorted.sort((a, b) => new Date(a.created) - new Date(b.created));
-        break;
-      case "most-bids":
-        sorted.sort((a, b) => (b._count?.bids || 0) - (a._count?.bids || 0));
-        break;
-      case "least-bids":
-        sorted.sort((a, b) => (a._count?.bids || 0) - (b._count?.bids || 0));
-        break;
-      default:
-        break;
-    }
-    return sorted;
-  }
-
-  function applyFilters() {
-    const search = searchBar ? searchBar.value : "";
-    const status = statusFilter ? statusFilter.value : "all";
-    const sortType = sortFilter ? sortFilter.value : "newest";
-    let filtered = filterListings(allListings, { search, status });
-    filtered = sortListings(filtered, sortType);
-    renderAllListings(filtered);
-  }
-
-  if (searchBar) {
-    searchBar.addEventListener("input", applyFilters);
-  }
-  if (statusFilter) {
-    statusFilter.addEventListener("change", applyFilters);
-  }
-  if (sortFilter) {
-    sortFilter.addEventListener("change", applyFilters);
-  }
+  // Wire up listing filters (moves the long filtering logic into its own module)
+  initListingFilters({
+    getListings: () => allListings,
+    renderAll: renderAllListings,
+  });
 });
