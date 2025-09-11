@@ -3,6 +3,30 @@ import { attachCountdown, detachCountdown } from "../utils/countdown.js";
 
 const auctionApi = new AuctionApi();
 
+// Helper: extract a numeric timestamp from common bid date fields
+function getBidTimestamp(bid) {
+  if (!bid) return 0;
+  const t =
+    bid.createdAt ||
+    bid.created ||
+    bid.created_at ||
+    bid.updatedAt ||
+    bid.updated ||
+    bid.date ||
+    null;
+  const n = t ? new Date(t).getTime() : 0;
+  return Number.isFinite(n) ? n : 0;
+}
+
+// Helper: get listing end date (Date or null)
+function getListingEndsAt(listing) {
+  if (!listing) return null;
+  const raw = listing.endsAt || listing.data?.endsAt || listing.ends_at || null;
+  if (!raw) return null;
+  const d = new Date(raw);
+  return isNaN(d.getTime()) ? null : d;
+}
+
 async function fetchMyBids() {
   const username = localStorage.getItem("name");
   if (!username) {
@@ -21,7 +45,43 @@ async function fetchMyBids() {
       return;
     }
 
-    renderActiveCarousel(bids);
+    // Filter to only active listings (endsAt in the future)
+    const now = Date.now();
+    const activeBids = bids.filter((bid) => {
+      const listing = bid?.listing ?? bid;
+      const ends = getListingEndsAt(listing);
+      if (!ends) return false; // no end date -> treat as not active
+      return ends.getTime() > now;
+    });
+
+    if (activeBids.length === 0) {
+      const container = document.querySelector(".my-active-bids");
+      if (container) container.innerHTML = "<p>No active bids.</p>";
+      return;
+    }
+
+    // Deduplicate by listing id, keeping the latest bid per listing
+    const byListing = new Map();
+    for (const bid of activeBids) {
+      const listing = bid?.listing ?? bid;
+      const listingId = listing?.id || listing?._id || bid?.listingId || "";
+      if (!listingId) continue;
+      const existing = byListing.get(listingId);
+      if (!existing) {
+        byListing.set(listingId, bid);
+        continue;
+      }
+      // compare timestamps, keep the newer
+      const existingTs = getBidTimestamp(existing);
+      const currentTs = getBidTimestamp(bid);
+      if (currentTs >= existingTs) {
+        byListing.set(listingId, bid);
+      }
+    }
+
+    const deduped = Array.from(byListing.values());
+
+    renderActiveCarousel(deduped);
   } catch (error) {
     console.error("Error fetching my bids:", error);
   }
@@ -67,8 +127,12 @@ function renderActiveCarousel(bids) {
   track.className =
     "carousel-track flex gap-4 overflow-x-auto scroll-smooth py-2";
   track.style.scrollSnapType = "x mandatory";
-  console.log(bids);
-  bids.forEach((bid) => {
+  // ensure newest bids first (by timestamp)
+  const sorted = bids
+    .slice()
+    .sort((a, b) => getBidTimestamp(b) - getBidTimestamp(a));
+  // console.log(sorted);
+  sorted.forEach((bid) => {
     // API returns bid objects; the listing may be under bid.listing
     const listing = bid?.listing ?? bid;
     const listingId = listing?.id || listing?._id || bid?.listingId || "";
@@ -90,14 +154,13 @@ function renderActiveCarousel(bids) {
     img.className = "w-full h-48 object-cover mb-2 rounded";
 
     const title = document.createElement("h3");
-    title.className = "text-xl font-semibold text-[var(--main-blue)] font-['Playfair_Display',serif] mb-2";
+    title.className =
+      "text-xl font-semibold text-[var(--main-blue)] font-['Playfair_Display',serif] mb-2";
     title.textContent = listing?.title || "Untitled";
 
     if (img) link.appendChild(img);
     link.appendChild(title);
     item.appendChild(link);
-
-
 
     // footer info: endsAt, total bids, and user's bid
     const footer = document.createElement("div");
