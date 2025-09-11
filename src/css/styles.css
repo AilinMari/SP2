@@ -193,6 +193,10 @@ input[type="submit"],
   height: 14rem;
 }
 
+.max-h-100 {
+  max-height: 25rem;
+}
+
 .w-7 {
   width: 14rem;
 }

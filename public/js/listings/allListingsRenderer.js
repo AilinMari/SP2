@@ -60,7 +60,7 @@ export function renderAllListings(listings) {
     const img = document.createElement("img");
     img.src = imageSrc;
     img.alt = imageAlt;
-    img.className = "listing-image mt-4 object-cover object-top w-full h-100";
+    img.className = "listing-image mt-4 w-full h-40 object-cover rounded";
 
     const endsAt = document.createElement("span");
     endsAt.className = "listing-ends-at block mt-2 text-sm text-red-600";
