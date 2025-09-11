@@ -85,14 +85,22 @@ function renderSingleListing(listingId) {
     endsAt.textContent = `Ends at: ${endsDate.toLocaleString()}`;
   }
 
-  const bids = document.createElement("span");
-  bids.className =
+  const bidsSpan = document.createElement("span");
+  bidsSpan.className =
     "listing-bids font-['Inter',sans-serif] text-sm text-[var(--text-color)]";
-  bids.textContent = `${listingId.data?._count?.bids || 0} bids`;
+  bidsSpan.textContent = `${listingId.data?._count?.bids || 0} bids`;
 
-  // Show only last 3 bids by default
+  // Prepare bids: sort by amount desc, then by most recent
   const allBids = listingId.data?.bids || [];
-  const lastThreeBids = allBids.slice(-3);
+  const sortedBids = allBids.slice().sort((a, b) => {
+    const amountDiff = (b.amount || 0) - (a.amount || 0);
+    if (amountDiff !== 0) return amountDiff;
+    const dateA = a.created ? new Date(a.created).getTime() : 0;
+    const dateB = b.created ? new Date(b.created).getTime() : 0;
+    return dateB - dateA;
+  });
+  // Show top 3 highest bids by default
+  const lastThreeBids = sortedBids.slice(0, 3);
 
   const bidsList = document.createElement("ul");
   bidsList.className = "listing-bids-list";
@@ -120,13 +128,13 @@ function renderSingleListing(listingId) {
     hideOlderBtn.style.display = "none";
 
     seeOlderBtn.addEventListener("click", () => {
-      // Show all bids
+      // Show all bids in sorted order (highest -> lowest)
       bidsList.innerHTML = "";
-      allBids.forEach((bid) => {
+      sortedBids.forEach((bid) => {
         const bidItem = document.createElement("li");
         bidItem.className = "listing-bid-item";
-        const bidDate = new Date(bid.created);
-        bidItem.textContent = `Bidder: ${bid.bidder.name} - Bid: ${bid.amount} Credits`;
+        const bidderName = bid?.bidder?.name || "Unknown bidder";
+        bidItem.textContent = `Bidder: ${bidderName} - Bid: ${bid.amount} Credits`;
         bidsList.appendChild(bidItem);
       });
       seeOlderBtn.style.display = "none";
@@ -134,13 +142,13 @@ function renderSingleListing(listingId) {
     });
 
     hideOlderBtn.addEventListener("click", () => {
-      // Show only last 3 bids
+      // Revert to top 3 bids
       bidsList.innerHTML = "";
       lastThreeBids.forEach((bid) => {
         const bidItem = document.createElement("li");
         bidItem.className = "listing-bid-item";
-        const bidDate = new Date(bid.created);
-        bidItem.textContent = `Bidder: ${bid.bidder.name} - Bid: ${bid.amount} Credits`;
+        const bidderName = bid?.bidder?.name || "Unknown bidder";
+        bidItem.textContent = `Bidder: ${bidderName} - Bid: ${bid.amount} Credits`;
         bidsList.appendChild(bidItem);
       });
       hideOlderBtn.style.display = "none";
@@ -152,7 +160,7 @@ function renderSingleListing(listingId) {
   listingContainer.appendChild(seller);
   listingContainer.appendChild(img);
   listingContainer.appendChild(description);
-  bidContainer.appendChild(bids);
+  bidContainer.appendChild(bidsSpan);
   bidContainer.appendChild(endsAt);
   bidContainer.appendChild(bidsList);
   if (seeOlderBtn) bidContainer.appendChild(seeOlderBtn);
