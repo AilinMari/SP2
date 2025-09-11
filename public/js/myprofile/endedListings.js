@@ -11,11 +11,17 @@ export function renderEndedCarousel(listings) {
   let endedRoot = document.querySelector(".ended-carousel");
   if (!endedRoot) {
     endedRoot = document.createElement("div");
-    endedRoot.className = "ended-carousel mb-6 profile-ended-carousel";
+    endedRoot.className = "ended-carousel mb-6 profile-ended-carousel flex flex-col justify-center items-center";
     listingsGrid.parentNode.insertBefore(endedRoot, listingsGrid.nextSibling);
   } else {
     endedRoot.innerHTML = "";
   }
+
+  const carouselName = document.createElement("h2");
+  carouselName.className =
+    "carousel-title text-2xl font-bold text-[var(--main-blue)] font-['Playfair_Display',serif] mb-4 justify-center";
+  carouselName.textContent = "My ended Listings";
+  endedRoot.appendChild(carouselName);
 
   const wrapper = document.createElement("div");
   wrapper.className = "carousel-wrapper relative";

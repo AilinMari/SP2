@@ -31,6 +31,12 @@ function renderActiveCarousel(listings) {
     "profile-active-carousel"
   );
 
+  const carouselName = document.createElement("h2");
+  carouselName.className =
+    "carousel-title text-2xl font-bold text-[var(--main-blue)] font-['Playfair_Display',serif] mb-4";
+  carouselName.textContent = "My Active Listings";
+  carouselRoot.appendChild(carouselName);
+
   const wrapper = document.createElement("div");
   wrapper.className = "carousel-wrapper relative";
 

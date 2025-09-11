@@ -15,6 +15,12 @@ export function renderEndedCarousel(listings) {
     endedRoot.innerHTML = "";
   }
 
+    const carouselName = document.createElement("h2");
+  carouselName.className =
+    "carousel-title text-2xl font-bold text-[var(--main-blue)] font-['Playfair_Display',serif] mb-4";
+  carouselName.textContent = "My ended Listings";
+  endedRoot.appendChild(carouselName);
+
   const wrapper = document.createElement("div");
   wrapper.className = "carousel-wrapper relative";
 
