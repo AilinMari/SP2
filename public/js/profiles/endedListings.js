@@ -21,19 +21,14 @@ export function renderEndedCarousel(listings) {
 
   // Clear host area first
   host.innerHTML = "";
-  host.className = "active-carousel mb-6 profile-active-carousel";
+  host.className =
+    "active-carousel mb-6 profile-active-carousel";
 
   if (!ended.length) {
     // nothing to show
     return;
   }
 
-  // Add heading like other carousels
-  const heading = document.createElement("h2");
-  heading.className =
-    "carousel-title text-2xl font-bold text-[var(--main-blue)] font-['Playfair_Display',serif] mb-4";
-  heading.textContent = "My ended Listings";
-  host.appendChild(heading);
 
   // Create a container that mountCarousel will populate (so heading stays)
   const carouselHost = document.createElement("div");
