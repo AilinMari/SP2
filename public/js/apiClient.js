@@ -204,6 +204,40 @@ export class AuctionApi {
     }
   }
 
+  /**
+   * Search profiles by query string using the API endpoint /profiles/search?q=...
+   * Returns either an array or object consistent with other methods.
+   * @param {string} q - search query
+   */
+  async searchProfiles(q) {
+    try {
+      const url = new URL(`${API_PROFILES}/search`);
+      url.searchParams.append("q", q || "");
+
+      const options = {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "X-Noroff-API-Key": `${API_KEY}`,
+        },
+      };
+
+      // include auth header if present
+      const accessToken = localStorage.getItem("token");
+      if (accessToken)
+        options.headers["Authorization"] = `Bearer ${accessToken}`;
+
+      return await this._request(
+        url.toString(),
+        options,
+        "Error searching profiles"
+      );
+    } catch (err) {
+      console.error("searchProfiles error", err);
+      throw err;
+    }
+  }
+
   async getAllListingsByName(name) {
     try {
       if (!name) {

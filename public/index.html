@@ -73,6 +73,27 @@
       <div
         class="w-full max-w-4xl mx-auto mb-8 flex flex-col justify-center items-center"
       >
+        <div class="relative w-full max-w-4xl mx-auto mb-6">
+          <label for="profile-search" class="sr-only"></label>
+          <input
+            id="profile-search"
+            type="search"
+            autocomplete="off"
+            placeholder="Search profiles..."
+            class="border border-gray-300 rounded mt-4 px-4 py-2 w-full bg-[var(--card-background)]"
+            aria-autocomplete="list"
+            aria-controls="profile-results"
+            aria-expanded="false"
+          />
+
+          <div
+            id="profile-results"
+            role="listbox"
+            tabindex="-1"
+            class="hidden absolute z-50 left-0 right-0 mt-1 w-full bg-[var(--card-background)] border border-gray-300 rounded shadow overflow-auto"
+          ></div>
+        </div>
+
         <form
           id="listings-filter-form"
           class="flex flex-col md:flex-row gap-4 items-center justify-center mb-10 mt-10"

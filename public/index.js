@@ -5,6 +5,7 @@ import { initListingFilters } from "/js/listings/filterControls.js";
 import { mountCarousel } from "/js/ui/carousel.js";
 import { renderAllListings } from "/js/listings/allListingsRenderer.js";
 import { renderActiveCarousel } from "/js/listings/activeCarousel.js";
+import { initProfileSearch } from "/js/profiles/searchProfiles.js";
 
 const auctionApi = new AuctionApi();
 
@@ -81,5 +82,10 @@ document.addEventListener("DOMContentLoaded", () => {
   initListingFilters({
     getListings: () => allListings,
     renderAll: renderAllListings,
+  });
+  // Wire up profile search input -> dropdown results
+  initProfileSearch({
+    inputSelector: "#profile-search",
+    resultsContainer: "#profile-results",
   });
 });
