@@ -189,6 +189,11 @@ input[type="submit"],
   min-height: 5rem;
 }
 
+.avatar-image {
+  height: 14rem;
+  width: 14rem;
+}
+
 .translate-y-\[-100\%\] {
   --tw-translate-y: -100%;
   transform: translate(var(--tw-translate-x), var(--tw-translate-y))
