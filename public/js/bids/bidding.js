@@ -1,4 +1,5 @@
 import { AuctionApi } from "../apiClient.js";
+import { attachCountdown, detachCountdown } from "../utils/countdown.js";
 
 const auctionApi = new AuctionApi();
 
@@ -134,11 +135,7 @@ function renderSingleListing(listing) {
 
   const endsAt = document.createElement("span");
   endsAt.className = "listing-ends-at block mt-2 text-sm text-red-600";
-  if (!endsDate || endsDate <= now) {
-    endsAt.textContent = "Auction ended";
-  } else {
-    endsAt.textContent = `Ends at: ${endsDate.toLocaleString()}`;
-  }
+  attachCountdown(endsAt, endsDate);
 
   const bids = document.createElement("span");
   bids.className =
@@ -175,6 +172,16 @@ function renderSingleListing(listing) {
 
     seeOlderBtn.addEventListener("click", () => {
       // Show all bids
+      // detach countdowns inside bidsList before clearing
+      if (bidsList.querySelectorAll) {
+        bidsList.querySelectorAll(".listing-ends-at").forEach((el) => {
+          try {
+            detachCountdown(el);
+          } catch (e) {
+            // ignore
+          }
+        });
+      }
       bidsList.innerHTML = "";
       bidsData.forEach((bid) => {
         const bidItem = document.createElement("li");
@@ -190,6 +197,16 @@ function renderSingleListing(listing) {
 
     hideOlderBtn.addEventListener("click", () => {
       // Show only last 3 bids
+      // detach countdowns inside bidsList before clearing
+      if (bidsList.querySelectorAll) {
+        bidsList.querySelectorAll(".listing-ends-at").forEach((el) => {
+          try {
+            detachCountdown(el);
+          } catch (e) {
+            // ignore
+          }
+        });
+      }
       bidsList.innerHTML = "";
       lastThreeBids.forEach((bid) => {
         const bidItem = document.createElement("li");
@@ -210,6 +227,16 @@ function renderSingleListing(listing) {
   listingContainer.appendChild(description);
   bidContainer.appendChild(bids);
   bidContainer.appendChild(endsAt);
+  // detach any existing countdowns on mount for safety
+  try {
+    if (listingContainer.querySelectorAll) {
+      listingContainer.querySelectorAll(".listing-ends-at").forEach((el) => {
+        detachCountdown(el);
+      });
+    }
+  } catch (e) {
+    // ignore
+  }
   bidContainer.appendChild(bidsList);
   if (seeOlderBtn) bidContainer.appendChild(seeOlderBtn);
   if (hideOlderBtn) bidContainer.appendChild(hideOlderBtn);

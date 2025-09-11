@@ -1,15 +1,26 @@
 import { AuctionApi } from "../apiClient.js";
+import { attachCountdown, detachCountdown } from "../utils/countdown.js";
 
 const auctionApi = new AuctionApi();
 
 const urlParams = new URLSearchParams(window.location.search);
 const sellerName = urlParams.get("id");
 
-
 function renderActiveCarousel(listings) {
   const listingsGrid = document.querySelector(".user-listings");
   if (!listingsGrid) return;
   if (!Array.isArray(listings) || listings.length === 0) return;
+
+  // Detach any countdowns previously attached to elements inside listingsGrid
+  if (listingsGrid.querySelectorAll) {
+    listingsGrid.querySelectorAll(".listing-ends-at").forEach((el) => {
+      try {
+        detachCountdown(el);
+      } catch (e) {
+        // swallow - defensive
+      }
+    });
+  }
 
   // Use the existing listingsGrid as the carousel root
   listingsGrid.innerHTML = "";
@@ -84,12 +95,8 @@ function renderActiveCarousel(listings) {
       "listing-bid-container mt-4 flex items-center gap-2 justify-between";
     const endsAt = document.createElement("span");
     endsAt.className = "listing-ends-at block mt-2 text-sm text-red-600";
-    const now = new Date();
     const endsDate = new Date(listing.endsAt || listing.data?.endsAt || null);
-    endsAt.textContent =
-      !endsDate || endsDate <= now
-        ? "Auction ended"
-        : `Ends at: ${endsDate.toLocaleString()}`;
+    attachCountdown(endsAt, endsDate);
 
     const bids = document.createElement("span");
     bids.className =
@@ -98,7 +105,7 @@ function renderActiveCarousel(listings) {
       listing.data?._count?.bids || listing._count?.bids || 0
     } bids`;
 
-console.log(listing);
+    console.log(listing);
 
     // assemble in one place
     if (img) link.appendChild(img);
@@ -137,7 +144,18 @@ async function handleListingsView() {
   allListings = result.data || result || [];
   if (!Array.isArray(allListings) || allListings.length === 0) {
     const listingsGrid = document.querySelector(".user-listings");
-    if (listingsGrid) listingsGrid.innerHTML = "<p>No listings available.</p>";
+    if (listingsGrid) {
+      if (listingsGrid.querySelectorAll) {
+        listingsGrid.querySelectorAll(".listing-ends-at").forEach((el) => {
+          try {
+            detachCountdown(el);
+          } catch (e) {
+            // ignore
+          }
+        });
+      }
+      listingsGrid.innerHTML = "<p>No listings available.</p>";
+    }
     return;
   }
 

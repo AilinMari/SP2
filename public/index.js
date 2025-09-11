@@ -1,4 +1,5 @@
 import { AuctionApi } from "/js/apiClient.js";
+import { attachCountdown, detachCountdown } from "/js/utils/countdown.js";
 import { filterListings } from "/js/listings/filtering.js";
 
 const auctionApi = new AuctionApi();
@@ -8,6 +9,16 @@ function renderAllListings(listings) {
   if (!listingsGrid) {
     console.error("Listings grid not found");
     return;
+  }
+  // detach countdowns from any existing elements before clearing the grid
+  if (listingsGrid.querySelectorAll) {
+    listingsGrid.querySelectorAll(".listing-ends-at").forEach((el) => {
+      try {
+        detachCountdown(el);
+      } catch (e) {
+        // ignore
+      }
+    });
   }
   listingsGrid.innerHTML = ""; // Clear existing listings
 
@@ -56,13 +67,8 @@ function renderAllListings(listings) {
 
     const endsAt = document.createElement("span");
     endsAt.className = "listing-ends-at block mt-2 text-sm text-red-600";
-    const now = new Date();
     const endsDate = listing.endsAt ? new Date(listing.endsAt) : null;
-    if (!endsDate || endsDate <= now) {
-      endsAt.textContent = "Auction ended";
-    } else {
-      endsAt.textContent = `Ends at: ${endsDate.toLocaleString()}`;
-    }
+    attachCountdown(endsAt, endsDate);
 
     const bids = document.createElement("span");
     bids.className = "listing-bids";
@@ -89,6 +95,16 @@ function renderActiveCarousel(listings) {
     carouselRoot = document.createElement("div");
     carouselRoot.className = "active-carousel mb-6";
     listingsGrid.parentNode.insertBefore(carouselRoot, listingsGrid);
+  }
+  // detach countdowns inside carouselRoot before clearing
+  if (carouselRoot.querySelectorAll) {
+    carouselRoot.querySelectorAll(".listing-ends-at").forEach((el) => {
+      try {
+        detachCountdown(el);
+      } catch (e) {
+        // ignore
+      }
+    });
   }
   carouselRoot.innerHTML = "";
 

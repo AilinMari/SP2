@@ -1,4 +1,5 @@
 import { AuctionApi } from "../apiClient.js";
+import { attachCountdown, detachCountdown } from "../utils/countdown.js";
 
 const auctionApi = new AuctionApi();
 
@@ -31,6 +32,16 @@ function renderActiveCarousel(bids) {
   if (!container) return;
   if (!Array.isArray(bids) || bids.length === 0) return;
 
+  // detach any countdowns previously attached to elements inside container
+  if (container.querySelectorAll) {
+    container.querySelectorAll(".listing-ends-at").forEach((el) => {
+      try {
+        detachCountdown(el);
+      } catch (e) {
+        // ignore
+      }
+    });
+  }
   container.innerHTML = "";
   const carouselRoot = container;
   carouselRoot.classList.add(
@@ -100,16 +111,12 @@ function renderActiveCarousel(bids) {
 
     const endsAt = document.createElement("span");
     endsAt.className = "listing-ends-at text-sm text-red-600";
-    const now = new Date();
     const endsDate = listing?.endsAt
       ? new Date(listing.endsAt)
       : listing?.data?.endsAt
       ? new Date(listing.data.endsAt)
       : null;
-    endsAt.textContent =
-      !endsDate || endsDate <= now
-        ? "Auction ended"
-        : `Ends at: ${endsDate.toLocaleString()}`;
+    attachCountdown(endsAt, endsDate);
 
     const yourBid = document.createElement("div");
     yourBid.className =

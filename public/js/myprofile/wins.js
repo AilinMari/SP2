@@ -1,4 +1,5 @@
 import { AuctionApi } from "../apiClient.js";
+import { detachCountdown } from "../utils/countdown.js";
 
 const auctionApi = new AuctionApi();
 
@@ -34,6 +35,17 @@ async function fetchMyWins() {
         "No .my-active-wins container found in DOM. Wins will not be rendered."
       );
       return;
+    }
+
+    // detach any countdowns inside winContainer before clearing
+    if (winContainer.querySelectorAll) {
+      winContainer.querySelectorAll(".listing-ends-at").forEach((el) => {
+        try {
+          detachCountdown(el);
+        } catch (e) {
+          // ignore
+        }
+      });
     }
 
     winContainer.innerHTML = "";

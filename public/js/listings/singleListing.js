@@ -1,4 +1,5 @@
 import { AuctionApi } from "../apiClient.js";
+import { attachCountdown, detachCountdown } from "../utils/countdown.js";
 
 const auctionApi = new AuctionApi();
 
@@ -79,11 +80,8 @@ function renderSingleListing(listingId) {
 
   const endsAt = document.createElement("span");
   endsAt.className = "listing-ends-at block mt-2 text-sm text-red-600";
-  if (!endsDate || endsDate <= now) {
-    endsAt.textContent = "Auction ended";
-  } else {
-    endsAt.textContent = `Ends at: ${endsDate.toLocaleString()}`;
-  }
+  // Attach live countdown
+  attachCountdown(endsAt, endsDate);
 
   const bidsSpan = document.createElement("span");
   bidsSpan.className =
@@ -129,6 +127,16 @@ function renderSingleListing(listingId) {
 
     seeOlderBtn.addEventListener("click", () => {
       // Show all bids in sorted order (highest -> lowest)
+      // detach countdowns inside bidsList before clearing
+      if (bidsList.querySelectorAll) {
+        bidsList.querySelectorAll(".listing-ends-at").forEach((el) => {
+          try {
+            detachCountdown(el);
+          } catch (e) {
+            // ignore
+          }
+        });
+      }
       bidsList.innerHTML = "";
       sortedBids.forEach((bid) => {
         const bidItem = document.createElement("li");
@@ -143,6 +151,16 @@ function renderSingleListing(listingId) {
 
     hideOlderBtn.addEventListener("click", () => {
       // Revert to top 3 bids
+      // detach countdowns inside bidsList before clearing
+      if (bidsList.querySelectorAll) {
+        bidsList.querySelectorAll(".listing-ends-at").forEach((el) => {
+          try {
+            detachCountdown(el);
+          } catch (e) {
+            // ignore
+          }
+        });
+      }
       bidsList.innerHTML = "";
       lastThreeBids.forEach((bid) => {
         const bidItem = document.createElement("li");
