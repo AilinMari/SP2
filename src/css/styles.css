@@ -1,119 +1,294 @@
-/*
- * Compiled Tailwind CSS + project overrides
- * Sourced from public/styles.css to match deployed output
- */
-
 @import url("https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
 
-*,
-::before,
-::after {
-  --tw-border-spacing-x: 0;
-  --tw-border-spacing-y: 0;
-  --tw-translate-x: 0;
-  --tw-translate-y: 0;
-  --tw-rotate: 0;
-  --tw-skew-x: 0;
-  --tw-skew-y: 0;
-  --tw-scale-x: 1;
-  --tw-scale-y: 1;
-  --tw-pan-x: ;
-  --tw-pan-y: ;
-  --tw-pinch-zoom: ;
-  --tw-scroll-snap-strictness: proximity;
-  --tw-gradient-from-position: ;
-  --tw-gradient-via-position: ;
-  --tw-gradient-to-position: ;
-  --tw-ordinal: ;
-  --tw-slashed-zero: ;
-  --tw-numeric-figure: ;
-  --tw-numeric-spacing: ;
-  --tw-numeric-fraction: ;
-  --tw-ring-inset: ;
-  --tw-ring-offset-width: 0px;
-  --tw-ring-offset-color: #fff;
-  --tw-ring-color: rgb(59 130 246 / 0.5);
-  --tw-ring-offset-shadow: 0 0 #0000;
-  --tw-ring-shadow: 0 0 #0000;
-  --tw-shadow: 0 0 #0000;
-  --tw-shadow-colored: 0 0 #0000;
-  --tw-blur: ;
-  --tw-brightness: ;
-  --tw-contrast: ;
-  --tw-grayscale: ;
-  --tw-hue-rotate: ;
-  --tw-invert: ;
-  --tw-saturate: ;
-  --tw-sepia: ;
-  --tw-drop-shadow: ;
-  --tw-backdrop-blur: ;
-  --tw-backdrop-brightness: ;
-  --tw-backdrop-contrast: ;
-  --tw-backdrop-grayscale: ;
-  --tw-backdrop-hue-rotate: ;
-  --tw-backdrop-invert: ;
-  --tw-backdrop-opacity: ;
-  --tw-backdrop-saturate: ;
-  --tw-backdrop-sepia: ;
-  --tw-contain-size: ;
-  --tw-contain-layout: ;
-  --tw-contain-paint: ;
-  --tw-contain-style: ;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Project variables */
+:root {
+  --navbar-text: #f7fafc;
+  --main-blue: #1c3d5a;
+  --gold-gradient: linear-gradient(0deg, #d4af37 9%, #ffe798 48%, #d4af37 88%);
+  --main-gold: #d4af37;
+  --body-background: #e7ecf0;
+  --main-font: ("Playfair Display", serif);
+  --second-font: "Inter", sans-serif;
+  --card-background: #ffffff;
 }
 
-::backdrop {
-  --tw-border-spacing-x: 0;
-  --tw-border-spacing-y: 0;
-  --tw-translate-x: 0;
-  --tw-translate-y: 0;
-  --tw-rotate: 0;
-  --tw-skew-x: 0;
-  --tw-skew-y: 0;
-  --tw-scale-x: 1;
-  --tw-scale-y: 1;
-  --tw-pan-x: ;
-  --tw-pan-y: ;
-  --tw-pinch-zoom: ;
-  --tw-scroll-snap-strictness: proximity;
-  --tw-gradient-from-position: ;
-  --tw-gradient-via-position: ;
-  --tw-gradient-to-position: ;
-  --tw-ordinal: ;
-  --tw-slashed-zero: ;
-  --tw-numeric-figure: ;
-  --tw-numeric-spacing: ;
-  --tw-numeric-fraction: ;
-  --tw-ring-inset: ;
-  --tw-ring-offset-width: 0px;
-  --tw-ring-offset-color: #fff;
-  --tw-ring-color: rgb(59 130 246 / 0.5);
-  --tw-ring-offset-shadow: 0 0 #0000;
-  --tw-ring-shadow: 0 0 #0000;
-  --tw-shadow: 0 0 #0000;
-  --tw-shadow-colored: 0 0 #0000;
-  --tw-blur: ;
-  --tw-brightness: ;
-  --tw-contrast: ;
-  --tw-grayscale: ;
-  --tw-hue-rotate: ;
-  --tw-invert: ;
-  --tw-saturate: ;
-  --tw-sepia: ;
-  --tw-drop-shadow: ;
-  --tw-backdrop-blur: ;
-  --tw-backdrop-brightness: ;
-  --tw-backdrop-contrast: ;
-  --tw-backdrop-grayscale: ;
-  --tw-backdrop-hue-rotate: ;
-  --tw-backdrop-invert: ;
-  --tw-backdrop-opacity: ;
-  --tw-backdrop-saturate: ;
-  --tw-backdrop-sepia: ;
-  --tw-contain-size: ;
-  --tw-contain-layout: ;
-  --tw-contain-paint: ;
-  --tw-contain-style: ;
+/* Make interactive elements show pointer cursor by default */
+a,
+button,
+input[type="button"],
+input[type="submit"],
+[role="button"] {
+  cursor: pointer;
+}
+
+/* Hamburger/menu styles */
+.hamburger-btn {
+  display: none; /* shown on small screens via media query */
+  background: var(--main-blue);
+  border-radius: 6px;
+  cursor: pointer;
+  padding: 6px 8px;
+  color: var(--main-gold);
+}
+.hamburger-btn .line {
+  display: block;
+  width: 26px;
+  height: 2.5px;
+  background: var(--main-gold);
+  margin: 6px 0;
+  transition: transform 240ms ease, opacity 240ms ease;
+}
+.hamburger-btn.open .line1 {
+  transform: translateY(11px) rotate(45deg);
+}
+.hamburger-btn.open .line2 {
+  opacity: 0;
+}
+.hamburger-btn.open .line3 {
+  transform: translateY(-6px) rotate(-45deg);
+}
+
+/* Mobile behavior */
+@media (max-width: 768px) {
+  .navbar {
+    position: relative;
+  }
+  .nav-links {
+    display: none;
+    position: absolute;
+    top: calc(100% + 2px);
+    right: 0px;
+    left: auto;
+    width: min(92%, 320px);
+    background: var(--main-blue);
+    padding: 12px 14px;
+    text-align: left;
+    border-radius: 0px 0 8px 8px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+    z-index: 60;
+    transform-origin: top right;
+    transform: translateY(-6px) scaleY(0.98);
+    opacity: 0;
+    transition: transform 220ms ease, opacity 220ms ease;
+  }
+  .navbar.mobile-open .nav-links {
+    display: block;
+    transform: translateY(0) scaleY(1);
+    opacity: 1;
+  }
+  .navbar .nav-links a,
+  .navbar .nav-links .login-link,
+  .navbar .nav-links .sign-up,
+  .navbar .nav-links .my-bids,
+  .navbar .nav-links .profile {
+    display: block;
+    padding: 8px 6px;
+    color: var(--navbar-text);
+  }
+  .hamburger-btn {
+    display: inline-block;
+    position: absolute;
+    right: 12px;
+    bottom: 12px;
+    z-index: 70;
+  }
+  .navbar #logout {
+    display: none !important;
+  }
+  .navbar .login-or-reg {
+    display: none !important;
+  }
+  .mobile-logout {
+    margin-top: 8px;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    padding-top: 8px;
+  }
+  .mobile-logout-btn {
+    width: 100%;
+    text-align: left;
+    background: var(--main-gold);
+    color: var(--main-blue);
+    border: none;
+    padding: 8px 10px;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  .mobile-logout-btn:hover {
+    opacity: 0.95;
+  }
+}
+
+/* Carousel styles for active listings */
+.active-carousel {
+  width: 100%;
+  max-width: 100%;
+}
+.carousel-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.carousel-track {
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scroll-snap-type: x mandatory;
+  padding: 8px 0;
+}
+.carousel-item {
+  scroll-snap-align: start;
+  background: var(--card-background);
+  border: 1px solid var(--main-gold);
+  border-radius: 8px;
+  padding: 8px;
+  width: 320px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+}
+.carousel-btn {
+  border: 2px solid var(--main-gold);
+  color: var(--main-gold);
+  padding: 8px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 700;
+}
+
+@media (max-width: 640px) {
+  .carousel-item {
+    width: 260px;
+  }
+  .carousel-btn {
+    padding: 6px 8px;
+  }
+}
+
+/* Profile-specific: center the carousel when we reuse the .user-listings container */
+.user-listings.profile-active-carousel,
+.user-listings.active-carousel {
+  display: flex !important;
+  justify-content: center;
+  align-items: center;
+  padding-left: 0;
+  padding-right: 0;
+}
+.user-listings.profile-active-carousel .carousel-wrapper,
+.user-listings.active-carousel .carousel-wrapper {
+  width: 100%;
+  max-width: 1180px;
+}
+.user-listings.profile-active-carousel .carousel-track,
+.user-listings.active-carousel .carousel-track {
+  padding-left: 12px;
+  padding-right: 12px;
+}
+
+/* New layout: left = listings grid, right = carousel sidebar */
+.new-layout {
+  display: grid;
+  grid-template-columns: 1fr min(420px, 36%);
+  gap: 24px;
+  align-items: start;
+}
+.new-layout .listings-grid {
+  grid-column: 1;
+}
+.new-layout .most-bids {
+  grid-column: 2;
+  position: sticky;
+  top: 16px;
+  align-self: start;
+}
+.new-layout .most-bids .active-carousel,
+.new-layout .most-bids .carousel-wrapper {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+.new-layout .most-bids .carousel-track {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  padding: 8px;
+  scroll-snap-type: x mandatory;
+}
+.new-layout .most-bids .carousel-item {
+  width: 300px;
+}
+.new-layout .most-bids .carousel-item img {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+}
+
+/* Hover zoom for carousel images */
+.carousel-item {
+  overflow: hidden;
+}
+.carousel-item img,
+.carousel-item a img {
+  display: block;
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+  transition: transform 220ms cubic-bezier(0.2, 0.8, 0.2, 1),
+    box-shadow 220ms ease;
+  transform-origin: center center;
+  will-change: transform;
+}
+.carousel-item:hover img,
+.carousel-item:focus-within img,
+.carousel-item a:hover img,
+.carousel-item a:focus img {
+  transform: scale(1.07);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.14);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .carousel-item img {
+    transition: none;
+    transform: none !important;
+  }
+}
+
+@media (max-width: 900px) {
+  .new-layout {
+    grid-template-columns: 1fr;
+  }
+  .new-layout .most-bids {
+    position: static;
+    grid-column: 1;
+  }
+  .new-layout .most-bids .carousel-item {
+    width: 260px;
+  }
+  .carousel-item img,
+  .carousel-item a img {
+    height: 140px;
+  }
+}
+
+/* carousel pagination dots */
+.carousel-dots {
+  margin-top: 8px;
+}
+.carousel-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 9999px;
+  background: rgba(0, 0, 0, 0.12);
+  border: none;
+  cursor: pointer;
+}
+.carousel-dot.active {
+  background: var(--main-gold);
 }
 
 /*
