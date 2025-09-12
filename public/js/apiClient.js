@@ -658,3 +658,4 @@ export class AuctionApi {
     }
   }
 }
+
