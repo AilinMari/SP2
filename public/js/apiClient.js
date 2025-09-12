@@ -333,7 +333,7 @@ export class AuctionApi {
    * @param {number} opts.limit - page size to request per page (default 100)
    * @returns {Promise<any[]>} aggregated listing array
    */
-  async getAllListingsAll({ limit = 100 } = {}) {
+  async getAllListingsAll({ limit = 100, maxPages } = {}) {
     const aggregated = [];
     let page = 1;
     while (true) {
@@ -366,11 +366,13 @@ export class AuctionApi {
       const pageData = Array.isArray(res) ? res : res?.data ?? [];
       if (!Array.isArray(pageData) || pageData.length === 0) break;
 
-      aggregated.push(...pageData);
+  aggregated.push(...pageData);
 
-      // stop if last page (fewer than limit items)
-      if (pageData.length < limit) break;
-      page += 1;
+  // stop if last page (fewer than limit items)
+  if (pageData.length < limit) break;
+  // stop if we've reached the requested maxPages cap
+  if (typeof maxPages === "number" && page >= maxPages) break;
+  page += 1;
     }
 
     return aggregated;

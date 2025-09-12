@@ -1,38 +1,20 @@
 import { AuctionApi } from "/js/apiClient.js";
-import { attachCountdown, detachCountdown } from "/js/utils/countdown.js";
-import { filterListings } from "/js/listings/filtering.js";
-import { initListingFilters } from "/js/listings/filterControls.js";
-import { mountCarousel } from "/js/ui/carousel.js";
 import { renderAllListings } from "/js/listings/allListingsRenderer.js";
 import { renderActiveCarousel } from "/js/listings/activeCarousel.js";
+import { mountCarousel } from "/js/ui/carousel.js";
+import { initListingFilters } from "/js/listings/filterControls.js";
 import { initProfileSearch } from "/js/profiles/searchProfiles.js";
 
 const auctionApi = new AuctionApi();
 
-// `renderAllListings` moved to /js/listings/allListingsRenderer.js
-
-// ...existing code... (renderActiveCarousel moved to /js/listings/activeCarousel.js)
-
 let allListings = [];
 
-async function handleListingsView() {
-  // show a simple loading state while we fetch potentially many pages
-  const listingsGrid = document.querySelector(".listings-grid");
-  if (listingsGrid) listingsGrid.innerHTML = "<p>Loading listings...</p>";
-
-  // fetch all pages and aggregate results
-  if (typeof auctionApi.getAllListingsAll === "function") {
-    allListings = await auctionApi.getAllListingsAll({ limit: 100 });
-  } else {
-    allListings = await auctionApi.getAllListings();
-  }
-  if (!Array.isArray(allListings)) allListings = [];
+async function renderListingsUI() {
   // Sort by created date descending so newest listings appear first
   allListings.sort((a, b) => new Date(b.created) - new Date(a.created));
-  // Show a "Most bids" carousel first (most popular) but only from active listings
-  // Determine active listings (ends in the future), then sort by bids desc and take top N.
   const now = new Date();
   const topCount = 10;
+
   const activeListings = allListings.filter((l) => {
     const ends = l.endsAt
       ? new Date(l.endsAt)
@@ -47,19 +29,13 @@ async function handleListingsView() {
     .sort((a, b) => (b._count?.bids || 0) - (a._count?.bids || 0))
     .slice(0, topCount);
 
-  // Render the top-bids carousel (only active listings)
-  // (rendered later after tag carousels are created)
-
-  // --- New: build carousels for top tags ---
-  // Compute tag usage from active listings
+  // Build tag carousels from activeListings
   const tagCounts = {};
   activeListings.forEach((l) => {
     const tags = l.tags || l.data?.tags || [];
     if (!Array.isArray(tags)) return;
     tags.forEach((t) => {
-      const key = (
-        typeof t === "string" ? t : t.name || String(t)
-      ).toLowerCase();
+      const key = (typeof t === "string" ? t : t.name || String(t)).toLowerCase();
       tagCounts[key] = (tagCounts[key] || 0) + 1;
     });
   });
@@ -72,7 +48,6 @@ async function handleListingsView() {
   const mostBidsRoot = document.querySelector(".most-bids");
   if (mostBidsRoot) {
     mostBidsRoot.innerHTML = "";
-    // For each top tag, create a titled carousel
     topTags.forEach((tag) => {
       const section = document.createElement("section");
       section.className = "tag-carousel mb-6";
@@ -84,18 +59,14 @@ async function handleListingsView() {
       const carouselHost = document.createElement("div");
       carouselHost.className = "tag-carousel-host";
 
-      // find listings that contain this tag and are active
       const items = activeListings.filter((l) => {
         const tags = l.tags || l.data?.tags || [];
         if (!Array.isArray(tags)) return false;
         return tags.some(
-          (t) =>
-            (typeof t === "string" ? t : t.name || String(t)).toLowerCase() ===
-            tag
+          (t) => (typeof t === "string" ? t : t.name || String(t)).toLowerCase() === tag
         );
       });
 
-      // renderItem for mountCarousel
       const renderItem = (listing) => {
         const item = document.createElement("div");
         const id = listing.id || listing._id || "";
@@ -125,30 +96,67 @@ async function handleListingsView() {
     });
   }
 
-  // render active carousel (keep newest/more-bids carousel at top of sidebar)
   if (topBids.length) renderActiveCarousel(topBids);
 
   // Remove carousel items from the grid to avoid duplicates
   const shownIds = new Set(topBids.map((l) => l.id || l._id));
-  // include ids from tag carousels
   topTags &&
     topTags.forEach((tag) => {
-      // find items for this tag
       activeListings.forEach((l) => {
         const tags = l.tags || l.data?.tags || [];
         if (!Array.isArray(tags)) return;
         const found = tags.some(
-          (t) =>
-            (typeof t === "string" ? t : t.name || String(t)).toLowerCase() ===
-            tag
+          (t) => (typeof t === "string" ? t : t.name || String(t)).toLowerCase() === tag
         );
         if (found) shownIds.add(l.id || l._id);
       });
     });
+
   // For the main grid we show newest active listings (search will replace these results)
   const mainGridLimit = 8; // show only a few items on front page
   const newestActive = activeListings.slice(0, mainGridLimit);
   renderAllListings(newestActive, { limit: mainGridLimit });
+}
+
+async function handleListingsView() {
+  // show a simple loading state while we fetch the first page fast
+  const listingsGrid = document.querySelector(".listings-grid");
+  if (listingsGrid) listingsGrid.innerHTML = "<p>Loading listings...</p>";
+
+  // try {
+  //   allListings = await auctionApi.getAllListings();
+  // } catch (err) {
+  //   console.error("Failed to fetch initial listings page:", err);
+  //   allListings = [];
+  // }
+
+  // render from whatever we have quickly
+  await renderListingsUI();
+
+  // Start background fetch of all pages but don't block initial render
+  if (typeof auctionApi.getAllListingsAll === "function") {
+    // Limit background fetch to a few pages to avoid long load times while still
+    // improving search coverage. Adjust maxPages as needed (e.g., 3 pages).
+    auctionApi
+      .getAllListingsAll({ limit: 100, maxPages: 12 })
+      .then((full) => {
+        if (Array.isArray(full) && full.length > (allListings?.length || 0)) {
+          allListings = full;
+          // If the user has an active search/filter, re-run filters so their view updates.
+          // Otherwise re-render the default listings UI with the full dataset.
+          const searchBar = document.getElementById("search-bar");
+          if (searchBar && searchBar.value && searchBar.value.trim().length > 0) {
+            // trigger the input listener to re-run filters
+            searchBar.dispatchEvent(new Event("input", { bubbles: true }));
+          } else {
+            renderListingsUI().catch((err) =>
+              console.error("Error re-rendering after full fetch:", err)
+            );
+          }
+        }
+      })
+      .catch((err) => console.error("Background fetch failed:", err));
+  }
 }
 
 handleListingsView();
@@ -164,6 +172,7 @@ window.addEventListener("listings:updated", (e) => {
     console.error("Failed to refresh listings after update:", err)
   );
 });
+
 
 // Filtering UI logic
 document.addEventListener("DOMContentLoaded", () => {
