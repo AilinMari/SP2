@@ -81,7 +81,7 @@ async function handleListingsView() {
         const heading = document.createElement("h3");
         heading.textContent = `${tag}`;
         heading.className =
-          "text-lg font-inter text-[var(--main-gold)] uppercase border-b-2 border-[var(--main-gold)] mb-2 pb-1";
+          "text-lg font-inter text-[var(--main-gold)] uppercase border-b-2 border-[var(--card-background)] mb-2 pb-1";
         section.appendChild(heading);
 
         const carouselHost = document.createElement("div");
