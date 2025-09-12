@@ -69,9 +69,9 @@
         </div>
       </div>
     </nav>
- <main class="flex justify-center items-center flex-col h-full mt-auto">
+    <main class="flex justify-center items-center h-full mt-auto">
       <div
-  class="w-full max-w-4xl mx-auto mb-8 flex flex-col justify-center items-center"
+        class="w-full max-w-4xl mx-auto mb-8 flex flex-col justify-center items-center"
       >
         <div class="relative w-full max-w-4xl mx-auto mb-6">
           <label for="profile-search" class="sr-only"></label>
@@ -102,7 +102,7 @@
             type="text"
             id="search-bar"
             placeholder="Search listings..."
-            class="border border-gray-300 rounded px-4 py-2 w-1/2 bg-[var(--card-background)]"
+            class="border border-gray-300 rounded px-4 py-2 w-full md:w-1/2 bg-[var(--card-background)]"
           />
           <select
             id="status-filter"
@@ -123,20 +123,19 @@
           </select>
 
         </form>
-        <div class="new-layout w-full mb-8">
+        <div class="new-layout w-full max-w-4xl mx-auto mb-8">
+          <div class="most-bids"></div>
+
           <div
             class="listings-grid grid lg:grid-cols-2 lg:gap-10 sm:grid-cols-1"
           ></div>
-
-          <div class="most-bids"></div>
         </div>
-
-        <div id="app"></div>
-        <script type="module" src="/js/main.js"></script>
-        <script type="module" src="/js/ui/logout.js"></script>
-        <script type="module" src="/js/ui/navbar.js"></script>
-        <script type="module" src="/index.js"></script>
       </div>
+      <div id="app"></div>
+      <script type="module" src="/js/main.js"></script>
+      <script type="module" src="/js/ui/logout.js"></script>
+      <script type="module" src="/js/ui/navbar.js"></script>
+      <script type="module" src="/index.js"></script>
     </main>
     <footer
       class="bg-[var(--main-blue)] h-30 w-full mt-auto border-b-3 border-t-3 border-[var(--main-gold)]"
