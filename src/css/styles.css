@@ -530,3 +530,29 @@ input[type="submit"],
     width: 100% !important;
   }
 }
+
+/* Dynamic shrink behavior (index & profile parity)
+   Use clamp() so cards and carousel items resize smoothly across viewports. */
+.carousel-item {
+  width: clamp(220px, 28vw, 320px);
+}
+.carousel-item img,
+.carousel-item a img {
+  height: clamp(120px, 18vw, 160px);
+}
+.new-layout .most-bids .carousel-item {
+  width: clamp(220px, 24vw, 300px);
+}
+.listings-grid .listing-card {
+  max-width: clamp(240px, 46vw, 420px);
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  box-sizing: border-box;
+}
+.listings-grid .listing-card .listing-image,
+.listings-grid .listing-card img {
+  height: clamp(120px, 20vw, 160px) !important;
+  object-fit: cover !important;
+  width: 100% !important;
+}

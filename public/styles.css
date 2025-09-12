@@ -1533,7 +1533,7 @@ input[type="submit"],
   border: 1px solid var(--main-gold);
   border-radius: 8px;
   padding: 8px;
-  width: 320px;
+  max-width: 320px;
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
 }
 
@@ -1735,7 +1735,7 @@ nav .navbar img {
 @media (max-width: 900px) {
   .carousel-item img,
   .carousel-item a img {
-    height: 140px;
+    max-height: 140px;
   }
 }
 
@@ -1829,7 +1829,7 @@ nav .navbar img {
   }
   .listings-grid .listing-card img,
   .listings-grid .listing-card .listing-image {
-    height: 160px !important;
+
     max-height: 220px !important;
     object-fit: cover !important;
     width: 100% !important;
@@ -1911,6 +1911,37 @@ nav .navbar img {
   height: 160px !important; /* stable image box height */
   max-height: 220px;
   object-fit: cover;
+}
+
+/* Dynamic shrink behavior (index & profile parity)
+   Use clamp() so cards and carousel items resize smoothly across viewports.
+   These rules are appended to override earlier fixed widths and heights. */
+.carousel-item {
+  /* fluid card width between 220px and 320px based on viewport */
+  width: clamp(220px, 28vw, 320px);
+}
+.carousel-item img,
+.carousel-item a img {
+  height: clamp(120px, 18vw, 160px);
+}
+.new-layout .most-bids .carousel-item {
+  /* slightly smaller max for sidebar */
+  width: clamp(220px, 24vw, 300px);
+}
+
+.listings-grid .listing-card {
+  /* allow listing cards to shrink fluidly but not below 240px */
+  max-width: clamp(240px, 46vw, 420px);
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  box-sizing: border-box;
+}
+.listings-grid .listing-card .listing-image,
+.listings-grid .listing-card img {
+  height: clamp(120px, 20vw, 160px) !important;
+  object-fit: cover !important;
+  width: 100% !important;
 }
 
 /* Index-specific responsive parity with profile page */
