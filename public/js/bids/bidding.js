@@ -68,7 +68,7 @@ function renderSingleListing(listing) {
   const title = document.createElement("h1");
   title.textContent = listing.data.title;
   title.className =
-    "listing-title text-4xl font-semibold mb-4 font-playfair text-[var(--main-blue)] max-w-full overflow-hidden text-ellipsis";
+    "listing-title text-4xl font-semibold mb-4 mt-4 font-playfair text-[var(--main-blue)] max-w-full overflow-hidden text-ellipsis";
 
   const description = document.createElement("p");
   description.textContent = listing.data.description;
@@ -97,12 +97,12 @@ function renderSingleListing(listing) {
   bidInput.min = "1";
   bidInput.step = "1";
   bidInput.placeholder = "Enter bid amount";
-  bidInput.className = "bid-input px-3 py-2 border rounded";
+  bidInput.className = "bid-input mb-4 px-3 py-2 border rounded";
 
   const bidBtn = document.createElement("button");
   bidBtn.type = "submit";
   bidBtn.className =
-    "place-bid-btn px-4 py-2 bg-[var(--main-gold)] text-[var(--main-blue)] rounded font-semibold";
+    "place-bid-btn px-4 py-2 mb-4 bg-[var(--main-gold)] text-[var(--main-blue)] rounded font-semibold";
   bidBtn.textContent = "Place bid";
 
   const msg = document.createElement("div");

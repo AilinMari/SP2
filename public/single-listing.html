@@ -65,19 +65,21 @@
         </div>
       </div>
     </nav>
-    <main class="flex justify-center items-center h-full mt-auto">
-      <div
-        class="w-full max-w-4xl mx-auto mb-8 flex flex-col justify-center items-center"
-      >
+    <main class="flex-grow w-full">
+      <div class="w-full max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <div
-          class="single-listing-container bg-[var(--card-background)] pt-10 pb-10 px-16 border-2 border-[var(--main-gold)] rounded-md m-20 w-full max-w-xl mx-auto"
-        ></div>
+          class="flex flex-col items-center mt-8 sm:mt-12 mb-12 sm:mb-16 w-full"
+        >
+          <div
+            class="single-listing-container mt-20 mb-20 px-6 py-8 w-full max-w-2xl bg-[var(--card-background)] border-2 border-[var(--main-gold)] rounded-md p-6 sm:p-8 md:p-10 shadow-md"
+          ></div>
+        </div>
         <div id="app"></div>
-        <script type="module" src="/js/main.js"></script>
-        <script type="module" src="/js/ui/logout.js"></script>
-        <script type="module" src="/js/ui/navbar.js"></script>
-        <script type="module" src="/js/listings/singleListing.js"></script>
       </div>
+      <script type="module" src="/js/main.js"></script>
+      <script type="module" src="/js/ui/logout.js"></script>
+      <script type="module" src="/js/ui/navbar.js"></script>
+      <script type="module" src="/js/listings/singleListing.js"></script>
     </main>
     <footer
       class="bg-[var(--main-blue)] h-40 w-full mt-auto border-b-2 border-t-2 border-[var(--main-gold)]"

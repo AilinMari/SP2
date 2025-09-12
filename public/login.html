@@ -65,72 +65,76 @@
         </div>
       </div>
     </nav>
-    <main class="flex justify-center items-center h-full mt-auto">
-      <div
-        class="w-full max-w-4xl mx-auto mb-8 flex flex-col justify-center items-center"
-      >
-        <div
-          class="content bg-[var(--card-background)] border-2 border-[var(--main-gold)] rounded-md pt-10 pb-10 px-16 m-20"
-        >
+    <main class="flex-grow w-full">
+      <div class="w-full max-w-screen-xl mx-auto">
+        <div class="flex flex-col items-center">
           <div
-            id="headline"
-            class="text-center text-4xl font-playfair text-[var(--main-blue)] mb-10"
+            class="w-full max-w-md mt-20 mb-20 sm:max-w-lg bg-[var(--card-background)] border-2 border-[var(--main-gold)] rounded-md shadow-md"
           >
-            <h1>Please enter your details</h1>
-          </div>
-          <form name="login" class="flex flex-col items-center">
-            <div class="form-group flex flex-col mb-5">
-              <label for="email" class="font-['Inter',sans-serif] text-1xl"
-                >Email</label
-              >
-              <input
-                type="email"
-                class="border-2 border-[var(--main-gold)] rounded-md pt-1.5 pb-1.5 px-6"
-                id="email"
-                name="email"
-                autocomplete="email"
-                required
-              />
-            </div>
-
-            <div class="form-group flex flex-col mb-5">
-              <label for="password" class="font-['Inter',sans-serif] text-1xl"
-                >Password</label
-              >
-              <input
-                type="password"
-                name="password"
-                id="password"
-                class="border-2 border-[var(--main-gold)] rounded-md pt-1.5 pb-1.5 px-6"
-                required
-              />
-            </div>
-
-
-            <button
-              class="bg-[var(--main-blue)] drop-shadow-lg text-white mt-4 py-1 px-24 rounded-md font-playfair text-1xl active:bg-[image:var(--gold-gradient)] active:text-[var(--main-blue)] active:shadow-inner cursor-pointer"
+            <div
+              id="headline"
+              class="text-center text-4xl sm:text-3xl font-playfair text-[var(--main-blue)] mb-6 mt-10"
             >
-              Login
-            </button>
-
-            <div class="register-account flex gap-1 mt-5">
-              <p class="new-account font-['Inter',sans-serif] text-sm">
-                Or, create a new account
-              </p>
-              <a
-                href="/auth/register/index.html"
-                class="font-['Inter',sans-serif] font-bold text-sm"
-                >here</a
-              >
+              <h1>Please enter your details</h1>
             </div>
-          </form>
+            <form name="login" class="flex flex-col w-full gap-6 px-6">
+              <div class="flex flex-col gap-2">
+                <label
+                  for="email"
+                  class="font-['Inter',sans-serif] text-sm sm:text-base"
+                  >Email</label
+                >
+                <input
+                  type="email"
+                  class="border-2 border-[var(--main-gold)] rounded-md py-2 px-4 w-full"
+                  id="email"
+                  name="email"
+                  autocomplete="email"
+                  required
+                />
+              </div>
+              <div class="flex flex-col gap-2">
+                <label
+                  for="password"
+                  class="font-['Inter',sans-serif] text-sm sm:text-base"
+                  >Password</label
+                >
+                <input
+                  type="password"
+                  name="password"
+                  id="password"
+                  class="border-2 border-[var(--main-gold)] rounded-md py-2 px-4 w-full"
+                  required
+                />
+              </div>
+              <button
+                class="bg-[var(--main-blue)] drop-shadow-lg text-white py-2 px-10 rounded-md font-playfair text-base sm:text-lg active:bg-[image:var(--gold-gradient)] active:text-[var(--main-blue)] active:shadow-inner cursor-pointer w-full sm:w-auto self-center"
+              >
+                Login
+              </button>
+              <div
+                class="register-account flex flex-wrap items-center gap-2 text-center justify-center"
+              >
+                <p
+                  class="new-account font-['Inter',sans-serif] text-xs sm:text-sm mb-6"
+                >
+                  Or, create a new account
+                </p>
+                <a
+                  href="/auth/register/index.html"
+                  class="font-['Inter',sans-serif] font-bold text-xs sm:text-sm underline mb-6"
+                  >here</a
+                >
+              </div>
+            </form>
+          </div>
         </div>
         <div id="app"></div>
-        <script type="module" src="/js/main.js"></script>
-        <script type="module" src="/js/auth/login.js"></script>
-        <script type="module" src="/js/ui/logout.js"></script>
-        <script type="module" src="/js/ui/navbar.js"></script>
       </div>
+      <script type="module" src="/js/main.js"></script>
+      <script type="module" src="/js/auth/login.js"></script>
+      <script type="module" src="/js/ui/logout.js"></script>
+      <script type="module" src="/js/ui/navbar.js"></script>
     </main>
     <footer
       class="bg-[var(--main-blue)] h-40 w-full mt-auto border-b-2 border-t-2 border-[var(--main-gold)]"

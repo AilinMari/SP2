@@ -65,73 +65,76 @@
         </div>
       </div>
     </nav>
-    <main class="flex justify-center items-center h-full mt-auto">
-      <div
-        class="w-full max-w-4xl mx-auto mb-8 flex flex-col justify-center items-center"
-      >
-        <div
-          class="content bg-[var(--card-background)] border-2 border-[var(--main-gold)] rounded-md pt-10 pb-10 px-16 m-20"
-        >
+    <main class="flex-grow w-full">
+      <div class="w-full max-w-screen-xl mx-auto">
+        <div class="flex flex-col items-center">
           <div
-            id="headline"
-            class="text-center text-4xl font-playfair text-[var(--main-blue)] mb-10"
+            class="w-full max-w-md sm:max-w-lg bg-[var(--card-background)] border-2 border-[var(--main-gold)] px-6 rounded-md shadow-md mt-20 mb-20"
           >
-            <h1>Please enter your details</h1>
-          </div>
-          <form name="register" class="flex flex-col items-center">
-            <div class="form-group flex flex-col mb-5">
-              <label for="full-name" class="font-['Inter',sans-serif] text-1xl"
-                >Full Name</label
-              >
-              <input
-                id="full-name"
-                class="border-2 border-[var(--main-gold)] rounded-md pt-1.5 pb-1.5 px-6"
-                type="text"
-                name="full-name"
-                required
-              />
-            </div>
-
-            <div class="form-group flex flex-col mb-5">
-              <label for="email" class="font-['Inter',sans-serif] text-1xl"
-                >Email</label
-              >
-              <input
-                id="email"
-                class="border-2 border-[var(--main-gold)] rounded-md pt-1.5 pb-1.5 px-6"
-                type="email"
-                autocomplete="email"
-                name="email"
-                required
-              />
-            </div>
-
-            <div class="form-group flex flex-col mb-5">
-              <label for="password" class="font-['Inter',sans-serif] text-1xl"
-                >Password</label
-              >
-              <input
-                type="password"
-                name="password"
-                id="password"
-                class="border-2 border-[var(--main-gold)] rounded-md pt-1.5 pb-1.5 px-6"
-                required
-              />
-            </div>
-
-            <button
-              class="bg-[var(--main-blue)] drop-shadow-lg text-white py-1 px-16 rounded-md font-playfair text-1xl active:bg-[image:var(--gold-gradient)] active:text-[var(--main-blue)] active:shadow-inner mt-5"
+            <div
+              id="headline"
+              class="text-center text-4xl sm:text-3xl font-playfair text-[var(--main-blue)] mb-6 mt-10"
             >
-              Create account
-            </button>
-          </form>
+              <h1>Create your account</h1>
+            </div>
+            <form name="register" class="flex flex-col w-full gap-6">
+              <div class="flex flex-col gap-2">
+                <label
+                  for="full-name"
+                  class="font-['Inter',sans-serif] text-sm sm:text-base"
+                  >Full Name</label
+                >
+                <input
+                  id="full-name"
+                  class="border-2 border-[var(--main-gold)] rounded-md py-2 px-4 w-full"
+                  type="text"
+                  name="full-name"
+                  required
+                />
+              </div>
+              <div class="flex flex-col gap-2">
+                <label
+                  for="email"
+                  class="font-['Inter',sans-serif] text-sm sm:text-base"
+                  >Email</label
+                >
+                <input
+                  id="email"
+                  class="border-2 border-[var(--main-gold)] rounded-md py-2 px-4 w-full"
+                  type="email"
+                  autocomplete="email"
+                  name="email"
+                  required
+                />
+              </div>
+              <div class="flex flex-col gap-2">
+                <label
+                  for="password"
+                  class="font-['Inter',sans-serif] text-sm sm:text-base"
+                  >Password</label
+                >
+                <input
+                  type="password"
+                  name="password"
+                  id="password"
+                  class="border-2 border-[var(--main-gold)] rounded-md py-2 px-4 w-full"
+                  required
+                />
+              </div>
+              <button
+                class="bg-[var(--main-blue)] mb-6 drop-shadow-lg text-white py-2 px-10 rounded-md font-playfair text-base sm:text-lg active:bg-[image:var(--gold-gradient)] active:text-[var(--main-blue)] active:shadow-inner cursor-pointer w-full sm:w-auto self-center"
+              >
+                Create account
+              </button>
+            </form>
+          </div>
         </div>
         <div id="app"></div>
-        <script type="module" src="/js/main.js"></script>
-        <script type="module" src="/js/auth/register.js"></script>
-        <script type="module" src="/js/ui/logout.js"></script>
-        <script type="module" src="/js/ui/navbar.js"></script>
       </div>
+      <script type="module" src="/js/main.js"></script>
+      <script type="module" src="/js/auth/register.js"></script>
+      <script type="module" src="/js/ui/logout.js"></script>
+      <script type="module" src="/js/ui/navbar.js"></script>
     </main>
     <footer
       class="bg-[var(--main-blue)] h-40 w-full mt-auto border-b-2 border-t-2 border-[var(--main-gold)]"

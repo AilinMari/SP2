@@ -69,7 +69,7 @@ function renderSingleListing(listingId) {
   const title = document.createElement("h1");
   title.textContent = listingId.data.title;
   title.className =
-    "listing-title text-4xl font-semibold font-playfair text-[var(--main-blue)] max-w-full overflow-hidden text-ellipsis";
+    "listing-title text-4xl mt-4 font-semibold font-playfair text-[var(--main-blue)] max-w-full overflow-hidden text-ellipsis";
 
   const description = document.createElement("p");
   description.textContent = listingId.data.description;
@@ -84,7 +84,7 @@ function renderSingleListing(listingId) {
   seller.href = `/user-profile.html?id=${sellerName}`;
 
   const bidContainer = document.createElement("div");
-  bidContainer.className = "listing-bid-container mt-4";
+  bidContainer.className = "listing-bid-container mb-4 mt-4";
   // compute current and ends date once and use for button visibility and label
   const now = new Date();
   const endsDate = listingId.data?.endsAt
