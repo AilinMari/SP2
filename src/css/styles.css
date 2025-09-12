@@ -1224,11 +1224,11 @@ video {
   text-align: center;
 }
 
-.font-\['Inter'\2c sans-serif\] {
+.font-inter {
   font-family: "Inter", sans-serif;
 }
 
-.font-\['Playfair_Display'\2c serif\] {
+.font-playfair {
   font-family: "Playfair Display", serif;
 }
 
@@ -1722,4 +1722,3 @@ nav .navbar img {
     height: 140px;
   }
 }
-
