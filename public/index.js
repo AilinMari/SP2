@@ -19,7 +19,7 @@ let allListings = [];
 // Change this value directly in code to adjust initial load behavior.
 const INITIAL_MAX_PAGES = 12; // default: fetch 12 pages on load
 // Configure how many newest active listings to show in the main grid
-const INITIAL_GRID_LIMIT = 8;
+const INITIAL_GRID_LIMIT = 4;
 
 async function handleListingsView() {
   // show a simple loading state while we fetch potentially many pages
@@ -72,16 +72,16 @@ async function handleListingsView() {
       .map((t) => t[0]);
 
     // render side carousels
-    const mostBidsRoot = document.querySelector(".most-bids");
+    const mostBidsRoot = document.querySelector(".tag-carousels");
     if (mostBidsRoot) {
       mostBidsRoot.innerHTML = "";
       topTags.forEach((tag) => {
         const section = document.createElement("section");
         section.className = "tag-carousel mb-6";
         const heading = document.createElement("h3");
-        heading.textContent = `#${tag}`;
+        heading.textContent = `${tag}`;
         heading.className =
-          "text-lg font-semibold mb-2 text-[var(--main-blue)]";
+          "text-lg font-inter mb-2 text-[var(--main-blue)]";
         section.appendChild(heading);
 
         const carouselHost = document.createElement("div");
