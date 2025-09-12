@@ -217,6 +217,14 @@ h6 {
   font-weight: inherit;
 }
 
+.font-inter {
+  font-family: "Inter", sans-serif;
+}
+
+.font-playfair {
+  font-family: "Playfair Display", serif;
+}
+
 /*
 Reset links to optimize for opt-in styling instead of opt-out.
 */
