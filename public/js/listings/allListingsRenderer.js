@@ -49,7 +49,7 @@ export function renderAllListings(listings, options = {}) {
     const listingContainer = document.createElement("div");
     // use a specific class to avoid global `.container` styles interfering with grid layout
     listingContainer.className =
-      "listing-card bg-[var(--card-background)] p-4 border-2 border-[var(--main-gold)] rounded-md mb-8 overflow-hidden w-1/2";
+      "listing-card bg-[var(--card-background)] p-4 border-2 border-[var(--main-gold)] rounded-md mb-8 overflow-hidden";
 
     const title = document.createElement("h1");
     title.className =
