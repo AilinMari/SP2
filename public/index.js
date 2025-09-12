@@ -48,10 +48,103 @@ async function handleListingsView() {
     .slice(0, topCount);
 
   // Render the top-bids carousel (only active listings)
+  // (rendered later after tag carousels are created)
+
+  // --- New: build carousels for top tags ---
+  // Compute tag usage from active listings
+  const tagCounts = {};
+  activeListings.forEach((l) => {
+    const tags = l.tags || l.data?.tags || [];
+    if (!Array.isArray(tags)) return;
+    tags.forEach((t) => {
+      const key = (
+        typeof t === "string" ? t : t.name || String(t)
+      ).toLowerCase();
+      tagCounts[key] = (tagCounts[key] || 0) + 1;
+    });
+  });
+
+  const topTags = Object.entries(tagCounts)
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 5)
+    .map((t) => t[0]);
+
+  const mostBidsRoot = document.querySelector(".most-bids");
+  if (mostBidsRoot) {
+    mostBidsRoot.innerHTML = "";
+    // For each top tag, create a titled carousel
+    topTags.forEach((tag) => {
+      const section = document.createElement("section");
+      section.className = "tag-carousel mb-6";
+      const heading = document.createElement("h3");
+      heading.textContent = `#${tag}`;
+      heading.className = "text-lg font-semibold mb-2 text-[var(--main-blue)]";
+      section.appendChild(heading);
+
+      const carouselHost = document.createElement("div");
+      carouselHost.className = "tag-carousel-host";
+
+      // find listings that contain this tag and are active
+      const items = activeListings.filter((l) => {
+        const tags = l.tags || l.data?.tags || [];
+        if (!Array.isArray(tags)) return false;
+        return tags.some(
+          (t) =>
+            (typeof t === "string" ? t : t.name || String(t)).toLowerCase() ===
+            tag
+        );
+      });
+
+      // renderItem for mountCarousel
+      const renderItem = (listing) => {
+        const item = document.createElement("div");
+        const id = listing.id || listing._id || "";
+        const link = document.createElement("a");
+        link.href = id ? `/single-listing.html?id=${id}` : "#";
+        const img = document.createElement("img");
+        img.loading = "lazy";
+        img.src = listing?.media?.[0]?.url || "/images/GoldenBid-icon.png";
+        img.alt = listing?.title || "Listing image";
+        img.className = "w-full h-40 object-cover rounded mb-2";
+        const title = document.createElement("div");
+        title.className = "text-sm font-semibold text-[var(--main-blue)]";
+        title.textContent = listing?.title || "Untitled";
+        link.appendChild(img);
+        link.appendChild(title);
+        item.appendChild(link);
+        return item;
+      };
+
+      mountCarousel(carouselHost, items, renderItem, {
+        itemWidth: "300px",
+        gap: 12,
+      });
+
+      section.appendChild(carouselHost);
+      mostBidsRoot.appendChild(section);
+    });
+  }
+
+  // render active carousel (keep newest/more-bids carousel at top of sidebar)
   if (topBids.length) renderActiveCarousel(topBids);
 
   // Remove carousel items from the grid to avoid duplicates
   const shownIds = new Set(topBids.map((l) => l.id || l._id));
+  // include ids from tag carousels
+  topTags &&
+    topTags.forEach((tag) => {
+      // find items for this tag
+      activeListings.forEach((l) => {
+        const tags = l.tags || l.data?.tags || [];
+        if (!Array.isArray(tags)) return;
+        const found = tags.some(
+          (t) =>
+            (typeof t === "string" ? t : t.name || String(t)).toLowerCase() ===
+            tag
+        );
+        if (found) shownIds.add(l.id || l._id);
+      });
+    });
   const remaining = allListings.filter((l) => !shownIds.has(l.id || l._id));
 
   // Render the remaining listings in the grid (sorted newest first)

@@ -1680,3 +1680,40 @@ nav .navbar img {
   object-fit: cover;
   object-position: center;
 }
+
+/* --- Carousel hover tweaks: appended to end so they override compiled Tailwind order --- */
+.carousel-item {
+  overflow: hidden;
+}
+.carousel-item img,
+.carousel-item a img {
+  display: block;
+  width: 100%;
+  height: 160px; /* fixed image box so scaling doesn't change card size */
+  object-fit: cover;
+  transition: transform 220ms cubic-bezier(0.2, 0.8, 0.2, 1),
+    box-shadow 220ms ease;
+  transform-origin: center center;
+  will-change: transform;
+}
+.carousel-item:hover img,
+.carousel-item:focus-within img,
+.carousel-item a:hover img,
+.carousel-item a:focus img {
+  transform: scale(1.07);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.14);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .carousel-item img {
+    transition: none;
+    transform: none !important;
+  }
+}
+
+@media (max-width: 900px) {
+  .carousel-item img,
+  .carousel-item a img {
+    height: 140px;
+  }
+}

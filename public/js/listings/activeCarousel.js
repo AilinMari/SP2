@@ -3,14 +3,15 @@ import { attachCountdown } from "/js/utils/countdown.js";
 
 // Renders the active listings carousel into a sibling above the listings grid.
 export function renderActiveCarousel(listings) {
-  const listingsGrid = document.querySelector(".listings-grid");
+  const listingsGrid = document.querySelector(".most-bids");
   if (!listingsGrid) return;
 
   let carouselRoot = document.querySelector(".active-carousel");
   if (!carouselRoot) {
     carouselRoot = document.createElement("div");
     carouselRoot.className = "active-carousel mb-6";
-    listingsGrid.parentNode.insertBefore(carouselRoot, listingsGrid);
+    // place the active carousel inside the right-sidebar container
+    listingsGrid.prepend(carouselRoot);
   }
 
   if (!Array.isArray(listings) || listings.length === 0) return;
@@ -28,6 +29,7 @@ export function renderActiveCarousel(listings) {
     img.src = imageSrc;
     img.alt = listing.title || "Listing image";
     img.className = "w-full h-40 object-cover rounded";
+    img.loading = "lazy";
 
     const title = document.createElement("h3");
     title.className = "mt-2 text-lg font-semibold text-[var(--main-blue)]";
