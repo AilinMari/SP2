@@ -650,6 +650,11 @@ video {
   margin-right: auto;
 }
 
+.mx-8 {
+  margin-left: 2rem;
+  margin-right: 2rem;
+}
+
 .mb-10 {
   margin-bottom: 2.5rem;
 }
@@ -1716,4 +1721,55 @@ nav .navbar img {
   .carousel-item a img {
     height: 140px;
   }
+}
+
+/* Ensure .new-layout rows start at the top for local/compiled CSS parity */
+.new-layout {
+  display: grid;
+  grid-template-columns: 1fr min(420px, 36%);
+  gap: 24px;
+  align-items: start;
+  align-content: start; /* ensure rows start at the top */
+}
+
+/* Explicit placement (in case DOM order differs) */
+.new-layout .listings-grid {
+  grid-column: 1;
+  align-self: start; /* ensure listings column sits at the top of the row */
+  margin-top: 0 !important;
+}
+.new-layout .most-bids {
+  grid-column: 2;
+  /* keep the carousel visible while scrolling */
+  position: sticky;
+  top: 16px;
+  align-self: start;
+}
+
+/* Listing cards in the main grid */
+.listing-card {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.listing-card .listing-image {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+}
+
+/* Ensure sidebar children occupy the sidebar column and don't overlap the grid */
+.most-bids > * {
+  width: 100%;
+  box-sizing: border-box;
+}
+.most-bids .tag-carousel {
+  margin-bottom: 12px;
+}
+.most-bids .tag-carousel-host,
+.most-bids .active-carousel {
+  width: 100%;
+  max-width: 100%;
 }

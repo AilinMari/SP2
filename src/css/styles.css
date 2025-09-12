@@ -213,6 +213,11 @@ input[type="submit"],
   width: 3rem;
 }
 
+.mx-8 {
+  margin-left: 2rem;
+  margin-right: 2rem;
+}
+
 .bg-red {
   --tw-bg-opacity: 1;
   background-color: rgb(255 0 0 / var(--tw-bg-opacity));
@@ -311,11 +316,14 @@ input[type="submit"],
   grid-template-columns: 1fr min(420px, 36%);
   gap: 24px;
   align-items: start;
+  align-content: start; /* ensure rows start at the top */
 }
 
 /* Explicit placement (in case DOM order differs) */
 .new-layout .listings-grid {
   grid-column: 1;
+  align-self: start; /* ensure listings column sits at the top of the row */
+  margin-top: 0 !important;
 }
 .new-layout .most-bids {
   grid-column: 2;

@@ -145,14 +145,10 @@ async function handleListingsView() {
         if (found) shownIds.add(l.id || l._id);
       });
     });
-  const remaining = allListings.filter((l) => !shownIds.has(l.id || l._id));
-
-  // Render the remaining listings in the grid (sorted newest first)
-  renderAllListings(
-    remaining.length
-      ? remaining.sort((a, b) => new Date(b.created) - new Date(a.created))
-      : []
-  );
+  // For the main grid we show newest active listings (search will replace these results)
+  const mainGridLimit = 8; // show only a few items on front page
+  const newestActive = activeListings.slice(0, mainGridLimit);
+  renderAllListings(newestActive, { limit: mainGridLimit });
 }
 
 handleListingsView();
