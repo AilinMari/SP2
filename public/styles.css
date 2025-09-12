@@ -1666,6 +1666,22 @@ nav {
   }
 }
 
+/* carousel pagination dots */
+.carousel-dots {
+  margin-top: 8px;
+}
+.carousel-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 9999px;
+  background: rgba(0, 0, 0, 0.12);
+  border: none;
+  cursor: pointer;
+}
+.carousel-dot.active {
+  background: var(--main-gold);
+}
+
 nav .navbar {
   align-items: center; /* center content vertically */
   padding-block: 0.25rem !important; /* small vertical padding */
@@ -1751,8 +1767,7 @@ nav .navbar img {
   .most-bids .tag-carousel-host,
   .most-bids .carousel-wrapper {
     max-width: 480px !important;
-    margin-left: auto !important;
-    margin-right: auto !important;
+
     width: 100% !important;
     display: flex !important;
     justify-content: center !important;
@@ -1780,14 +1795,10 @@ nav .navbar img {
     padding-left: 8px !important;
     padding-right: 8px !important;
     max-width: 420px !important;
-    margin-left: auto !important;
-    margin-right: auto !important;
   }
   .most-bids .carousel-item {
     width: calc(100% - 24px) !important; /* leave space for nav buttons */
     max-width: 380px !important;
-    margin-left: auto !important;
-    margin-right: auto !important;
   }
   .carousel-track {
     padding-left: 6px !important;
@@ -1795,8 +1806,7 @@ nav .navbar img {
   }
   /* slightly reduce nav button size so they don't overflow */
   .carousel-btn {
-    padding: 6px !important;
-    font-size: 14px !important;
+    display: none;
   }
 
   /* Also apply similar centering and width constraints to listing grid cards */
@@ -1897,4 +1907,25 @@ nav .navbar img {
   height: 160px !important; /* stable image box height */
   max-height: 220px;
   object-fit: cover;
+}
+
+/* Index-specific responsive parity with profile page */
+main > .w-full.max-w-4xl {
+  padding-left: 12px;
+  padding-right: 12px;
+}
+
+@media (max-width: 480px) {
+  /* reduce outer margins on very small devices to match profile feel */
+  body > main {
+    margin-left: 8px !important;
+    margin-right: 8px !important;
+  }
+  .new-layout {
+    gap: 12px !important;
+  }
+  .listings-grid .listing-card {
+    padding-left: 6px !important;
+    padding-right: 6px !important;
+  }
 }

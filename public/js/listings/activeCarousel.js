@@ -9,7 +9,7 @@ export function renderActiveCarousel(listings) {
   let carouselRoot = document.querySelector(".active-carousel");
   if (!carouselRoot) {
     carouselRoot = document.createElement("div");
-    carouselRoot.className = "active-carousel mb-6";
+    carouselRoot.className = "active-carousel mb-6 flex flex-col";
     // place the active carousel inside the right-sidebar container
     listingsGrid.prepend(carouselRoot);
   }

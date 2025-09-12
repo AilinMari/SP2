@@ -59,7 +59,7 @@ async function renderListingsUI() {
       section.appendChild(heading);
 
       const carouselHost = document.createElement("div");
-      carouselHost.className = "tag-carousel-host";
+      carouselHost.className = "tag-carousel-host flex flex-col";
 
       const items = activeListings.filter((l) => {
         const tags = l.tags || l.data?.tags || [];

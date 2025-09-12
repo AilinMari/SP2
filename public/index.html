@@ -70,7 +70,7 @@
       </div>
     </nav>
     <main class="flex justify-center items-start h-full mx-8">
-      <div class="w-full mx-auto mb-8 flex flex-col">
+      <div class="w-full max-w-4xl mx-auto mb-8 flex flex-col justify-center items-center">
         <div class="relative w-full max-w-4xl mx-auto mb-6">
           <label for="profile-search" class="sr-only"></label>
           <input
@@ -126,13 +126,14 @@
           ></div>
           
           <div class="most-bids"></div>
-        </div>
+          </div>
+        
+        <div id="app"></div>
+        <script type="module" src="/js/main.js"></script>
+        <script type="module" src="/js/ui/logout.js"></script>
+        <script type="module" src="/js/ui/navbar.js"></script>
+        <script type="module" src="/index.js"></script>
       </div>
-      <div id="app"></div>
-      <script type="module" src="/js/main.js"></script>
-      <script type="module" src="/js/ui/logout.js"></script>
-      <script type="module" src="/js/ui/navbar.js"></script>
-      <script type="module" src="/index.js"></script>
     </main>
     <footer
       class="bg-[var(--main-blue)] h-30 w-full mt-auto border-b-3 border-t-3 border-[var(--main-gold)]"
