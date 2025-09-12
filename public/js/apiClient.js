@@ -333,7 +333,7 @@ export class AuctionApi {
    * @param {number} opts.limit - page size to request per page (default 100)
    * @returns {Promise<any[]>} aggregated listing array
    */
-  async getAllListingsAll({ limit = 100 } = {}) {
+  async getAllListingsAll({ limit = 100, maxPages = Infinity } = {}) {
     const aggregated = [];
     let page = 1;
     while (true) {
@@ -368,8 +368,65 @@ export class AuctionApi {
 
       aggregated.push(...pageData);
 
-      // stop if last page (fewer than limit items)
+      // stop if last page (fewer than limit items) or we've reached maxPages
       if (pageData.length < limit) break;
+      if (Number.isFinite(maxPages) && page >= Number(maxPages)) break;
+      page += 1;
+    }
+
+    return aggregated;
+  }
+
+  /**
+   * Fetch pages and call onPage for each page as it arrives.
+   * onPage receives (pageDataArray, pageNumber).
+   * Returns the aggregated array when finished.
+   */
+  async getAllListingsPaged({ limit = 100, maxPages = Infinity } = {}, onPage) {
+    const aggregated = [];
+    let page = 1;
+    while (true) {
+      const url = new URL(API_LISTINGS);
+      url.searchParams.append("_bids", "true");
+      url.searchParams.append("_seller", "true");
+      url.searchParams.append("_media", "true");
+      url.searchParams.append("page", String(page));
+      url.searchParams.append("limit", String(limit));
+
+      const options = {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "X-Noroff-API-Key": `${API_KEY}`,
+        },
+      };
+      const accessToken = localStorage.getItem("token");
+      if (accessToken) {
+        options.headers["Authorization"] = `Bearer ${accessToken}`;
+      }
+
+      const res = await this._request(
+        url.toString(),
+        options,
+        `Error fetching listings page ${page}`
+      );
+
+      const pageData = Array.isArray(res) ? res : res?.data ?? [];
+      if (!Array.isArray(pageData) || pageData.length === 0) break;
+
+      aggregated.push(...pageData);
+      try {
+        if (typeof onPage === "function") {
+          // give callers the raw page data and page number
+          onPage(pageData, page);
+        }
+      } catch (e) {
+        // ignore errors from user callback
+        console.error("onPage callback error", e);
+      }
+
+      if (pageData.length < limit) break;
+      if (Number.isFinite(maxPages) && page >= Number(maxPages)) break;
       page += 1;
     }
 
