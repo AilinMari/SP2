@@ -44,12 +44,12 @@ export function renderAllListings(listings) {
 
     const title = document.createElement("h1");
     title.className =
-      "listing-title text-xl font-semibold text-[var(--main-blue)] font-['Playfair_Display',serif] mb-2 max-w-full overflow-hidden text-ellipsis";
+      "listing-title text-xl font-semibold text-[var(--main-blue)] font-playfair mb-2 max-w-full overflow-hidden text-ellipsis";
     title.textContent = listing.title;
 
     const seller = document.createElement("a");
     seller.className =
-      "listing-seller text-md font-regular text-[var(--main-blue)] font-['Playfair_Display',serif]";
+      "listing-seller text-md font-regular text-[var(--main-blue)] font-playfair";
     seller.textContent = `By ${listing.seller?.name || "Unknown"}`;
     seller.href = `/user-profile.html?id=${listing.seller?.name || ""}`;
 

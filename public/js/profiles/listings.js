@@ -79,7 +79,7 @@ function renderActiveCarousel(listings) {
 
     const title = document.createElement("h1");
     title.className =
-      "listing-title text-xl font-semibold text-[var(--main-blue)] font-['Playfair_Display',serif] mb-2";
+      "listing-title text-xl font-semibold text-[var(--main-blue)] font-playfair mb-2";
     title.textContent = listing.title;
 
     const bidContainer = document.createElement("div");

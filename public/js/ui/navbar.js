@@ -194,7 +194,7 @@ function renderCredits(profile) {
   const credits = document.createElement("div");
   credits.textContent = "Credits " + (profile.data.credits || 0);
   credits.className =
-    "credits text-center text-sm text-[var(--main-gold)] font-['Playfair_Display',serif] border-t-2 border-b-2 border-[var(--main-gold)] pb-2 pt-2 text-xl";
+    "credits text-center text-sm text-[var(--main-gold)] font-playfair border-t-2 border-b-2 border-[var(--main-gold)] pb-2 pt-2 text-xl";
   creditsContainer.appendChild(credits);
 }
 init();

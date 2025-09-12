@@ -155,7 +155,7 @@ function renderActiveCarousel(bids) {
 
     const title = document.createElement("h3");
     title.className =
-      "text-xl font-semibold text-[var(--main-blue)] font-['Playfair_Display',serif] mb-2";
+      "text-xl font-semibold text-[var(--main-blue)] font-playfair mb-2";
     title.textContent = listing?.title || "Untitled";
 
     if (img) link.appendChild(img);

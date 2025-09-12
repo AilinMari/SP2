@@ -28,7 +28,7 @@ function renderProfile(profile) {
 
   const nameEl = document.createElement("h2");
   nameEl.className =
-    "profile-name uppercase absolute left-1/2 translate-x-[-50%] translate-y-170 border-3 border-[var(--main-gold)] shadow-lg z-5 px-4 py-3 rounded-md font-['Playfair_Display',serif] text-lg bg-[var(--main-blue)] text-[var(--main-gold)]";
+    "profile-name uppercase absolute left-1/2 translate-x-[-50%] translate-y-170 border-3 border-[var(--main-gold)] shadow-lg z-5 px-4 py-3 rounded-md font-playfair text-lg bg-[var(--main-blue)] text-[var(--main-gold)]";
   nameEl.textContent = profile.data.name;
 
   const avatarEl = document.createElement("img");
@@ -40,7 +40,7 @@ function renderProfile(profile) {
   const editProfile = document.createElement("button");
   editProfile.textContent = "Edit Profile";
   editProfile.className =
-    "edit-profile-button cursor-pointer absolute left-1/2 translate-x-[-50%] translate-y-20 border-3 border-[var(--main-gold)] shadow-lg z-10 px-4 py-3 rounded-md font-['Playfair_Display',serif] text-lg bg-[var(--main-blue)] text-[var(--main-gold)]";
+    "edit-profile-button cursor-pointer absolute left-1/2 translate-x-[-50%] translate-y-20 border-3 border-[var(--main-gold)] shadow-lg z-10 px-4 py-3 rounded-md font-playfair text-lg bg-[var(--main-blue)] text-[var(--main-gold)]";
 
   // create inline form container hidden by default
   const formContainer = document.createElement("div");
@@ -92,7 +92,7 @@ function renderProfile(profile) {
   const bioEl = document.createElement("p");
   bioEl.textContent = profile.data.bio || "";
   bioEl.className =
-    "profile-bio flex flex-col justify-center items-center rounded-md font-['Playfair_Display',serif] text-lg bg-[var(--card-background)] border-3 border-[var(--main-gold)] shadow-lg min-h-10 min-w-150 p-4 text-center";
+    "profile-bio flex flex-col justify-center items-center rounded-md font-playfair text-lg bg-[var(--card-background)] border-3 border-[var(--main-gold)] shadow-lg min-h-10 min-w-150 p-4 text-center";
 
   formContainer.addEventListener("submit", async (e) => {
     if (e.target && e.target.id === "inline-update-profile-form") {
@@ -127,7 +127,7 @@ function renderProfile(profile) {
   const createListing = document.createElement("button");
   createListing.textContent = "Create Listing +";
   createListing.className =
-    "create-listing-btn mt-10 cursor-pointer border-3 border-[var(--main-gold)] shadow-lg z-10 px-4 py-3 rounded-md font-['Playfair_Display',serif] text-lg bg-[var(--main-blue)] text-[var(--main-gold)]";
+    "create-listing-btn mt-10 cursor-pointer border-3 border-[var(--main-gold)] shadow-lg z-10 px-4 py-3 rounded-md font-playfair text-lg bg-[var(--main-blue)] text-[var(--main-gold)]";
   createListing.addEventListener("click", () => {
     window.location.href = "/create-listing.html";
     // Handle create listing button click

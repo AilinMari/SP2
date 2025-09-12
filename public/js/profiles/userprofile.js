@@ -30,7 +30,7 @@ function renderProfile(profile) {
 
   const nameEl = document.createElement("h2");
   nameEl.className =
-    "profile-name uppercase absolute left-1/2 translate-x-[-50%] translate-y-170 border-3 border-[var(--main-gold)] shadow-lg z-5 px-4 py-3 rounded-md font-['Playfair_Display',serif] text-lg bg-[var(--main-blue)] text-[var(--main-gold)]";
+    "profile-name uppercase absolute left-1/2 translate-x-[-50%] translate-y-170 border-3 border-[var(--main-gold)] shadow-lg z-5 px-4 py-3 rounded-md font-playfair text-lg bg-[var(--main-blue)] text-[var(--main-gold)]";
   nameEl.textContent = profile.data.name;
 
   const avatarEl = document.createElement("img");
@@ -44,7 +44,7 @@ function renderProfile(profile) {
   const bioEl = document.createElement("p");
   bioEl.textContent = profile.data.bio || "";
   bioEl.className =
-    "profile-bio flex flex-col justify-center items-center rounded-md font-['Playfair_Display',serif] text-lg bg-[var(--card-background)] border-3 border-[var(--main-gold)] shadow-lg min-h-10 min-w-150 p-4 text-center";
+    "profile-bio flex flex-col justify-center items-center rounded-md font-playfair text-lg bg-[var(--card-background)] border-3 border-[var(--main-gold)] shadow-lg min-h-10 min-w-150 p-4 text-center";
 
   // bioEl was created earlier so it's available to the submit handler
 
@@ -151,7 +151,7 @@ init();
 //   // Name
 //   const name = document.createElement("h2");
 //   name.className =
-//     "profile-name uppercase absolute left-1/2 translate-x-[-50%] translate-y-170 border-3 border-[var(--main-gold)] shadow-lg z-5 px-4 py-3 rounded-md font-['Playfair_Display',serif] text-lg bg-[var(--main-blue)] text-[var(--main-gold)]";
+//     "profile-name uppercase absolute left-1/2 translate-x-[-50%] translate-y-170 border-3 border-[var(--main-gold)] shadow-lg z-5 px-4 py-3 rounded-md font-playfair text-lg bg-[var(--main-blue)] text-[var(--main-gold)]";
 //   name.textContent = profile.data.name;
 
 //   // Avatar
@@ -168,7 +168,7 @@ init();
 //   const bio = document.createElement("p");
 //   bio.textContent = profile.data.bio || "";
 //   bio.className =
-//     "profile-bio flex flex-col justify-center items-center rounded-md font-['Playfair_Display',serif] text-lg bg-[var(--card-background)] border-3 border-[var(--main-gold)] shadow-lg min-h-50 min-w-150";
+//     "profile-bio flex flex-col justify-center items-center rounded-md font-playfair text-lg bg-[var(--card-background)] border-3 border-[var(--main-gold)] shadow-lg min-h-50 min-w-150";
 
 //   // Content container
 //   const contentContainer = document.querySelector(".content");

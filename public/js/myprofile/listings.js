@@ -76,7 +76,7 @@ function renderActiveCarousel(listings) {
 
     const title = document.createElement("h1");
     title.className =
-      "listing-title text-xl font-semibold text-[var(--main-blue)] font-['Playfair_Display',serif] mb-2";
+      "listing-title text-xl font-semibold text-[var(--main-blue)] font-playfair mb-2";
     title.textContent = listing.title;
 
     const bidContainer = document.createElement("div");
@@ -97,7 +97,7 @@ function renderActiveCarousel(listings) {
     // update button (restore)
     const updateBtn = document.createElement("button");
     updateBtn.className =
-      "listing-update-btn cursor-pointer border-3 border-[var(--main-gold)] shadow-lg z-10 px-2 py-1 rounded-md font-['Playfair_Display',serif] text-sm bg-[var(--main-blue)] text-[var(--main-gold)]";
+      "listing-update-btn cursor-pointer border-3 border-[var(--main-gold)] shadow-lg z-10 px-2 py-1 rounded-md font-playfair text-sm bg-[var(--main-blue)] text-[var(--main-gold)]";
     updateBtn.textContent = "Update Listing";
     updateBtn.addEventListener("click", () => {
       window.location.href = `/update-listing.html?id=${listing.id}`;

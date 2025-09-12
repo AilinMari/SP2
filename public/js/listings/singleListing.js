@@ -69,7 +69,7 @@ function renderSingleListing(listingId) {
   const title = document.createElement("h1");
   title.textContent = listingId.data.title;
   title.className =
-    "listing-title text-4xl font-semibold font-['Playfair_Display',serif] text-[var(--main-blue)] max-w-full overflow-hidden text-ellipsis";
+    "listing-title text-4xl font-semibold font-playfair text-[var(--main-blue)] max-w-full overflow-hidden text-ellipsis";
 
   const description = document.createElement("p");
   description.textContent = listingId.data.description;
@@ -80,7 +80,7 @@ function renderSingleListing(listingId) {
   const sellerName = listingId.data?.seller?.name || "Unknown seller";
   seller.textContent = `By ${sellerName}`;
   seller.className =
-    "listing-seller text-md text-[var(--main-blue)] font-['Playfair_Display', serif]";
+    "listing-seller text-md text-[var(--main-blue)] font-playfair";
   seller.href = `/user-profile.html?id=${sellerName}`;
 
   const bidContainer = document.createElement("div");
