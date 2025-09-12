@@ -7,6 +7,15 @@ export function renderAllListings(listings) {
     console.error("Listings grid not found");
     return;
   }
+  // Ensure responsive centered grid layout (idempotent)
+  listingsGrid.classList.add(
+    "grid",
+    "gap-6",
+    "sm:grid-cols-2",
+    "lg:grid-cols-3",
+    "justify-items-center",
+    "content-start"
+  );
   // detach countdowns from any existing elements before clearing the grid
   if (listingsGrid.querySelectorAll) {
     listingsGrid.querySelectorAll(".listing-ends-at").forEach((el) => {
@@ -40,7 +49,7 @@ export function renderAllListings(listings) {
     // Proceed to render the listing
     const listingContainer = document.createElement("div");
     listingContainer.className =
-      "container bg-[var(--card-background)] p-4 border-2 border-[var(--main-gold)] rounded-md mb-8 max-w-md max-h-100 overflow-hidden";
+      "container bg-[var(--card-background)] p-4 border-2 border-[var(--main-gold)] rounded-md mb-4 sm:mb-6 max-w-xs sm:max-w-sm md:max-w-md w-full mx-auto max-h-100 overflow-hidden";
 
     const title = document.createElement("h1");
     title.className =
