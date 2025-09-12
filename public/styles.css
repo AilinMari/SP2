@@ -1771,6 +1771,57 @@ nav .navbar img {
   }
 }
 
+/* Fine-tune for very small screens where previous rules started to break
+   (addresses behaviour just below ~600px). */
+@media (max-width: 600px) {
+  .most-bids .carousel-wrapper,
+  .most-bids .tag-carousel-host,
+  .most-bids .active-carousel {
+    padding-left: 8px !important;
+    padding-right: 8px !important;
+    max-width: 420px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+  .most-bids .carousel-item {
+    width: calc(100% - 24px) !important; /* leave space for nav buttons */
+    max-width: 380px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+  .carousel-track {
+    padding-left: 6px !important;
+    padding-right: 6px !important;
+  }
+  /* slightly reduce nav button size so they don't overflow */
+  .carousel-btn {
+    padding: 6px !important;
+    font-size: 14px !important;
+  }
+
+  /* Also apply similar centering and width constraints to listing grid cards */
+  .listings-grid {
+    padding-left: 8px !important;
+    padding-right: 8px !important;
+  }
+  .listings-grid .listing-card {
+    max-width: 420px !important;
+    width: 100% !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    box-sizing: border-box !important;
+    padding-left: 8px !important;
+    padding-right: 8px !important;
+  }
+  .listings-grid .listing-card img,
+  .listings-grid .listing-card .listing-image {
+    height: 160px !important;
+    max-height: 220px !important;
+    object-fit: cover !important;
+    width: 100% !important;
+  }
+}
+
 /* Ensure .new-layout rows start at the top for local/compiled CSS parity */
 .new-layout {
   display: grid;
