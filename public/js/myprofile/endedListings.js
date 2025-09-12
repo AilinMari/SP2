@@ -62,7 +62,8 @@ export function renderEndedCarousels(listings) {
       link.href = id ? `/single-listing.html?id=${id}&_seller=true` : "#";
 
       const titleEl = document.createElement("h3");
-  titleEl.className = "text-xl font-semibold text-[var(--main-blue)] font-playfair mb-2";
+      titleEl.className =
+        "text-xl font-semibold text-[var(--main-blue)] font-playfair mb-2";
       titleEl.textContent = listing?.title || "Untitled";
       link.appendChild(titleEl);
       item.appendChild(link);
