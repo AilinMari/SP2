@@ -50,10 +50,7 @@
             class="login-link text-lg md:text-xl text-[var(--navbar-text)] pt-1 pb-1 px-3 border-2 border-[var(--main-gold)] rounded-md w-fit font-playfair active:bg-[image:var(--gold-gradient)] active:text-[var(--main-blue)] active:shadow-inner"
             >Login</a
           >
-          <span
-            class="or font-playfair text-[var(--navbar-text)]"
-            >or</span
-          >
+          <span class="or font-playfair text-[var(--navbar-text)]">or</span>
           <a
             href="/register.html"
             class="sign-up text-l text-[var(--navbar-text)] font-playfair"
@@ -95,35 +92,34 @@
         </div>
         <div class="new-layout w-full max-w-4xl mx-auto mb-8">
           <div class="most-bids"></div>
-        <form
-          id="listings-filter-form"
-          class="flex flex-col md:flex-row gap-4 items-center justify-center mb-10 mt-10"
-        >
-          <input
-            type="text"
-            id="search-bar"
-            placeholder="Search listings..."
-            class="border border-gray-300 rounded px-4 py-2 w-full md:w-1/2 bg-[var(--card-background)]"
-          />
-          <select
-            id="status-filter"
-            class="border border-gray-300 rounded px-4 py-2"
+          <form
+            id="listings-filter-form"
+            class="flex flex-col md:flex-row gap-4 items-center justify-center mb-10 mt-10"
           >
-            <option value="all">All</option>
-            <option value="active">Active</option>
-            <option value="expired">Expired</option>
-          </select>
-          <select
-            id="sort-filter"
-            class="border border-gray-300 rounded px-4 py-2"
-          >
-            <option value="newest">Newest</option>
-            <option value="oldest">Oldest</option>
-            <option value="most-bids">Most bids</option>
-            <option value="least-bids">Least bids</option>
-          </select>
-        </form>
-
+            <input
+              type="text"
+              id="search-bar"
+              placeholder="Search listings..."
+              class="border border-gray-300 rounded px-4 py-2 w-full md:w-1/2 bg-[var(--card-background)]"
+            />
+            <select
+              id="status-filter"
+              class="border border-gray-300 rounded px-4 py-2"
+            >
+              <option value="all">All</option>
+              <option value="active">Active</option>
+              <option value="expired">Expired</option>
+            </select>
+            <select
+              id="sort-filter"
+              class="border border-gray-300 rounded px-4 py-2"
+            >
+              <option value="newest">Newest</option>
+              <option value="oldest">Oldest</option>
+              <option value="most-bids">Most bids</option>
+              <option value="least-bids">Least bids</option>
+            </select>
+          </form>
 
           <div
             class="listings-grid grid lg:grid-cols-2 lg:gap-10 sm:grid-cols-1"
@@ -141,7 +137,7 @@
       class="bg-[var(--main-blue)] h-30 w-full mt-auto border-b-3 border-t-3 border-[var(--main-gold)]"
     >
       <p
-  class="text-center text-md text-[var(--navbar-text)] font-playfair h-full justify-center items-center flex gap-1"
+        class="text-center text-md text-[var(--navbar-text)] font-playfair h-full justify-center items-center flex gap-1"
       >
         &copy; 2025
         <span
