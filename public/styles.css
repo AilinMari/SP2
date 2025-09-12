@@ -650,6 +650,11 @@ video {
   margin-right: auto;
 }
 
+.mx-8 {
+  margin-left: 2rem;
+  margin-right: 2rem;
+}
+
 .mb-10 {
   margin-bottom: 2.5rem;
 }
@@ -1528,7 +1533,7 @@ input[type="submit"],
   border: 1px solid var(--main-gold);
   border-radius: 8px;
   padding: 8px;
-  width: 320px;
+  max-width: 320px;
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
 }
 
@@ -1555,7 +1560,7 @@ input[type="submit"],
   }
 
   .carousel-btn {
-    padding: 6px 8px;
+    display: none;
   }
 }
 
@@ -1661,6 +1666,22 @@ nav {
   }
 }
 
+/* carousel pagination dots */
+.carousel-dots {
+  margin-top: 8px;
+}
+.carousel-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 9999px;
+  background: rgba(0, 0, 0, 0.12);
+  border: none;
+  cursor: pointer;
+}
+.carousel-dot.active {
+  background: var(--main-gold);
+}
+
 nav .navbar {
   align-items: center; /* center content vertically */
   padding-block: 0.25rem !important; /* small vertical padding */
@@ -1714,6 +1735,232 @@ nav .navbar img {
 @media (max-width: 900px) {
   .carousel-item img,
   .carousel-item a img {
-    height: 140px;
+    max-height: 140px;
+  }
+}
+
+/* Strong mobile override to ensure a single-column flow on phones
+   and to disable sticky behavior which can cause overlap/scroll issues. */
+@media (max-width: 768px) {
+  .new-layout {
+    grid-template-columns: 1fr !important;
+  }
+  .new-layout .most-bids {
+    position: static !important;
+    grid-column: 1 !important;
+    top: auto !important;
+    margin-top: 1rem;
+  }
+  .new-layout .listings-grid {
+    grid-column: 1 !important;
+  }
+  .most-bids .active-carousel,
+  .most-bids .tag-carousel-host {
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+}
+
+/* Make the sidebar carousels behave like the profile page: center and constrain */
+@media (max-width: 768px) {
+  .most-bids .active-carousel,
+  .most-bids .tag-carousel-host,
+  .most-bids .carousel-wrapper {
+    max-width: 480px !important;
+
+    width: 100% !important;
+    display: flex !important;
+    justify-content: center !important;
+  }
+  .most-bids .carousel-item {
+    width: 100% !important; /* full column width but constrained by max-width above */
+    max-width: 420px !important;
+  }
+
+  .carousel-btn {
+    display: none;
+  }
+}
+
+/* Sticky only on larger screens to avoid overlap/odd mobile behavior */
+@media (min-width: 1024px) {
+  .new-layout .most-bids {
+    position: sticky !important;
+    top: 16px !important;
+  }
+}
+
+/* Fine-tune for very small screens where previous rules started to break
+   (addresses behaviour just below ~600px). */
+@media (max-width: 600px) {
+  .most-bids .carousel-wrapper,
+  .most-bids .tag-carousel-host,
+  .most-bids .active-carousel {
+    padding-left: 8px !important;
+    padding-right: 8px !important;
+    max-width: 420px !important;
+  }
+  .most-bids .carousel-item {
+    width: calc(100% - 24px) !important; /* leave space for nav buttons */
+    max-width: 380px !important;
+  }
+  .carousel-track {
+    padding-left: 6px !important;
+    padding-right: 6px !important;
+  }
+  /* slightly reduce nav button size so they don't overflow */
+  .carousel-btn {
+    display: none;
+  }
+
+  /* Also apply similar centering and width constraints to listing grid cards */
+  .listings-grid {
+    padding-left: 8px !important;
+    padding-right: 8px !important;
+  }
+  .listings-grid .listing-card {
+    max-width: 420px !important;
+    width: 100% !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    box-sizing: border-box !important;
+    padding-left: 8px !important;
+    padding-right: 8px !important;
+  }
+  .listings-grid .listing-card img,
+  .listings-grid .listing-card .listing-image {
+
+    max-height: 220px !important;
+    object-fit: cover !important;
+    width: 100% !important;
+  }
+}
+
+/* Ensure .new-layout rows start at the top for local/compiled CSS parity */
+.new-layout {
+  display: grid;
+  grid-template-columns: 1fr min(420px, 36%);
+  gap: 24px;
+  align-items: start;
+  align-content: start; /* ensure rows start at the top */
+}
+
+/* Defensive: constrain the layout width so listing cards don't span the full
+   viewport and drag images out on large screens. This centers the two-column
+   layout while still allowing it to be fluid. */
+.new-layout {
+  max-width: 1180px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Explicit placement (in case DOM order differs) */
+.new-layout .listings-grid {
+  grid-column: 1;
+  align-self: start; /* ensure listings column sits at the top of the row */
+  margin-top: 0 !important;
+}
+.new-layout .most-bids {
+  grid-column: 2;
+  /* keep the carousel visible while scrolling */
+  position: sticky;
+  top: 16px;
+  align-self: start;
+}
+
+/* Listing cards in the main grid */
+.listing-card {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.listing-card .listing-image {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+}
+
+/* Ensure sidebar children occupy the sidebar column and don't overlap the grid */
+.most-bids > * {
+  width: 100%;
+  box-sizing: border-box;
+}
+.most-bids .tag-carousel {
+  margin-bottom: 12px;
+}
+.most-bids .tag-carousel-host,
+.most-bids .active-carousel {
+  width: 100%;
+  max-width: 100%;
+}
+
+/* Prevent listing cards and images from stretching the layout. */
+.listings-grid .listing-card {
+  display: block;
+  box-sizing: border-box;
+  max-width: 100%;
+  align-items: flex-start;
+}
+.listings-grid .listing-card img,
+.listings-grid .listing-card .listing-image,
+.listings-grid img {
+  display: block;
+  width: 100%;
+  height: 160px !important; /* stable image box height */
+  max-height: 220px;
+  object-fit: cover;
+}
+
+/* Dynamic shrink behavior (index & profile parity)
+   Use clamp() so cards and carousel items resize smoothly across viewports.
+   These rules are appended to override earlier fixed widths and heights. */
+.carousel-item {
+  /* fluid card width between 220px and 320px based on viewport */
+  width: clamp(220px, 28vw, 320px);
+}
+.carousel-item img,
+.carousel-item a img {
+  height: clamp(120px, 18vw, 160px);
+}
+.new-layout .most-bids .carousel-item {
+  /* slightly smaller max for sidebar */
+  width: clamp(220px, 24vw, 300px);
+}
+
+.listings-grid .listing-card {
+  /* allow listing cards to shrink fluidly but not below 240px */
+  max-width: clamp(240px, 46vw, 420px);
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  box-sizing: border-box;
+}
+.listings-grid .listing-card .listing-image,
+.listings-grid .listing-card img {
+  height: clamp(120px, 20vw, 160px) !important;
+  object-fit: cover !important;
+  width: 100% !important;
+}
+
+/* Index-specific responsive parity with profile page */
+main > .w-full.max-w-4xl {
+  padding-left: 12px;
+  padding-right: 12px;
+}
+
+@media (max-width: 480px) {
+  /* reduce outer margins on very small devices to match profile feel */
+  body > main {
+    margin-left: 8px !important;
+    margin-right: 8px !important;
+  }
+  .new-layout {
+    gap: 12px !important;
+  }
+  .listings-grid .listing-card {
+    padding-left: 6px !important;
+    padding-right: 6px !important;
   }
 }
