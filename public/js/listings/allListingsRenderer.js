@@ -1,9 +1,7 @@
 import { attachCountdown, detachCountdown } from "/js/utils/countdown.js";
 
 // Renders non-active listings into the `.listings-grid` element.
-// Render listings into the `.listings-grid` element.
-// Optional options: { limit: number } to render only the first N listings.
-export function renderAllListings(listings, options = {}) {
+export function renderAllListings(listings) {
   const listingsGrid = document.querySelector(".listings-grid");
   if (!listingsGrid) {
     console.error("Listings grid not found");
@@ -26,15 +24,9 @@ export function renderAllListings(listings, options = {}) {
     return;
   }
 
-  // Apply optional limit
-  const limit = Number.isFinite(Number(options.limit))
-    ? Number(options.limit)
-    : null;
-  const toRender = limit ? listings.slice(0, limit) : listings;
+  console.log("Rendering listings:", listings);
 
-  console.log("Rendering listings (count):", toRender.length);
-
-  toRender.forEach((listing) => {
+  listings.forEach((listing) => {
     // Render all listings. If no media is present, use a placeholder image.
     const imageSrc =
       listing.media && Array.isArray(listing.media) && listing.media[0]?.url
@@ -47,9 +39,8 @@ export function renderAllListings(listings, options = {}) {
 
     // Proceed to render the listing
     const listingContainer = document.createElement("div");
-    // use a specific class to avoid global `.container` styles interfering with grid layout
     listingContainer.className =
-      "listing-card bg-[var(--card-background)] p-4 border-2 border-[var(--main-gold)] rounded-md mb-8 overflow-hidden";
+      "container bg-[var(--card-background)] p-4 border-2 border-[var(--main-gold)] rounded-md mb-8 max-w-md max-h-100 overflow-hidden";
 
     const title = document.createElement("h1");
     title.className =
