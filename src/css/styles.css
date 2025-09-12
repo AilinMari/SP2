@@ -450,6 +450,9 @@ input[type="submit"],
     width: 100% !important; /* full column width but constrained by max-width above */
     max-width: 420px !important;
   }
+  .carousel-btn {
+    display: none;
+  }
 }
 
 /* Sticky only on larger screens to avoid overlap/odd mobile behavior */

@@ -1560,7 +1560,7 @@ input[type="submit"],
   }
 
   .carousel-btn {
-    padding: 6px 8px;
+    display: none;
   }
 }
 
@@ -1775,6 +1775,10 @@ nav .navbar img {
   .most-bids .carousel-item {
     width: 100% !important; /* full column width but constrained by max-width above */
     max-width: 420px !important;
+  }
+
+  .carousel-btn {
+    display: none;
   }
 }
 
