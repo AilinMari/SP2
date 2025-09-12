@@ -366,13 +366,13 @@ export class AuctionApi {
       const pageData = Array.isArray(res) ? res : res?.data ?? [];
       if (!Array.isArray(pageData) || pageData.length === 0) break;
 
-  aggregated.push(...pageData);
+      aggregated.push(...pageData);
 
-  // stop if last page (fewer than limit items)
-  if (pageData.length < limit) break;
-  // stop if we've reached the requested maxPages cap
-  if (typeof maxPages === "number" && page >= maxPages) break;
-  page += 1;
+      // stop if last page (fewer than limit items)
+      if (pageData.length < limit) break;
+      // stop if we've reached the requested maxPages cap
+      if (typeof maxPages === "number" && page >= maxPages) break;
+      page += 1;
     }
 
     return aggregated;

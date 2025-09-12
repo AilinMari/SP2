@@ -1723,6 +1723,54 @@ nav .navbar img {
   }
 }
 
+/* Strong mobile override to ensure a single-column flow on phones
+   and to disable sticky behavior which can cause overlap/scroll issues. */
+@media (max-width: 768px) {
+  .new-layout {
+    grid-template-columns: 1fr !important;
+  }
+  .new-layout .most-bids {
+    position: static !important;
+    grid-column: 1 !important;
+    top: auto !important;
+    margin-top: 1rem;
+  }
+  .new-layout .listings-grid {
+    grid-column: 1 !important;
+  }
+  .most-bids .active-carousel,
+  .most-bids .tag-carousel-host {
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+}
+
+/* Make the sidebar carousels behave like the profile page: center and constrain */
+@media (max-width: 768px) {
+  .most-bids .active-carousel,
+  .most-bids .tag-carousel-host,
+  .most-bids .carousel-wrapper {
+    max-width: 480px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    width: 100% !important;
+    display: flex !important;
+    justify-content: center !important;
+  }
+  .most-bids .carousel-item {
+    width: 100% !important; /* full column width but constrained by max-width above */
+    max-width: 420px !important;
+  }
+}
+
+/* Sticky only on larger screens to avoid overlap/odd mobile behavior */
+@media (min-width: 1024px) {
+  .new-layout .most-bids {
+    position: sticky !important;
+    top: 16px !important;
+  }
+}
+
 /* Ensure .new-layout rows start at the top for local/compiled CSS parity */
 .new-layout {
   display: grid;
@@ -1730,6 +1778,15 @@ nav .navbar img {
   gap: 24px;
   align-items: start;
   align-content: start; /* ensure rows start at the top */
+}
+
+/* Defensive: constrain the layout width so listing cards don't span the full
+   viewport and drag images out on large screens. This centers the two-column
+   layout while still allowing it to be fluid. */
+.new-layout {
+  max-width: 1180px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 /* Explicit placement (in case DOM order differs) */
@@ -1772,4 +1829,21 @@ nav .navbar img {
 .most-bids .active-carousel {
   width: 100%;
   max-width: 100%;
+}
+
+/* Prevent listing cards and images from stretching the layout. */
+.listings-grid .listing-card {
+  display: block;
+  box-sizing: border-box;
+  max-width: 100%;
+  align-items: flex-start;
+}
+.listings-grid .listing-card img,
+.listings-grid .listing-card .listing-image,
+.listings-grid img {
+  display: block;
+  width: 100%;
+  height: 160px !important; /* stable image box height */
+  max-height: 220px;
+  object-fit: cover;
 }

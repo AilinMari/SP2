@@ -35,7 +35,9 @@ async function renderListingsUI() {
     const tags = l.tags || l.data?.tags || [];
     if (!Array.isArray(tags)) return;
     tags.forEach((t) => {
-      const key = (typeof t === "string" ? t : t.name || String(t)).toLowerCase();
+      const key = (
+        typeof t === "string" ? t : t.name || String(t)
+      ).toLowerCase();
       tagCounts[key] = (tagCounts[key] || 0) + 1;
     });
   });
@@ -63,7 +65,9 @@ async function renderListingsUI() {
         const tags = l.tags || l.data?.tags || [];
         if (!Array.isArray(tags)) return false;
         return tags.some(
-          (t) => (typeof t === "string" ? t : t.name || String(t)).toLowerCase() === tag
+          (t) =>
+            (typeof t === "string" ? t : t.name || String(t)).toLowerCase() ===
+            tag
         );
       });
 
@@ -106,7 +110,9 @@ async function renderListingsUI() {
         const tags = l.tags || l.data?.tags || [];
         if (!Array.isArray(tags)) return;
         const found = tags.some(
-          (t) => (typeof t === "string" ? t : t.name || String(t)).toLowerCase() === tag
+          (t) =>
+            (typeof t === "string" ? t : t.name || String(t)).toLowerCase() ===
+            tag
         );
         if (found) shownIds.add(l.id || l._id);
       });
@@ -145,7 +151,11 @@ async function handleListingsView() {
           // If the user has an active search/filter, re-run filters so their view updates.
           // Otherwise re-render the default listings UI with the full dataset.
           const searchBar = document.getElementById("search-bar");
-          if (searchBar && searchBar.value && searchBar.value.trim().length > 0) {
+          if (
+            searchBar &&
+            searchBar.value &&
+            searchBar.value.trim().length > 0
+          ) {
             // trigger the input listener to re-run filters
             searchBar.dispatchEvent(new Event("input", { bubbles: true }));
           } else {
@@ -172,7 +182,6 @@ window.addEventListener("listings:updated", (e) => {
     console.error("Failed to refresh listings after update:", err)
   );
 });
-
 
 // Filtering UI logic
 document.addEventListener("DOMContentLoaded", () => {

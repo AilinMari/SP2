@@ -412,6 +412,54 @@ input[type="submit"],
   }
 }
 
+/* Strong mobile override to ensure a single-column flow on phones
+   and to disable sticky behavior which can cause overlap/scroll issues. */
+@media (max-width: 768px) {
+  .new-layout {
+    grid-template-columns: 1fr !important;
+  }
+  .new-layout .most-bids {
+    position: static !important;
+    grid-column: 1 !important;
+    top: auto !important;
+    margin-top: 1rem;
+  }
+  .new-layout .listings-grid {
+    grid-column: 1 !important;
+  }
+  .most-bids .active-carousel,
+  .most-bids .tag-carousel-host {
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+}
+
+/* Make the sidebar carousels behave like the profile page: center and constrain */
+@media (max-width: 768px) {
+  .most-bids .active-carousel,
+  .most-bids .tag-carousel-host,
+  .most-bids .carousel-wrapper {
+    max-width: 480px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    width: 100% !important;
+    display: flex !important;
+    justify-content: center !important;
+  }
+  .most-bids .carousel-item {
+    width: 100% !important; /* full column width but constrained by max-width above */
+    max-width: 420px !important;
+  }
+}
+
+/* Sticky only on larger screens to avoid overlap/odd mobile behavior */
+@media (min-width: 1024px) {
+  .new-layout .most-bids {
+    position: sticky !important;
+    top: 16px !important;
+  }
+}
+
 /* carousel pagination dots */
 .carousel-dots {
   margin-top: 8px;
