@@ -101,9 +101,17 @@ function renderSingleListing(listingId) {
   }
 
   joinBidding.addEventListener("click", () => {
-    // Use the actual listing id when navigating
     const id = listingId.data?.id || listingId.data?._id || "";
     if (!id) return;
+    const token = localStorage.getItem("token");
+    if (!token) {
+      // Preserve return path so user lands back on bids after login
+      const returnUrl = encodeURIComponent(
+        `/bidding.html?id=${id}&_seller=true`
+      );
+      window.location.href = `/login.html?return=${returnUrl}`;
+      return;
+    }
     window.location.href = `/bidding.html?id=${id}&_seller=true`;
   });
 

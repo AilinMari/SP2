@@ -67,7 +67,14 @@ export function renderActiveCarousel(listings) {
       "join-bidding mt-2 text-sm bg-[var(--main-gold)] text-[var(--main-blue)] py-1 px-2 rounded font-semibold hover:bg-yellow-500";
     joinBidding.textContent = "Start bidding now";
     joinBidding.addEventListener("click", () => {
-      window.location.href = `/bidding.html?id=${listing.id}&_seller=true`;
+      const token = localStorage.getItem("token");
+      const target = `/bidding.html?id=${listing.id}&_seller=true`;
+      if (!token) {
+        const returnUrl = encodeURIComponent(target);
+        window.location.href = `/login.html?return=${returnUrl}`;
+        return;
+      }
+      window.location.href = target;
     });
 
     link.appendChild(img);
