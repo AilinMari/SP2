@@ -123,13 +123,13 @@
                 <div
                   class="flex flex-col md:flex-row md:items-end md:gap-4 w-full"
                 >
-                  <div class="flex flex-col w-full md:w-1/2 gap-1 md:pr-2">
+                  <div class="flex flex-col w-full gap-1 md:pr-2">
                     <label
                       for="search-bar"
                       class="font-inter text-sm text-[var(--main-blue)]"
                       >Search listings</label
                     >
-                    <div class="flex flex-row items-end gap-3 flex-wrap">
+                    <div class="flex flex-row items-end gap-4 flex-wrap mb-3">
                       <input
                         type="text"
                         id="search-bar"
@@ -155,13 +155,12 @@
                         <option value="most-bids">Most bids</option>
                         <option value="least-bids">Least bids</option>
                       </select>
-                      <button
-                        type="button"
-                        id="reset-filters"
-                        class="inline-flex items-center h-[42px] px-4 border-2 border-[var(--main-gold)] rounded-md text-sm font-inter bg-[var(--main-blue)] text-[var(--main-gold)] hover:opacity-90 active:shadow-inner"
-                      >
+                    </div>
+                    <div class="flex w-full justify-end">
+                      <button type="button" id="reset-filters" class="inline-flex items-center mt-4 px-4 py-2 border-2 border-[var(--main-gold)] rounded-md text-sm font-inter bg-[var(--main-blue)] text-[var(--main-gold)] hover:opacity-90 active:shadow-inner">
                         Reset
                       </button>
+                    </div>
                     </div>
                   </div>
                 </div>
