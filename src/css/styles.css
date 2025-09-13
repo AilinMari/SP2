@@ -1754,3 +1754,14 @@ nav .navbar img {
     height: 140px;
   }
 }
+
+/* Extra-narrow filters: stack status and sort under 360px */
+@media (max-width: 460px) {
+  #listings-filter-form .flex.flex-wrap .flex.flex-row.gap-4 { /* the wrapper of the two selects */
+    flex-direction: column;
+    align-items: stretch;
+  }
+  #listings-filter-form select {
+    width: 100%;
+  }
+}

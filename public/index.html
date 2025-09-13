@@ -129,32 +129,36 @@
                       class="font-inter text-sm text-[var(--main-blue)]"
                       >Search listings</label
                     >
-                    <div class="flex flex-row items-end gap-4 flex-wrap mb-3">
-                      <input
-                        type="text"
-                        id="search-bar"
-                        placeholder="e.g. watch, art, vintage"
-                        class="border border-[var(--main-gold)] rounded px-3 py-2 bg-[var(--card-background)] flex-1 min-w-[160px]"
-                      />
-                      <select
-                        id="status-filter"
-                        aria-label="Filter listings by status"
-                        class="border border-[var(--main-gold)] rounded px-3 py-2 bg-[var(--card-background)] h-[42px]"
-                      >
-                        <option value="all">All</option>
-                        <option value="active">Active</option>
-                        <option value="expired">Expired</option>
-                      </select>
-                      <select
-                        id="sort-filter"
-                        aria-label="Sort listings"
-                        class="border border-[var(--main-gold)] rounded px-3 py-2 bg-[var(--card-background)] h-[42px]"
-                      >
-                        <option value="newest">Newest</option>
-                        <option value="oldest">Oldest</option>
-                        <option value="most-bids">Most bids</option>
-                        <option value="least-bids">Least bids</option>
-                      </select>
+                    <div class="flex flex-wrap gap-4 items-end mb-3">
+                      <div class="flex-1 basis-full sm:basis-auto min-w-[200px]">
+                        <input
+                          type="text"
+                          id="search-bar"
+                          placeholder="e.g. watch, art, vintage"
+                          class="border border-[var(--main-gold)] rounded px-3 py-2 bg-[var(--card-background)] w-full"
+                        />
+                      </div>
+                      <div class="flex flex-row gap-4 flex-1 basis-full sm:basis-auto">
+                        <select
+                          id="status-filter"
+                          aria-label="Filter listings by status"
+                          class="border border-[var(--main-gold)] rounded px-3 py-2 bg-[var(--card-background)] h-[42px] min-w-[120px]"
+                        >
+                          <option value="all">All</option>
+                          <option value="active">Active</option>
+                          <option value="expired">Expired</option>
+                        </select>
+                        <select
+                          id="sort-filter"
+                          aria-label="Sort listings"
+                          class="border border-[var(--main-gold)] rounded px-3 py-2 bg-[var(--card-background)] h-[42px] min-w-[140px]"
+                        >
+                          <option value="newest">Newest</option>
+                          <option value="oldest">Oldest</option>
+                          <option value="most-bids">Most bids</option>
+                          <option value="least-bids">Least bids</option>
+                        </select>
+                      </div>
                     </div>
                     <div class="flex w-full justify-end">
                       <button type="button" id="reset-filters" class="inline-flex items-center mt-4 px-4 py-2 border-2 border-[var(--main-gold)] rounded-md text-sm font-inter bg-[var(--main-blue)] text-[var(--main-gold)] hover:opacity-90 active:shadow-inner">
