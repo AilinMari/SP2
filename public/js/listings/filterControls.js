@@ -6,6 +6,7 @@ export function initListingFilters({ getListings, renderAll }) {
   const searchBar = document.getElementById("search-bar");
   const statusFilter = document.getElementById("status-filter");
   const sortFilter = document.getElementById("sort-filter");
+  const resetBtn = document.getElementById("reset-filters");
 
   function sortListings(listings, sortType) {
     let sorted = Array.isArray(listings) ? [...listings] : [];
@@ -46,6 +47,14 @@ export function initListingFilters({ getListings, renderAll }) {
   }
   if (sortFilter) {
     sortFilter.addEventListener("change", applyFilters);
+  }
+  if (resetBtn) {
+    resetBtn.addEventListener("click", () => {
+      if (searchBar) searchBar.value = "";
+      if (statusFilter) statusFilter.value = "all";
+      if (sortFilter) sortFilter.value = "newest";
+      applyFilters();
+    });
   }
 
   // initial run

@@ -95,7 +95,7 @@
             >
               <label
                 for="profile-search"
-                class="sr-only font-inter text-[var(--main-blue)] pt-4"
+                class="block font-inter text-sm text-[var(--main-blue)] mt-4 mb-1"
                 >Search for profiles</label
               >
               <input
@@ -118,32 +118,53 @@
 
               <form
                 id="listings-filter-form"
-                class="flex flex-col md:flex-row mb-4 mt-4"
+                class="flex flex-col gap-3 mt-4 mb-4"
               >
-              <label for="search-bar" class="sr-only font-inter text-[var(--main-blue)] pt-4">Search listings by tags and bio</label>
-                <input
-                  type="text"
-                  id="search-bar"
-                  placeholder="Search listings..."
-                  class="border border-[var(--main-gold)] rounded px-2 py-1 w-full md:w-1/2 bg-[var(--card-background)]"
-                />
-                <select
-                  id="status-filter"
-                  class="border border-[var(--main-gold)] rounded px-4 mt-4 py-2"
+                <div
+                  class="flex flex-col md:flex-row md:items-end md:gap-4 w-full"
                 >
-                  <option value="all">All</option>
-                  <option value="active">Active</option>
-                  <option value="expired">Expired</option>
-                </select>
-                <select
-                  id="sort-filter"
-                  class="border border-[var(--main-gold)] rounded mt-4 px-4 py-2"
-                >
-                  <option value="newest">Newest</option>
-                  <option value="oldest">Oldest</option>
-                  <option value="most-bids">Most bids</option>
-                  <option value="least-bids">Least bids</option>
-                </select>
+                  <div class="flex flex-col w-full md:w-1/2 gap-1 md:pr-2">
+                    <label
+                      for="search-bar"
+                      class="font-inter text-sm text-[var(--main-blue)]"
+                      >Search listings</label
+                    >
+                    <div class="flex flex-row items-end gap-3 flex-wrap">
+                      <input
+                        type="text"
+                        id="search-bar"
+                        placeholder="e.g. watch, art, vintage"
+                        class="border border-[var(--main-gold)] rounded px-3 py-2 bg-[var(--card-background)] flex-1 min-w-[160px]"
+                      />
+                      <select
+                        id="status-filter"
+                        aria-label="Filter listings by status"
+                        class="border border-[var(--main-gold)] rounded px-3 py-2 bg-[var(--card-background)] h-[42px]"
+                      >
+                        <option value="all">All</option>
+                        <option value="active">Active</option>
+                        <option value="expired">Expired</option>
+                      </select>
+                      <select
+                        id="sort-filter"
+                        aria-label="Sort listings"
+                        class="border border-[var(--main-gold)] rounded px-3 py-2 bg-[var(--card-background)] h-[42px]"
+                      >
+                        <option value="newest">Newest</option>
+                        <option value="oldest">Oldest</option>
+                        <option value="most-bids">Most bids</option>
+                        <option value="least-bids">Least bids</option>
+                      </select>
+                      <button
+                        type="button"
+                        id="reset-filters"
+                        class="inline-flex items-center h-[42px] px-4 border-2 border-[var(--main-gold)] rounded-md text-sm font-inter bg-[var(--main-blue)] text-[var(--main-gold)] hover:opacity-90 active:shadow-inner"
+                      >
+                        Reset
+                      </button>
+                    </div>
+                  </div>
+                </div>
               </form>
             </div>
             <h2
