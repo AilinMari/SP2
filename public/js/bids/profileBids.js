@@ -131,7 +131,7 @@ function renderActiveCarousel(bids) {
   const sorted = bids
     .slice()
     .sort((a, b) => getBidTimestamp(b) - getBidTimestamp(a));
-  // console.log(sorted);
+
   sorted.forEach((bid) => {
     // API returns bid objects; the listing may be under bid.listing
     const listing = bid?.listing ?? bid;

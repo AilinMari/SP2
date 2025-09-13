@@ -33,7 +33,6 @@ export function renderAllListings(listings) {
     return;
   }
 
-  console.log("Rendering listings:", listings);
 
   listings.forEach((listing) => {
     // Render all listings. If no media is present, use a placeholder image.

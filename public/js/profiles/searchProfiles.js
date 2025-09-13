@@ -120,8 +120,6 @@ function renderResults(container, profiles) {
     return;
   }
 
-  console.log("Rendering profile search results:", profiles);
-
   profiles.forEach((p, idx) => {
     const el = document.createElement("div");
     el.className =

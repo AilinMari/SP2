@@ -20,7 +20,6 @@ async function fetchMyWins() {
       if (container) container.innerHTML = "<p>No wins available.</p>";
       return;
     }
-console.log("Fetched wins:", wins);
     renderActiveCarousel(wins);
   } catch (error) {
     console.error("Error fetching my wins:", error);

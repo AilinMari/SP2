@@ -97,8 +97,6 @@ function renderActiveCarousel(listings) {
       listing.data?._count?.bids || listing._count?.bids || 0
     } bids`;
 
-    console.log(listing);
-
     // assemble in one place
     if (img) link.appendChild(img);
     link.appendChild(title);

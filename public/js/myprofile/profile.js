@@ -6,7 +6,6 @@ const auctionApi = new AuctionApi();
 async function init() {
   const profile = await auctionApi.getUserProfile();
   renderProfile(profile);
-  console.log(renderProfile, profile);
 }
 
 function renderProfile(profile) {
@@ -131,7 +130,6 @@ function renderProfile(profile) {
   createListing.addEventListener("click", () => {
     window.location.href = "/create-listing.html";
     // Handle create listing button click
-    console.log("Create Listing button clicked");
   });
 
   profileContainer.appendChild(overlay);

@@ -45,8 +45,6 @@ document.addEventListener("DOMContentLoaded", () => {
         await register({ name, email, password });
         // Redirect to login page after successful registration//
         window.location.href = "/login.html";
-        console.log("Registration successful");
-        console.log("Registered user:", { name, email });
         //   window.location.href = "/";
       } catch (error) {
         // Display error message to the user

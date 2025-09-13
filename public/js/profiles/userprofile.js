@@ -8,7 +8,6 @@ const sellerName = urlParams.get("id");
 async function init() {
   const profile = await auctionApi.getUserProfileByName(sellerName);
   renderProfile(profile);
-  console.log(renderProfile, profile);
 }
 
 function renderProfile(profile) {

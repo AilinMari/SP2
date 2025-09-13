@@ -9,7 +9,6 @@ const urlParams = new URLSearchParams(window.location.search);
 const listingId = urlParams.get("id");
 const bids = urlParams.get("bids");
 const seller = urlParams.get("seller");
-console.log("seller:", seller);
 
 async function getListingById() {
   try {
@@ -23,8 +22,6 @@ async function getListingById() {
 function renderSingleListing(listing) {
   // Prefer the page-specific listing container (bidding page), then fallback
   const listingContainer = document.querySelector(".listing-container");
-
-  console.log("Rendering listing:", listing?.data?.id || listing);
 
   // Render media: if multiple media entries exist, mount a small carousel
   const mediaArr = listing.data?.media || [];

@@ -4,14 +4,12 @@ const auctionApi = new AuctionApi();
 
 async function onUpdateProfile(data) {
   try {
-    console.log("Update profile data:", data);
     const token = localStorage.getItem("token");
     if (!token) {
       alert("You must be logged in to update your profile.");
       throw new Error("No token found");
     }
     const updatedProfile = await auctionApi.updateUserProfile(data);
-    console.log("API response:", updatedProfile);
     // Update localStorage with new avatar and banner
     if (updatedProfile.avatar && updatedProfile.avatar.url) {
       localStorage.setItem("avatar", updatedProfile.avatar.url);
