@@ -1771,15 +1771,6 @@ nav .navbar img {
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25), 0 0 4px rgba(255, 231, 152, 0.5);
 }
 
-@media (max-width: 520px) {
-  .hero-heading {
-    font-size: 2.4rem;
-  }
-  .hero-heading:after {
-    margin-top: 1.25rem;
-    width: 10rem;
-  }
-}
 
 @media (min-width: 768px) {
   .hero-heading {
