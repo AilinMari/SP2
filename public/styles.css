@@ -1733,6 +1733,11 @@ nav .navbar img {
   }
 }
 
+/* Lux heading glow */
+.lux-glow {
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.35), 0 0 6px rgba(212, 175, 55, 0.55);
+}
+
 /* Extra-narrow filters: stack status and sort under 360px */
 @media (max-width: 460px) {
   #listings-filter-form .flex.flex-wrap .flex.flex-row.gap-4 {
