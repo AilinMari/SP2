@@ -11,7 +11,10 @@
       rel="stylesheet"
     />
   </head>
-  <body class="min-h-screen flex flex-col" style="background: var(--body-background);">
+  <body
+    class="min-h-screen flex flex-col"
+    style="background: var(--body-background)"
+  >
     <div
       id="loading-overlay"
       class="fixed inset-0 flex items-center justify-center bg-white z-50"
@@ -72,86 +75,93 @@
       >
         <div
           class="bg-box p-4 w-full shadow mb-10 border-b-2 border-[var(--main-gold)]"
-          
         >
           <h1
-            class="text-5xl mt-6 mb-10 text-[var(--main-gold)] border-[var(--main-gold)] border-2 font-playfair bg-[var(--main-blue)] rounded-md p-4"
+            class="text-5xl mt-6 mb-20 text-[var(--main-gold)] border-[var(--main-gold)] border-b-2 font-playfair p-4"
           >
             Luxury is the minimum
           </h1>
-        
-          <div class="relative w-full max-w-xl mx-auto mb-6">
-            <label for="profile-search" class="sr-only"></label>
-            <input
-              id="profile-search"
-              type="search"
-              autocomplete="off"
-              placeholder="Search profiles..."
-              class="border border-[var(--main-gold)] rounded mt-4 px-4 py-2 w-full bg-[var(--card-background)]"
-              aria-autocomplete="list"
-              aria-controls="profile-results"
-              aria-expanded="false"
-            />
+
+          <div class="new-layout w-full max-w-4xl mx-auto mb-8 mt-10">
+            <h2
+              class="text-3xl mt-6 mb-4 text-[var(--main-gold)] font-playfair border-[var(--main-gold)] border-2 bg-[var(--main-blue)] rounded-md p-4"
+            >
+              Featured Listings
+            </h2>
+            <div class="most-bids"></div>
 
             <div
-              id="profile-results"
-              role="listbox"
-              tabindex="-1"
-              class="hidden absolute z-50 left-0 right-0 mt-1 w-full bg-[var(--card-background)] border border-[var(--main-gold)] rounded shadow overflow-auto"
-            ></div>
-          </div>
+              class="relative w-full max-w-xl mx-auto mb-10 border-2 border-[var(--main-gold)] rounded-md px-6 shadow-lg"
+            >
+              <label
+                for="profile-search"
+                class="sr-only font-inter text-[var(--main-blue)] pt-4"
+                >Search for profiles</label
+              >
+              <input
+                id="profile-search"
+                type="search"
+                autocomplete="off"
+                placeholder="Search profiles..."
+                class="border border-[var(--main-gold)] rounded px-4 py-2 w-full bg-[var(--card-background)]"
+                aria-autocomplete="list"
+                aria-controls="profile-results"
+                aria-expanded="false"
+              />
 
-        <div class="new-layout w-full max-w-4xl mx-auto mb-8 mt-10">
-                    <h2
-            class="text-3xl mt-6 mb-4 text-[var(--main-gold)] font-playfair border-[var(--main-gold)] border-2 bg-[var(--main-blue)] rounded-md p-4"
-          >
-            Featured Listings
-          </h2>
-          <div class="most-bids"></div>
-          <form
-            id="listings-filter-form"
-            class="flex flex-col md:flex-row gap-4 items-center justify-center mb-10 mt-10"
-          >
-            <input
-              type="text"
-              id="search-bar"
-              placeholder="Search listings..."
-              class="border border-[var(--main-gold)] rounded px-4 py-2 w-full md:w-1/2 bg-[var(--card-background)]"
-            />
-            <select
-              id="status-filter"
-              class="border border-[var(--main-gold)] rounded px-4 py-2"
+              <div
+                id="profile-results"
+                role="listbox"
+                tabindex="-1"
+                class="hidden absolute z-50 left-0 right-0 mt-1 w-full bg-[var(--card-background)] border border-[var(--main-gold)] rounded shadow overflow-auto"
+              ></div>
+
+              <form
+                id="listings-filter-form"
+                class="flex flex-col md:flex-row mb-4 mt-4"
+              >
+              <label for="search-bar" class="sr-only font-inter text-[var(--main-blue)] pt-4">Search listings by tags and bio</label>
+                <input
+                  type="text"
+                  id="search-bar"
+                  placeholder="Search listings..."
+                  class="border border-[var(--main-gold)] rounded px-2 py-1 w-full md:w-1/2 bg-[var(--card-background)]"
+                />
+                <select
+                  id="status-filter"
+                  class="border border-[var(--main-gold)] rounded px-4 mt-4 py-2"
+                >
+                  <option value="all">All</option>
+                  <option value="active">Active</option>
+                  <option value="expired">Expired</option>
+                </select>
+                <select
+                  id="sort-filter"
+                  class="border border-[var(--main-gold)] rounded mt-4 px-4 py-2"
+                >
+                  <option value="newest">Newest</option>
+                  <option value="oldest">Oldest</option>
+                  <option value="most-bids">Most bids</option>
+                  <option value="least-bids">Least bids</option>
+                </select>
+              </form>
+            </div>
+            <h2
+              class="text-3xl mt-6 mb-4 text-[var(--main-gold)] border-[var(--main-gold)] border-2 font-playfair bg-[var(--main-blue)] rounded-md p-4"
             >
-              <option value="all">All</option>
-              <option value="active">Active</option>
-              <option value="expired">Expired</option>
-            </select>
-            <select
-              id="sort-filter"
-              class="border border-[var(--main-gold)] rounded px-4 py-2"
+              Most recent listings
+            </h2>
+            <div
+              class="listings-grid grid lg:grid-cols-2 lg:gap-10 md:grid-cols-1 sm:grid-cols-1"
+            ></div>
+            <h2
+              class="text-3xl mt-6 mb-10 text-[var(--main-gold)] border-[var(--main-gold)] border-2 font-playfair bg-[var(--main-blue)] rounded-md p-4"
             >
-              <option value="newest">Newest</option>
-              <option value="oldest">Oldest</option>
-              <option value="most-bids">Most bids</option>
-              <option value="least-bids">Least bids</option>
-            </select>
-          </form>
-                    <h2
-            class="text-3xl mt-6 mb-4 text-[var(--main-gold)] border-[var(--main-gold)] border-2 font-playfair bg-[var(--main-blue)] rounded-md p-4"
-          >
-            Most recent listings
-          </h2>
-          <div
-            class="listings-grid grid lg:grid-cols-2 lg:gap-10 md:grid-cols-1 sm:grid-cols-1"
-          ></div>
-          <h2
-            class="text-3xl mt-6 mb-10 text-[var(--main-gold)] border-[var(--main-gold)] border-2 font-playfair bg-[var(--main-blue)] rounded-md p-4"
-          >
-            Popular listing tags
-          </h2>
-          <div class="tag-carousels"></div>
+              Popular listing tags
+            </h2>
+            <div class="tag-carousels"></div>
+          </div>
         </div>
-      </div>
       </div>
       <div id="app"></div>
       <script type="module" src="/js/main.js"></script>
