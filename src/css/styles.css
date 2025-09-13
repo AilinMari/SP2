@@ -1743,9 +1743,56 @@ nav .navbar img {
 
 /* Lux heading glow */
 .lux-glow {
-  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.35), 0 0 6px rgba(212, 175, 55, 0.55);
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.35), 0 0 6px rgba(185, 151, 41, 0.55);
 }
 
+/* Refined hero heading (crisper luxury look) */
+.hero-heading {
+  background: linear-gradient(
+    95deg,
+    #d4af37 0%,
+    #ffe798 38%,
+    #e7c96a 58%,
+    #d4af37 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  letter-spacing: -0.5px;
+  line-height: 1.05;
+  position: relative;
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.18),
+    /* subtle crisp edge */ 0 4px 10px rgba(0, 0, 0, 0.22),
+    /* depth */ 0 0 2px rgba(255, 255, 255, 0.35); /* soft inner shine */
+}
+
+.hero-heading:after {
+  content: "";
+  display: block;
+  height: 3px;
+  width: 14rem; /* 224px */
+  max-width: 60%;
+  margin: 2rem auto 0 auto;
+  background: linear-gradient(90deg, #d4af37, #ffe798 55%, #d4af37);
+  border-radius: 999px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25), 0 0 4px rgba(255, 231, 152, 0.5);
+}
+
+@media (max-width: 520px) {
+  .hero-heading {
+    font-size: 2.4rem;
+  }
+  .hero-heading:after {
+    margin-top: 1.25rem;
+    width: 10rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .hero-heading {
+    font-size: 3.75rem;
+  } /* md:text-6xl equivalent */
+}
 
 @media (prefers-reduced-motion: reduce) {
   .carousel-item img {
@@ -1763,7 +1810,8 @@ nav .navbar img {
 
 /* Extra-narrow filters: stack status and sort under 360px */
 @media (max-width: 460px) {
-  #listings-filter-form .flex.flex-wrap .flex.flex-row.gap-4 { /* the wrapper of the two selects */
+  #listings-filter-form .flex.flex-wrap .flex.flex-row.gap-4 {
+    /* the wrapper of the two selects */
     flex-direction: column;
     align-items: stretch;
   }
