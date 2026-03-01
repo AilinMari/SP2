@@ -1,3 +1,7 @@
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap");
+
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
+
 *,
 ::before,
 ::after {
@@ -112,9 +116,6 @@
 ! tailwindcss v3.4.14 | MIT License | https://tailwindcss.com
 */
 
-@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
-
 /*
 1. Prevent padding and border from affecting element width. (https://github.com/mozdevs/cssremedy/issues/4)
 2. Allow adding a border to an element by just adding a border-width. (https://github.com/tailwindcss/tailwindcss/pull/116)
@@ -218,14 +219,6 @@ h5,
 h6 {
   font-size: inherit;
   font-weight: inherit;
-}
-
-.font-inter {
-  font-family: "Inter", sans-serif;
-}
-
-.font-playfair {
-  font-family: "Playfair Display", serif;
 }
 
 /*
@@ -503,6 +496,13 @@ textarea {
 
 input::-moz-placeholder,
 textarea::-moz-placeholder {
+  opacity: 1;
+  /* 1 */
+  color: #9ca3af;
+  /* 2 */
+}
+
+input::-moz-placeholder, textarea::-moz-placeholder {
   opacity: 1;
   /* 1 */
   color: #9ca3af;
@@ -1194,6 +1194,21 @@ video {
   padding-bottom: 0.75rem;
 }
 
+.py-4 {
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+
+.py-6 {
+  padding-top: 1.5rem;
+  padding-bottom: 1.5rem;
+}
+
+.py-8 {
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+}
+
 .pb-1 {
   padding-bottom: 0.25rem;
 }
@@ -1234,17 +1249,32 @@ video {
   text-align: center;
 }
 
-.font-\[\'Inter\'\2c sans-serif\] {
+.font-inter {
   font-family: "Inter", sans-serif;
 }
 
-.font-\[\'Playfair_Display\'\2c serif\] {
+.font-playfair {
   font-family: "Playfair Display", serif;
+}
+
+.text-2xl {
+  font-size: 1.5rem;
+  line-height: 2rem;
+}
+
+.text-3xl {
+  font-size: 1.875rem;
+  line-height: 2.25rem;
 }
 
 .text-4xl {
   font-size: 2.25rem;
   line-height: 2.5rem;
+}
+
+.text-5xl {
+  font-size: 3rem;
+  line-height: 1;
 }
 
 .text-lg {
@@ -1666,57 +1696,133 @@ input[type="submit"],
    - reduce the top margin (mt-6 -> mt-3, lg:mt-10 -> lg:mt-5)
    - vertically center grid cells and constrain logo max-height
 */
+
 nav {
-  margin-top: 0.75rem !important; /* half of mt-6 (1.5rem) */
+  margin-top: 0.75rem !important;
+  /* half of mt-6 (1.5rem) */
 }
 
 @media (min-width: 1024px) {
   nav {
-    margin-top: 1.25rem !important; /* half of lg:mt-10 (2.5rem) */
+    margin-top: 1.25rem !important;
+    /* half of lg:mt-10 (2.5rem) */
   }
 }
 
 nav .navbar {
-  align-items: center; /* center content vertically */
-  padding-block: 0.25rem !important; /* small vertical padding */
+  align-items: center;
+  /* center content vertically */
+  padding-block: 0.25rem !important;
+  /* small vertical padding */
 }
 
 /* Constrain logo so nav height stays compact */
+
 nav .navbar {
   max-height: 12rem !important;
   min-height: 10rem !important;
   height: auto !important;
-  object-fit: contain !important;
+  -o-object-fit: contain !important;
+     object-fit: contain !important;
 }
+
 nav .navbar img {
   max-height: 10rem;
-
   height: auto;
-  object-fit: cover;
-  object-position: center;
+  -o-object-fit: cover;
+     object-fit: cover;
+  -o-object-position: center;
+     object-position: center;
 }
 
 /* --- Carousel hover tweaks: appended to end so they override compiled Tailwind order --- */
+
 .carousel-item {
   overflow: hidden;
 }
+
 .carousel-item img,
 .carousel-item a img {
   display: block;
   width: 100%;
-  height: 160px; /* fixed image box so scaling doesn't change card size */
-  object-fit: cover;
+  height: 160px;
+  /* fixed image box so scaling doesn't change card size */
+  -o-object-fit: cover;
+     object-fit: cover;
   transition: transform 220ms cubic-bezier(0.2, 0.8, 0.2, 1),
     box-shadow 220ms ease;
   transform-origin: center center;
   will-change: transform;
 }
+
 .carousel-item:hover img,
 .carousel-item:focus-within img,
 .carousel-item a:hover img,
 .carousel-item a:focus img {
   transform: scale(1.07);
   box-shadow: 0 10px 28px rgba(0, 0, 0, 0.14);
+}
+
+/* Lux heading glow */
+
+.lux-glow {
+  /* text-shadow:  0 1px 2px rgba(137, 128, 0, 0.394), 0 2px 4px rgb(250, 221, 125); */
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.25), 0 0 4px rgba(255, 231, 152, 0.5);
+}
+
+/* Refined hero heading (crisper luxury look) */
+
+.hero-heading {
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  letter-spacing: -0.5px;
+  line-height: 1.05;
+  position: relative;
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.18),
+    /* subtle crisp edge */ 0 4px 10px rgba(0, 0, 0, 0.22),
+    /* depth */ 0 0 2px #f6d15a 60%;
+  /* soft inner shine */
+}
+
+.hero-heading:after {
+  content: "";
+  display: block;
+  height: 3px;
+  width: 14rem;
+  /* 224px */
+  max-width: 60%;
+  margin: 2rem auto 0 auto;
+  background: linear-gradient(90deg, #ddb944, #ffe798 55%, #d4af37);
+  border-radius: 999px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25), 0 0 4px rgba(255, 231, 152, 0.5);
+}
+
+@media (max-width: 560px) {
+  .hero-heading {
+    font-size: 2.4rem;
+  }
+
+  .hero-heading:after {
+    margin-top: 1.25rem;
+    width: 10rem;
+  }
+}
+
+@media (min-width: 560px) {
+  .hero-heading {
+    font-size: 3rem;
+  }
+
+  /* sm:text-4xl equivalent */
+}
+
+@media (min-width: 768px) {
+  .hero-heading {
+    font-size: 3.75rem;
+  }
+
+  /* md:text-6xl equivalent */
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -1733,66 +1839,15 @@ nav .navbar img {
   }
 }
 
-/* Lux heading glow */
-.lux-glow {
-  /* text-shadow:  0 1px 2px rgba(137, 128, 0, 0.394), 0 2px 4px rgb(250, 221, 125); */
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.25), 0 0 4px rgba(255, 231, 152, 0.5);
-}
+/* Extra-narrow filters: stack status and sort under 360px */
 
-/* Refined hero heading (crisper luxury look) */
-.hero-heading {
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  letter-spacing: -0.5px;
-  line-height: 1.05;
-  position: relative;
-  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.18),
-    /* subtle crisp edge */ 0 4px 10px rgba(0, 0, 0, 0.22),
-    /* depth */ 0 0 2px #f6d15a 60%; /* soft inner shine */
-}
-
-.hero-heading:after {
-  content: "";
-  display: block;
-  height: 3px;
-  width: 14rem; /* 224px */
-  max-width: 60%;
-  margin: 2rem auto 0 auto;
-  background: linear-gradient(90deg, #ddb944, #ffe798 55%, #d4af37);
-  border-radius: 999px;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25), 0 0 4px rgba(255, 231, 152, 0.5);
-}
-
-@media (max-width: 560px) {
-  .hero-heading {
-    font-size: 2.4rem;
-  }
-  .hero-heading:after {
-    margin-top: 1.25rem;
-    width: 10rem;
-  }
-}
-
-@media (min-width: 560px) {
-  .hero-heading {
-    font-size: 3rem;
-  } /* sm:text-4xl equivalent */
-}
-
-@media (min-width: 768px) {
-  .hero-heading {
-    font-size: 3.75rem;
-  } /* md:text-6xl equivalent */
-}
-
-/* Extra-narrow filters: stack status and sort under 460px */
 @media (max-width: 460px) {
   #listings-filter-form .flex.flex-wrap .flex.flex-row.gap-4 {
     /* the wrapper of the two selects */
     flex-direction: column;
     align-items: stretch;
   }
+
   #listings-filter-form select {
     width: 100%;
   }
